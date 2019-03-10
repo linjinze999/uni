@@ -1,0 +1,26 @@
+{
+  "name": "uni",
+  "version": "1.0.0",
+  "description": "A UI Components base on JQuery",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --config build/webpack.develop.js",
+    "build": "webpack --config build/webpack.production.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linjinze999/uni.git"
+  },
+  "author": "linjinze999",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/linjinze999/uni/issues"
+  },
+  "homepage": "https://github.com/linjinze999/uni#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}
