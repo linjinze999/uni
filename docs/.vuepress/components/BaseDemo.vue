@@ -7,9 +7,9 @@
       <div class="describe">
         {{ describe }}
       </div>
-      <pre>
+      <code>
         <slot></slot>
-      </pre>
+      </code>
     </div>
     <div>
         <div v-if="!showCode" class="show-code" @click="triggerShowCode">
@@ -26,11 +26,15 @@
 export default {
   name: 'BaseDemo',
   props: ['describe'],
-  data: {
-    showCode: false
+  data: function(){
+    return {
+      showCode: false
+    }
   },
   methods: {
-    triggerShowCode: () => { this.showCode = !this.showCode; }
+    triggerShowCode: function () {
+      this.showCode = !this.showCode;
+    }
   }
 }
 </script>
@@ -44,6 +48,7 @@ export default {
 .code {
   background-color: #fafafa;
   border-top: 1px solid #ebebeb;
+  padding: 24px;
 }
 .code .describe {
   border: 1px solid #ebebeb;

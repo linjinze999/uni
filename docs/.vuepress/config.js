@@ -17,7 +17,7 @@ module.exports = {
     ['meta', { name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }],
     ['meta', { name: 'msapplication-TileColor', content: '#000000' }],
     ['script', { src: '/assets/js/article.js'}],
-    ['script', { src: 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js'}]
+    ['script', { src: '/assets/js/uni.min.js'}]
   ],
   markdown: {
     lineNumbers: true
@@ -44,7 +44,13 @@ module.exports = {
         sidebar: {
           '/guide/':[
             '',
-            'start'
+            'start',
+            {
+              title: '组件',
+              children: [
+                'components/confirm'
+              ]
+            }
           ]
         }
       }

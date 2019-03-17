@@ -6,14 +6,8 @@ module.exports = {
   entry: {
     app: './src/index.js'
   },
-  plugins: [
-    new CleanWebpackPlugin(['dist'])
-  ],
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  },
-  externals: {
-    jquery: 'jQuery'
+    filename: 'uni.min.js',
+    path: path.resolve(__dirname, '../docs/.vuepress/public/assets/js/')
   }
 };

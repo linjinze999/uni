@@ -4,7 +4,9 @@
   "description": "A UI Components base on JQuery",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config build/webpack.develop.js",
+    "watch": "webpack --config build/webpack.develop.js --watch",
+    "docs:dev": "vuepress dev docs",
+    "dev": "concurrently \"npm run watch\" \"npm run docs:dev\"",
     "build": "webpack --config build/webpack.production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,8 +21,14 @@
   },
   "homepage": "https://github.com/linjinze999/uni#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^2.0.1",
+    "concurrently": "^4.1.0",
     "eslint": "^5.15.1",
+    "html-webpack-plugin": "^3.2.0",
+    "jquery": "^3.3.1",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
   }
 }
