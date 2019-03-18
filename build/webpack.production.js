@@ -9,5 +9,9 @@ module.exports = merge(common, {
   ],
   externals: {
     jquery: 'jQuery'
+  },
+  output: {
+    filename: 'uni.min.js',
+    path: path.resolve(__dirname, '../dist')
   }
 });

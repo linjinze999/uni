@@ -5,9 +5,5 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     app: './src/index.js'
-  },
-  output: {
-    filename: 'uni.min.js',
-    path: path.resolve(__dirname, '../docs/.vuepress/public/assets/js/')
   }
 };

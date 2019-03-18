@@ -21,4 +21,5 @@ coverage
 waiter.config.js
 build/bin/algolia-key.js
 .envrc
+dist
 docs/.vuepress/public/assets/js/uni.min.js
