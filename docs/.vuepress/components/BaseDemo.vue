@@ -3,14 +3,16 @@
     <div class="source">
       <slot name="source"></slot>
     </div>
-    <transition name="demo-code-slid">
-    <div v-if="showCode" class="code">
-      <div class="describe">
-        <slot></slot>
-      </div>
-      <slot name="highlight"></slot>
+    <div class="code-cover">
+      <transition name="demo-code-slid">
+        <div v-if="showCode" class="code">
+          <div class="describe">
+            <slot></slot>
+          </div>
+          <slot name="highlight"></slot>
+        </div>
+      </transition>
     </div>
-    </transition>
     <div>
       <div class="show-code" @click="triggerShowCode">
         <span class="control">{{ icon }}<span class="text">{{ text }}</span></span>
@@ -49,6 +51,10 @@ export default {
   border: 1px solid #ebebeb;
   background-color: #ffffff;
   border-radius: 3px;
+}
+
+.code-cover {
+  overflow: hidden;
 }
 
 .code {
@@ -99,9 +105,9 @@ export default {
 </style>
 <style>
 .demo-code-slid-active, .demo-code-slid-leave-active {
-  transition: all .5s;
+  transition: all .7s;
 }
 .demo-code-slid-enter, .demo-code-slid-leave-to {
-  height: 0;
+  margin-top: -100%;
 }
 </style>
