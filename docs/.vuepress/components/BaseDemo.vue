@@ -3,12 +3,14 @@
     <div class="source">
       <slot name="source"></slot>
     </div>
-    <div v-show="showCode" class="code">
+    <transition name="demo-code-slid">
+    <div v-if="showCode" class="code">
       <div class="describe">
         <slot></slot>
       </div>
       <slot name="highlight"></slot>
     </div>
+    </transition>
     <div>
       <div class="show-code" @click="triggerShowCode">
         <span class="control">{{ icon }}<span class="text">{{ text }}</span></span>
@@ -50,6 +52,7 @@ export default {
 }
 
 .code {
+  box-sizing: border-box;
   background-color: #fafafa;
   border-top: 1px solid #ebebeb;
   padding: 24px;
@@ -92,5 +95,13 @@ export default {
 
 .show-code:hover .text {
   display: inline-block;
+}
+</style>
+<style>
+.demo-code-slid-active, .demo-code-slid-leave-active {
+  transition: all .5s;
+}
+.demo-code-slid-enter, .demo-code-slid-leave-to {
+  height: 0;
 }
 </style>

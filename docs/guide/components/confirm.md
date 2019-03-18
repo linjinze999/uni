@@ -3,13 +3,15 @@
 ::: demo bar
 
 ```html
-<button onclick="conf()">弹窗</button>
+<button onclick="confirm1()">弹窗</button>
 
-<style>
-.item {
-  margin-top: 10px;
-  margin-right: 40px;
+<script>
+function confirm1() {
+  $.confirm({
+    title: 'tip',
+    content: 'Hello World!'
+  });
 }
-</style>
+</script>
 ```
 :::

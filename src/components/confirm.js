@@ -21,7 +21,7 @@ const init = function($, componentName, optionsName){
       '</div>' +
       '</div>';
     let _confirm = $('#' + options.id);
-    if (!_alert.length) {
+    if (!_confirm.length) {
       $('body').append(alertHtml);
     } else {
       _confirm.prop('outerHTML', alertHtml);
