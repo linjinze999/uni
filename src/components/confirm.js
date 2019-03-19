@@ -8,7 +8,7 @@ const init = function($, componentName, optionsName){
   };
   $extend[componentName] = function(options){
     options = $.extend(true, {}, $[optionsName], options || {});
-    var alertHtml = '<div class="el-message-box__wrapper hide" id="' + options.id + '">' +
+    var alertHtml = '<div class="el-message-box__wrapper cover hide" id="' + options.id + '">' +
       '<div class="el-message-box">' +
       '<div class="el-message-box__header">' +
       '<div class="el-message-box__title">' + options.title + '</div>' +
@@ -27,7 +27,7 @@ const init = function($, componentName, optionsName){
       _confirm.prop('outerHTML', alertHtml);
     }
     _confirm = $('#' + options.id);
-    _confirm.find('.close,.ok').on('click', function () {
+    _confirm.find('.el-message-box__headerbtn,.el-button').on('click', function () {
       _confirm.addClass('hide');
     });
     _confirm.removeClass('hide');
