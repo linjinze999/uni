@@ -60,7 +60,7 @@ export default {
 .code {
   box-sizing: border-box;
   background-color: #fafafa;
-  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
   padding: 24px;
   overflow: hidden;
 }
@@ -74,11 +74,11 @@ export default {
 
 .source {
   padding: 24px;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .show-code {
   text-align: center;
-  border-top: 1px solid #ebebeb;
   cursor: pointer;
   color: #d3dce6;
   height: 44px;
@@ -109,5 +109,7 @@ export default {
 }
 .demo-code-slid-enter, .demo-code-slid-leave-to {
   margin-top: -100%;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 </style>

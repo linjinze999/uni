@@ -1,3 +1,4 @@
+const path = require('path');
 const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
@@ -9,9 +10,5 @@ module.exports = merge(common, {
   ],
   externals: {
     jquery: 'jQuery'
-  },
-  output: {
-    filename: 'uni.min.js',
-    path: path.resolve(__dirname, '../dist')
   }
 });

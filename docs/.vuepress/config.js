@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 module.exports = {
   dest: 'vuepress',
   locales: {
@@ -17,8 +18,8 @@ module.exports = {
     ['link', {rel: 'mask-icon', href: '/icons/safari-pinned-tab.svg', color: '#3eaf7c'}],
     ['meta', {name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png'}],
     ['meta', {name: 'msapplication-TileColor', content: '#000000'}],
-    ['script', {src: '/assets/js/article.js'}],
-    ['script', {src: '/assets/js/uni.min.js'}]
+    ['script', {src: '/assets/js/jquery-3.3.1.min.js'}],
+    ['script', {src: '/assets/js/article.js'}]
   ],
   plugins: [
     ['@vuepress/container', {

@@ -8,15 +8,15 @@ const init = function($, componentName, optionsName){
   };
   $extend[componentName] = function(options){
     options = $.extend(true, {}, $[optionsName], options || {});
-    var alertHtml = '<div class="modal-cover hide" id="' + options.id + '">' +
-      '<div class="modal">' +
-      '<div class="header">' +
-      '<div class="title">' + options.title + '</div>' +
-      '<span class="close">&times;</span>' +
+    var alertHtml = '<div class="el-message-box__wrapper hide" id="' + options.id + '">' +
+      '<div class="el-message-box">' +
+      '<div class="el-message-box__header">' +
+      '<div class="el-message-box__title">' + options.title + '</div>' +
+      '<span class="el-message-box__headerbtn">&times;</span>' +
       '</div>' +
-      '<div class="main">' + options.content + '</div>' +
-      '<div class="footer">' +
-      '<button class="ok">' + options.okLabel + '</button>' +
+      '<div class="el-message-box__content">' + options.content + '</div>' +
+      '<div class="el-message-box__btns">' +
+      '<button class="el-button el-button--default el-button--small el-button--primary ">' + options.okLabel + '</button>' +
       '</div>' +
       '</div>' +
       '</div>';
