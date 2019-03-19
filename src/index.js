@@ -1,4 +1,4 @@
-import $ from 'jquery'
+const $ = require('jquery')
 import Loading from './components/loading'
 import Confirm from './components/confirm'
 import './components/theme-chalk/src/index.scss';

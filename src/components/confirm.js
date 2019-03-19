@@ -32,8 +32,10 @@ const init = function($, componentName, optionsName){
     });
     _confirm.removeClass('hide');
   };
+  console.log($.extend);
+  console.log($extend);
   $.extend($extend);
-}
+};
 
 export default {
   init: init,
