@@ -8,7 +8,7 @@
 <script>
 function confirm1() {
   $.confirm({
-    title: 'tip',
+    title: 'Tip',
     content: 'Hello World!'
   });
 }
