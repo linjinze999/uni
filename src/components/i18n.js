@@ -1,18 +1,26 @@
-const tpI18n = {
-  'on': !!$.i18n,
-  'attrName': 'i18n',
-  'getAttr': function (value) {
-    return $.tpI18n.on ? (' ' + $.tpI18n.attrName + '="' + value + '"') : '';
+export default {
+  init: function($, componentName, optionsName){
+    var $extend = {};
+    $extend[optionsName] = {
+      'on': !!$.i18n,
+      'attrName': 'i18n',
+      'getAttr': function (value) {
+        return $[optionsName].on ? (' ' + $[optionsName].attrName + '="' + value + '"') : '';
+      },
+      'getString': function (key, defaultValue) {
+        defaultValue = defaultValue || '';
+        try {
+          return $[optionsName].on ? $[optionsName].getI18nProp(key) : defaultValue;
+        } catch (err) {
+          return defaultValue;
+        }
+      },
+      'getI18nProp': function (key) {
+        return $.i18n.prop(key);
+      }
+    };
+    $.extend($extend);
   },
-  'getString': function (key, defaultValue) {
-    defaultValue = defaultValue || '';
-    try {
-      return $.tpI18n.on ? $.tpI18n.getI18nProp(key) : defaultValue;
-    } catch (err) {
-      return defaultValue;
-    }
-  },
-  'getI18nProp': function (key) {
-    return $.i18n.prop(key);
-  }
-};
+  componentName: '',
+  optionsName: 'ui18n'
+}
