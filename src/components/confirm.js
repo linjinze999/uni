@@ -1,10 +1,12 @@
 export default {
-  init: function($, componentName, optionsName){
+  init: function($, componentName, optionsName, i18nName){
     var $extend = {};
     $extend[optionsName] = {
       id: 'u-confirm-0',
       coverBGColor: 'rgba(0, 0, 0, .5)',
       coverClick: false,
+      width: '420px',
+      zIndex: '100',
       content: '',
       confirm: function () {return true},
       cancel: function () {return true},
@@ -12,18 +14,18 @@ export default {
       beforeHide: function () {return true},
       afterHide: function () {},
       showHeader: true,
-      showCancel: true,
       showClose: true,
+      showCancel: true,
       showConfirm: true,
-      htmlMain: '',
-      title: $.ui18n ? function () {
-        return $.ui18n.getString(this.i18n.title, '提示');
+      footer: '',
+      title: $[i18nName] ? function () {
+        return $[i18nName].getString(this.i18n.title, '提示');
       } : '提示',
-      labelConfirm: $.ui18n ? function () {
-        return $.ui18n.getString(this.i18n.confirm, '确定');
+      labelConfirm: $[i18nName] ? function () {
+        return $[i18nName].getString(this.i18n.confirm, '确定');
       } : '确定',
-      labelCancel: $.ui18n ? function () {
-        return $.ui18n.getString(this.i18n.cancel, '取消');
+      labelCancel: $[i18nName] ? function () {
+        return $[i18nName].getString(this.i18n.cancel, '取消');
       } : '取消',
       i18n: {
         title: 'uConfirmTitle',
@@ -46,11 +48,11 @@ export default {
       var _htmlConfirm = options.showConfirm ? '<button class="el-button el-button--default el-button--small el-button--primary" u-type="confirm">' +
         _labelConfirm + '</button>' : '';
       // 整体html
-      var confirmHtml = '<div class="el-message-box__wrapper hide" id="' + options.id +
-        '" style="background-color: ' + options.coverBGColor + '">' +
-        '<div class="el-message-box">' + _htmlHeader +
+      var confirmHtml = '<div class="el-message-box__wrapper" id="' + options.id +
+        '" style="background-color: ' + options.coverBGColor + '; z-index: ' + options.zIndex + '; display: none;">' +
+        '<div class="el-message-box" style="width:' + options.width + '">' + _htmlHeader +
         '<div class="el-message-box__content">' + options.content + '</div>' +
-        '<div class="el-message-box__btns">' + _htmlCancel + _htmlConfirm + '</div></div></div>';
+        '<div class="el-message-box__btns">' + options.footer + _htmlCancel + _htmlConfirm + '</div></div></div>';
       var _confirm = $('#' + options.id);
       if (!_confirm.length) {
         $('body').append(confirmHtml);
@@ -62,7 +64,7 @@ export default {
       // 关闭对话框函数
       function hide() {
         if (options.beforeHide()) {
-          _confirm.addClass('hide');
+          _confirm.css('display', 'none');
           options.afterHide();
         }
       }
@@ -81,7 +83,7 @@ export default {
       });
 
       // 显示对话框
-      _confirm.removeClass('hide');
+      _confirm.css('display', 'block');
       options.afterShow();
     };
     $.extend($extend);

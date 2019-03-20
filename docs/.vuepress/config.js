@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const md = require('markdown-it')();
 module.exports = {
   dest: 'vuepress',
   locales: {
@@ -30,7 +31,8 @@ module.exports = {
           const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/);
           const description = (m && m.length > 1) ? m[1] : '';
           const content = tokens[idx + 1].content;
-          return '<base-demo><div slot="source">' + content + '</div>' + description + '<div slot="highlight">';
+          const descriptionHTML = description ? md.render(description) : '';
+          return '<base-demo><div slot="source">' + content + '</div>' + descriptionHTML + '<div slot="highlight">';
         }
         return '</div></base-demo>\n';
       }

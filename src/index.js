@@ -9,7 +9,7 @@ const extend = [
   I18n,
   Confirm
 ];
-extend.forEach( e => e.init($, e.componentName, e.optionsName));
+extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName));
 
 const fn = [
   Loading
