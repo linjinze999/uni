@@ -9,15 +9,9 @@ Dialog 可用于美化系统自带的`alert`、`confirm` 和`prompt`，也可用
 ::: demo 调用`$.dialog();`方法，设置标题和内容。
 
 ```html
-<button onclick="dialog1()" class="el-button">
-  提示框Alert
-</button>
-<button onclick="dialog2()" class="el-button">
-  对话框Confirm
-</button>
-<button onclick="dialog3()" class="el-button">
-  输入弹框Prompt
-</button>
+<button onclick="dialog1()" class="el-button">提示框Alert</button>
+<button onclick="dialog2()" class="el-button">对话框Confirm</button>
+<button onclick="dialog3()" class="el-button">输入弹框Prompt</button>
 
 <script>
 function dialog1() {
@@ -56,12 +50,8 @@ function dialog3() {
 ::: demo 支持设置`coverBGColor`、`showHeader`、`width`等配置对话框样式。也支持丰富的自定义内容。
 
 ```html
-<button onclick="dialog4()" class="el-button">
-  自定义样式对话框
-</button>
-<button onclick="dialog5()" class="el-button">
-  多层对话框
-</button>
+<button onclick="dialog4()" class="el-button">自定义样式对话框</button>
+<button onclick="dialog5()" class="el-button">多层对话框</button>
 
 <script>
 function dialog4() {
@@ -80,7 +70,7 @@ function dialog4() {
 function dialog5() {
   $.dialog({
     title: 'Tip',
-    content: '<button onclick="dialog6()" class="el-button">提示框Alert</button>',
+    content: '<button onclick="dialog6()" class="el-button">打开新对话框</button>',
   });
 }
 function dialog6() {

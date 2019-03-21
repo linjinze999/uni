@@ -3,45 +3,72 @@
 
 ### 基本用法
 基础的加载动效用法。
-::: demo 调用`$('#id').loading();`方法显示加载动效，调用`$('#id').loading('hide');`取消加载。
+::: demo 调用`$('#id').loading()`方法初始化加载动效，调用`$('#id').loading('hide')`取消加载。
 
 ```html
-<div id="loading1" style="height: 100px;">
-  <button onclick="loading1()" class="el-button">
-    显示加载动效
-  </button>
-</div>
-<button onclick="loading2()" class="el-button">
-    隐藏加载动效
-</button>
+<style>
+.loading1 { text-align: center; height: 100px; padding-top: 36px;
+  box-sizing: border-box; border: 1px solid #ccc; }
+</style>
+
+<div id="loading1" class="loading1">Loading ...</div><br>
+<button onclick="loading1()" class="el-button">显示加载动效</button>
+<button onclick="loading2()" class="el-button">隐藏加载动效</button>
 
 <script>
-function loading1() {
-  $('#loading1').loading();
-}
-function loading2() {
-  $('#loading1').loading('hide');
-}
+function loading1() { $('#loading1').loading(); }
+function loading2() { $('#loading1').loading('hide'); }
 </script>
 ```
 :::
 
 ### 自定义
-自定义对话框样式或内容。
-::: demo 支持设置`coverBGColor`、`showHeader`、`width`等配置对话框样式。也支持丰富的自定义内容。
+自定义加载特效。
+::: demo 通过配置`icon`、`text`、`main`、`background`来自定义特效。
 
 ```html
-<button onclick="loading1()" class="el-button">
-  自定义样式对话框
-</button>
+<style>
+.loading2 { text-align: center; height: 100px; padding-top: 36px;
+  box-sizing: border-box; border: 1px solid #ccc; }
+</style>
+
+<div id="loading2" class="loading2">Loading ...</div><br>
+<button onclick="loading3()" class="el-button">配置型动效</button>
+<button onclick="loading4()" class="el-button">自定义动效</button>
+
+<script>
+function loading3() {
+  $('#loading2').loading({
+    icon: '<i class="el-icon-loading"></i>',
+    text: 'Loading ...',
+    override: true
+  });
+}
+function loading4() {
+  $('#loading2').loading({
+    main: '<div class="el-loading-spinner" style="color: #fff;">Loading ...</div>',
+    background: 'rgba(0, 0, 0, 0.8)',
+    override: true
+  });
+}
+</script>
 ```
 :::
 
 ### 参数
+你可以通过修改`$.fn.loading.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(#id).loading({xx: xx})`。
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| autoShow     | 对话框id（你可以再次调用对话框函数，设置一个新id值，来弹出一个新的对话框） | string | - | `'u-confirm-0'` |
-| html | 遮罩背景色 | string | - | `'rgba(0, 0, 0, .5)'` |
-| text | 遮罩背景色 | string | - | `'rgba(0, 0, 0, .5)'` |
-| background | 遮罩是否可点击，以隐藏对话框 | boolean | - | `false` |
-| spinner | 弹窗z-index样式 | string / number | - | `'100'` |
+| icon | 自定义加载图标，支持html | string | - | `''` |
+| text | 自定义加载文本 | string | - | `''` |
+| main | 自定义加载特效（覆盖`icon`和`text`），支持html，你可以添加`el-loading-spinner`类让其居中 | string | - | `''` |
+| background | 遮罩背景色 | string | - | `''` |
+| autoShow | 初始化时自动显示特效 | boolean | - | `true` |
+| override | 若有旧特效，是否重新覆盖 | boolean | - | `false` |
+
+### 方法
+你可以通过调用`$(#id).loading('xxx')`来调用**已被初始化过**的元素的Loading方法。
+| 方法      | 说明          | 举例  |
+|---------- |-------------- |-------- |
+| show | 显示加载特效 | `$(#id).loading('show')` |
+| hide | 隐藏加载特效 | `$(#id).loading('hide')` |
