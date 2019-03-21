@@ -5,8 +5,11 @@ export default {
       id: 'u-dialog-0',
       coverBGColor: 'rgba(0, 0, 0, .5)',
       coverClick: false,
+      top: '15vh',
       width: '420px',
       zIndex: '100',
+      headerCenter: false,
+      footerCenter: false,
       content: '',
       confirm: function () {return true},
       cancel: function () {return true},
@@ -40,19 +43,22 @@ export default {
         _labelConfirm = typeof options.labelConfirm === 'function' ? options.labelConfirm() : options.labelConfirm,
         _labelCancel = typeof options.labelCancel === 'function' ? options.labelCancel() : options.labelCancel;
       // 获取显示可配置的html
-      var _htmlClose = options.showClose ? '<span class="el-message-box__headerbtn" u-type="cancel">&times;</span>' : '';
-      var _htmlHeader = options.showHeader ? '<div class="el-message-box__header">' +
-        '<div class="el-message-box__title">' + _title + '</div>' + _htmlClose + '</div>' : '';
+      var _htmlClose = options.showClose ? '<button type="button" aria-label="Close" class="el-dialog__headerbtn" ' +
+        'u-type="cancel"><i class="el-dialog__close el-icon el-icon-close"></i></button>' : '';
+      var _htmlHeader = options.showHeader ? '<div class="el-dialog__header ' + (options.headerCenter ? 'el-dialog--center' : '') +
+        '"><div class="el-message-box__title">' + _title + '</div>' + _htmlClose + '</div>' : '';
       var _htmlCancel = options.showCancel ? '<button class="el-button el-button--default el-button--small" u-type="cancel">' +
         _labelCancel + '</button>' : '';
       var _htmlConfirm = options.showConfirm ? '<button class="el-button el-button--default el-button--small el-button--primary" u-type="confirm">' +
         _labelConfirm + '</button>' : '';
       // 整体html
-      var dialogHtml = '<div class="el-message-box__wrapper" id="' + options.id +
+      var dialogHtml = '<div class="el-dialog__wrapper" id="' + options.id +
         '" style="background-color: ' + options.coverBGColor + '; z-index: ' + options.zIndex + '; display: none;">' +
-        '<div class="el-message-box" style="width:' + options.width + '">' + _htmlHeader +
-        '<div class="el-message-box__content">' + options.content + '</div>' +
-        '<div class="el-message-box__btns">' + options.footer + _htmlCancel + _htmlConfirm + '</div></div></div>';
+        '<div class="el-dialog" style="width:' + options.width + '; margin-top: ' + options.top + ';">' + _htmlHeader +
+        '<div class="el-dialog__body">' + options.content + '</div>' +
+        '<div class="el-dialog__footer ' + (options.footerCenter ? 'el-dialog--center' : '') +
+        '"><span class="dialog-footer">' + options.footer + _htmlCancel + _htmlConfirm +
+        '</span></div></div></div>';
       var _dialog = $('#' + options.id);
       if (!_dialog.length) {
         $('body').append(dialogHtml);
