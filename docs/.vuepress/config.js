@@ -70,7 +70,7 @@ module.exports = {
             {
               title: '组件',
               children: [
-                'components/confirm'
+                'components/dialog'
               ]
             }
           ]

@@ -2,7 +2,7 @@ export default {
   init: function($, componentName, optionsName, i18nName){
     var $extend = {};
     $extend[optionsName] = {
-      id: 'u-confirm-0',
+      id: 'u-dialog-0',
       coverBGColor: 'rgba(0, 0, 0, .5)',
       coverClick: false,
       width: '420px',
@@ -48,46 +48,46 @@ export default {
       var _htmlConfirm = options.showConfirm ? '<button class="el-button el-button--default el-button--small el-button--primary" u-type="confirm">' +
         _labelConfirm + '</button>' : '';
       // 整体html
-      var confirmHtml = '<div class="el-message-box__wrapper" id="' + options.id +
+      var dialogHtml = '<div class="el-message-box__wrapper" id="' + options.id +
         '" style="background-color: ' + options.coverBGColor + '; z-index: ' + options.zIndex + '; display: none;">' +
         '<div class="el-message-box" style="width:' + options.width + '">' + _htmlHeader +
         '<div class="el-message-box__content">' + options.content + '</div>' +
         '<div class="el-message-box__btns">' + options.footer + _htmlCancel + _htmlConfirm + '</div></div></div>';
-      var _confirm = $('#' + options.id);
-      if (!_confirm.length) {
-        $('body').append(confirmHtml);
+      var _dialog = $('#' + options.id);
+      if (!_dialog.length) {
+        $('body').append(dialogHtml);
       } else {
-        _confirm.prop('outerHTML', confirmHtml);
+        _dialog.prop('outerHTML', dialogHtml);
       }
-      _confirm = $('#' + options.id);
+      _dialog = $('#' + options.id);
 
       // 关闭对话框函数
       function hide() {
         if (options.beforeHide()) {
-          _confirm.css('display', 'none');
+          _dialog.css('display', 'none');
           options.afterHide();
         }
       }
 
       // 按钮事件绑定
-      _confirm.find('[u-type=cancel]').on('click', function () {
+      _dialog.find('[u-type=cancel]').on('click', function () {
         options.cancel() && hide();
       });
       if (options.coverClick) {
-        _confirm.on('click', function(){
+        _dialog.on('click', function(){
           options.cancel() && hide();
         });
       }
-      _confirm.find('[u-type=confirm]').on('click', function () {
+      _dialog.find('[u-type=confirm]').on('click', function () {
         options.confirm() && hide();
       });
 
       // 显示对话框
-      _confirm.css('display', 'block');
+      _dialog.css('display', 'block');
       options.afterShow();
     };
     $.extend($extend);
   },
-  componentName: 'confirm',
-  optionsName: 'confirmDefault'
+  componentName: 'dialog',
+  optionsName: 'dialogDefault'
 }
