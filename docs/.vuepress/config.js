@@ -74,6 +74,7 @@ module.exports = {
                 'components/ui18n',
                 'components/dialog',
                 'components/loading',
+                'components/progress',
               ]
             }
           ]
