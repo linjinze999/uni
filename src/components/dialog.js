@@ -22,13 +22,13 @@ export default {
       showConfirm: true,
       footer: '',
       title: $[i18nName] ? function () {
-        return $[i18nName].getString(this.i18n.title, '提示');
+        return $[i18nName].prop(this.i18n.title, '提示');
       } : '提示',
       labelConfirm: $[i18nName] ? function () {
-        return $[i18nName].getString(this.i18n.confirm, '确定');
+        return $[i18nName].prop(this.i18n.confirm, '确定');
       } : '确定',
       labelCancel: $[i18nName] ? function () {
-        return $[i18nName].getString(this.i18n.cancel, '取消');
+        return $[i18nName].prop(this.i18n.cancel, '取消');
       } : '取消',
       i18n: {
         title: 'uConfirmTitle',

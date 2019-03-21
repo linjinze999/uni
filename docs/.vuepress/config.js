@@ -51,6 +51,7 @@ module.exports = {
     docsRepo: 'linjinze999/uni',
     docsDir: 'docs',
     editLinks: true,
+    sidebarDepth: 0,
     locales: {
       '/': {
         label: '简体中文',
@@ -70,7 +71,8 @@ module.exports = {
             {
               title: '组件',
               children: [
-                'components/dialog'
+                'components/ui18n',
+                'components/dialog',
               ]
             }
           ]

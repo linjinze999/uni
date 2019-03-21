@@ -4,10 +4,10 @@ export default {
     $extend[optionsName] = {
       'on': !!$.i18n,
       'attrName': 'i18n',
-      'getAttr': function (value) {
-        return $[optionsName].on ? (' ' + $[optionsName].attrName + '="' + value + '"') : '';
+      'getAttr': function (key) {
+        return $[optionsName].on ? (' ' + $[optionsName].attrName + '="' + key + '"') : '';
       },
-      'getString': function (key, defaultValue) {
+      'prop': function (key, defaultValue) {
         defaultValue = defaultValue || '';
         try {
           return $[optionsName].on ? $[optionsName].getI18nProp(key) : defaultValue;
