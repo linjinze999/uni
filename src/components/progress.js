@@ -116,7 +116,7 @@ export default {
       'percentage': 0,
       'strokeWidth': 6,
       'textInside': false,
-      'color': '',
+      'color': '#20a0ff',
       'circleWidth': 126,
       'showText': true,
       'text': ''
