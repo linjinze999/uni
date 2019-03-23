@@ -16,18 +16,24 @@ export default {
         }
         var _background = options.background ? ('background-color: ' + options.background + ';') : '';
         this.$el.append('<div id="' + this.lid + '" class="el-loading-mask" style="display: none;' + _background + '"></div>');
-        // 加入加载特效
         this.$load = $('#' + this.lid);
-        if (!!options.main) {
-          this.$load.html(options.main);
+        this.update();
+      },
+      update: function() {
+        var options = this.options;
+        var _main = typeof options.main === 'function' ? options.main() : options.main;
+        if (_main) {
+          this.$load.html(_main);
         } else {
           var _icon = options.icon || '<svg viewBox="25 25 50 50" class="circular"><circle cx="50" cy="50" r="20" ' +
             'fill="none" class="path"></circle></svg>';
-          var _text = options.text ? ('<p class="el-loading-text">' + options.text + '</p>') : '';
+          var _text = typeof options.text === 'function' ? options.text() : options.text;
+          _text = _text ? ('<p class="el-loading-text">' + _text + '</p>') : '';
           this.$load.html('<div class="el-loading-spinner">' + _icon + _text + '</div>');
         }
       },
       show: function () {
+        this.update();
         this.$load.show();
       },
       hide: function () {

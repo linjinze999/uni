@@ -70,11 +70,31 @@ module.exports = {
             'start',
             {
               title: '组件',
+              collapsable: false,
               children: [
-                'components/ui18n',
-                'components/dialog',
-                'components/loading',
-                'components/progress',
+                {
+                  title: 'Basic',
+                  collapsable: false,
+                  children: [
+                    'components/layout',
+                    'components/container',
+                    'components/color',
+                    'components/typography',
+                    'components/border',
+                    'components/icon',
+                    'components/button',
+                  ]
+                },
+                {
+                  title: 'Others',
+                  collapsable: false,
+                  children: [
+                    'components/ui18n',
+                    'components/dialog',
+                    'components/loading',
+                    'components/progress',
+                  ]
+                },
               ]
             }
           ]

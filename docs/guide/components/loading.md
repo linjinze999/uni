@@ -60,8 +60,8 @@ function loading4() {
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
 | icon | 自定义加载图标，支持html | string | - | `''` |
-| text | 自定义加载文本 | string | - | `''` |
-| main | 自定义加载特效（覆盖`icon`和`text`），支持html，你可以添加`el-loading-spinner`类让其居中 | string | - | `''` |
+| text | 自定义加载文本，支持html、函数返回 | string / function | - | `''` |
+| main | 自定义加载特效（覆盖`icon`和`text`），支持html、函数返回，你可以添加`el-loading-spinner`类让其居中 | string / function | - | `''` |
 | background | 遮罩背景色 | string | - | `''` |
 | autoShow | 初始化时自动显示特效 | boolean | - | `true` |
 | override | 若有旧特效，是否重新覆盖 | boolean | - | `false` |
