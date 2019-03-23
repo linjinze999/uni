@@ -45,7 +45,7 @@
 
 ### 禁用状态
 按钮不可用状态。
-::: demo 为`<button>`添加`disabled="disabled"`属性和`is-disabled`样式设置按钮不可点击。
+::: demo 为`<button>`添加`disabled="disabled"`属性和`is-disabled`样式设置按钮不可点击；也可以直接使用`$(el).button('disabled')`禁用按钮，`$(el).button('show')`恢复。
 
 ``` html
 <div>
@@ -65,7 +65,19 @@
     <button disabled="disabled" type="button" class="el-button el-button--warning is-plain is-disabled"><span>警告按钮</span></button>
     <button disabled="disabled" type="button" class="el-button el-button--danger is-plain is-disabled"><span>危险按钮</span></button>
   </div>
+  <div class="el-row" style="margin-bottom: 10px;">
+    <button type="button" class="el-button el-button--default" onclick="demoLoading1(this)"><span>点击禁用</span></button>
+  </div>
 </div>
+
+<script>
+  function demoLoading1(_el){
+    $(_el).button('disabled');
+    setTimeout(function(){
+      $(_el).button('show');
+    }, 2000);
+  }
+</script>
 ```
 :::
 
@@ -121,12 +133,22 @@
 
 ### 加载中
 点击按钮后进行数据加载操作，在按钮上显示加载状态。
-::: demo 添加`disabled="disabled"`属性和`is-loading`样式来使按钮处于加载中。
+::: demo 添加`disabled="disabled"`属性和`is-loading`样式来使按钮处于加载中；也可以直接使用`$(el).button('loading')`加载按钮，`$(el).button('show')`恢复
 
 ``` html
 <div>
   <button disabled="disabled" type="button" class="el-button el-button--primary is-loading"><i class="el-icon-loading"></i><span>加载中</span></button>
+  <button type="button" class="el-button el-button--primary" onclick="demoLoading2(this)"><i class="el-icon-loading"></i><span>点击加载</span></button>
 </div>
+
+<script>
+  function demoLoading2(_el){
+    $(_el).button('loading');
+    setTimeout(function(){
+      $(_el).button('show');
+    }, 2000);
+  }
+</script>
 ```
 :::
 
@@ -151,3 +173,11 @@ Button 组件提供除了默认值以外的三种尺寸，可以在不同场景�
 </div>
 ```
 :::
+
+### 方法
+你可以通过调用`$(#id).button('xxx')`来快速设置按钮状态。
+| 方法      | 说明          | 举例  |
+|---------- |-------------- |-------- |
+| disabled | 禁用按钮 | `$(#id).button('disabled')` |
+| loading | 按钮显示加载中 | `$(#id).button('loading')` |
+| show | 取消禁用和加载状态 | `$(#id).button('show')` |
