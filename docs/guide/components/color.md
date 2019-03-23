@@ -1,3 +1,6 @@
+## Color 色彩
+Element 为了避免视觉传达差异，使用一套特定的调色板来规定颜色，为你所搭建的产品提供一致的外观视觉感受。
+
 <style lang="scss">
   .demo-color-box {
     border-radius: 4px;
@@ -109,9 +112,6 @@
       padding: 15px 20px;
   }
 </style>
-
-## Color 色彩
-Element 为了避免视觉传达差异，使用一套特定的调色板来规定颜色，为你所搭建的产品提供一致的外观视觉感受。
 
 ### 主色
 Element 主要品牌颜色是鲜艳、友好的蓝色。

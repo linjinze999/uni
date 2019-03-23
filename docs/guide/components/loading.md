@@ -7,11 +7,11 @@
 
 ```html
 <style>
-.loading1 { text-align: center; height: 100px; padding-top: 36px;
+.demo-loading1 { text-align: center; height: 100px; padding-top: 36px;
   box-sizing: border-box; border: 1px solid #ccc; }
 </style>
 
-<div id="loading1" class="loading1">Loading ...</div><br>
+<div id="loading1" class="demo-loading1">Loading ...</div><br>
 <button onclick="loading1()" class="el-button">显示加载动效</button>
 <button onclick="loading2()" class="el-button">隐藏加载动效</button>
 
@@ -28,11 +28,11 @@ function loading2() { $('#loading1').loading('hide'); }
 
 ```html
 <style>
-.loading2 { text-align: center; height: 100px; padding-top: 36px;
+.demo-loading2 { text-align: center; height: 100px; padding-top: 36px;
   box-sizing: border-box; border: 1px solid #ccc; }
 </style>
 
-<div id="loading2" class="loading2">Loading ...</div><br>
+<div id="loading2" class="demo-loading2">Loading ...</div><br>
 <button onclick="loading3()" class="el-button">配置型动效</button>
 <button onclick="loading4()" class="el-button">自定义动效</button>
 
