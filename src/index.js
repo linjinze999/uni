@@ -1,7 +1,8 @@
 const $ = require('jquery');
 import I18n from './element/i18n'
-import Dialog from './element/dialog';
 import Button from './element/button';
+import Radio from './element/radio';
+import Dialog from './element/dialog';
 import Loading from './element/loading';
 import Progress from './element/progress';
 import './element/theme-chalk/src/index.scss';
@@ -13,6 +14,7 @@ const extend = [
 extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName));
 
 const fn = [
+  Radio,
   Loading,
   Progress,
   Button

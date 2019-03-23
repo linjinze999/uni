@@ -86,6 +86,13 @@ module.exports = {
                   ]
                 },
                 {
+                  title: 'Form',
+                  collapsable: false,
+                  children: [
+                    'components/radio',
+                  ]
+                },
+                {
                   title: 'Others',
                   collapsable: false,
                   children: [
