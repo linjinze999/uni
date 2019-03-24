@@ -90,6 +90,7 @@ module.exports = {
                   collapsable: false,
                   children: [
                     'components/radio',
+                    'components/checkbox',
                   ]
                 },
                 {

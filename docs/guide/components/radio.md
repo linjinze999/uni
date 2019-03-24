@@ -50,25 +50,25 @@
 ::: demo 通过`$(el).radio({button: true})`在初始化时快速设置`radio`按钮样式。通过一个`class="el-radio-group"`的父元素包裹起来。
 
 ``` html
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo3" type="radio" value="1" label="苹果"/>
   <input name="Demo3" type="radio" value="2" label="葡萄"/>
   <input name="Demo3" type="radio" value="3" label="香蕉"/>
   <input name="Demo3" type="radio" value="4" label="其他"/>
 </div><br><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo4" type="radio" value="1" label="苹果"/>
   <input name="Demo4" type="radio" value="2" label="葡萄"/>
   <input name="Demo4" type="radio" value="3" label="香蕉"/>
   <input name="Demo4" type="radio" value="4" label="其他"/>
 </div><br><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo5" type="radio" value="1" label="苹果"/>
   <input name="Demo5" type="radio" value="2" label="葡萄" disabled/>
   <input name="Demo5" type="radio" value="3" label="香蕉"/>
   <input name="Demo5" type="radio" value="4" label="其他"/>
 </div><br><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo6" type="radio" value="1" label="苹果"/>
   <input name="Demo6" type="radio" value="2" label="葡萄"/>
   <input name="Demo6" type="radio" value="3" label="香蕉"/>
@@ -95,19 +95,19 @@
   <input name="Demo7" type="radio" value="3" label="香蕉"/>
   <input name="Demo7" type="radio" value="4" label="其他"/>
 </div><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo8" type="radio" value="1" label="苹果"/>
   <input name="Demo8" type="radio" value="2" label="葡萄"/>
   <input name="Demo8" type="radio" value="3" label="香蕉"/>
   <input name="Demo8" type="radio" value="4" label="其他"/>
 </div><br><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo9" type="radio" value="1" label="苹果"/>
   <input name="Demo9" type="radio" value="2" label="葡萄"/>
   <input name="Demo9" type="radio" value="3" label="香蕉" disabled/>
   <input name="Demo9" type="radio" value="4" label="其他"/>
 </div><br><br>
-<div role="radiogroup" class="el-radio-group">
+<div>
   <input name="Demo10" type="radio" value="1" label="苹果"/>
   <input name="Demo10" type="radio" value="2" label="葡萄"/>
   <input name="Demo10" type="radio" value="3" label="香蕉"/>

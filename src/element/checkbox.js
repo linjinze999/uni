@@ -1,12 +1,12 @@
 export default {
   init: function ($, componentName) {
-    function Radio ($el, options) {
+    function Checkbox ($el, options) {
       this.$el = $el;
       this.options = options;
     }
 
-    Radio.prototype = {
-      constructor: Radio,
+    Checkbox.prototype = {
+      constructor: Checkbox,
       init: function () {
         if(this.hasInit) {
           return;
@@ -14,34 +14,34 @@ export default {
         var options = this.options,
           that = this;
         if (options.button){
-          // 按钮radio
-          this.$label = $('<label role="radio" tabindex="0"></label>');
-          var _classPrefix = 'el-radio-button';
+          // 按钮checkbox
+          this.$label = $('<label role="checkbox"></label>');
+          var _classPrefix = 'el-checkbox-button';
           var _classSize = options.size ? (_classPrefix + '--' + options.size) : '';
           var _classChecked = this.$el.is(':checked') ? 'is-active' : '';
           this.$label.addClass([_classPrefix, _classSize, _classChecked].join(' '));
           this.$inner = $('<span class="' + _classPrefix + '__inner">'+ (this.$el.attr('label') || '') + '</span>');
-          var _classRadio = 'el-radio-button__orig-radio';
-          this.$el.addClass(_classRadio).attr('aria-hidden', true).attr('tabindex', -1);
+          var _classCheckbox = 'el-checkbox-button__original';
+          this.$el.addClass(_classCheckbox).attr('aria-hidden', true);
           if (this.$el.is(':checked')){
-            this.$label.attr('aria-checked', true).attr('tabindex', 0);
+            this.$label.attr('aria-checked', true);
           }
           this.$el.wrap(this.$label);
           this.$label = $(this.$el.parent()[0]);
           this.$el.after(this.$inner);
-          $(this.$label.parent()[0]).addClass('el-radio-group').attr('role', 'radiogroup');
+          $(this.$label.parent()[0]).addClass('el-checkbox-group').attr('role', 'group').attr('aria-label', 'checkbox-group');
         } else {
-          // 普通radio
-          this.$label = $('<label role="radio" tabindex="0"></label>');
-          var _classPrefix = 'el-radio';
+          // 普通checkbox
+          this.$label = $('<label role="checkbox"></label>');
+          var _classPrefix = 'el-checkbox';
           var _classSize = (options.size && options.border) ? (_classPrefix + '--' + options.size) : '';
           var _classBorder = options.border ? 'is-bordered' : '';
           var _classChecked = this.$el.is(':checked') ? 'is-checked' : '';
           this.$label.addClass([_classPrefix, _classSize, _classBorder, _classChecked].join(' '));
           this.$inner = $('<span class="' + _classPrefix + '__inner"></span>');
-          var _classRadio = 'el-radio__original';
-          this.$el.addClass(_classRadio).attr('aria-hidden', true).attr('tabindex', -1);
-          this.$parent = $('<span class="el-radio__input"></span>');
+          var _classCheckbox = 'el-checkbox__original';
+          this.$el.addClass(_classCheckbox).attr('aria-hidden', true);
+          this.$parent = $('<span class="el-checkbox__input"></span>');
           if (this.$el.is(':checked')){
             this.$parent.addClass('is-checked');
             this.$label.attr('aria-checked', true);
@@ -51,7 +51,8 @@ export default {
           this.$el.before(this.$inner);
           this.$parent.wrap(this.$label);
           this.$label = $(this.$parent.parent()[0]);
-          this.$parent.after('<span class="el-radio__label">'+ (this.$el.attr('label') || '') + '</span>');
+          this.$parent.after('<span class="el-checkbox__label">'+ (this.$el.attr('label') || '') + '</span>');
+          $(this.$label.parent()[0]).addClass('el-checkbox-group').attr('role', 'group').attr('aria-label', 'checkbox-group');
         }
         (options.disabled || this.$el.attr('disabled')) && this.disabled();
         options.disabled = Boolean(this.$el.attr('disabled'));
@@ -61,14 +62,13 @@ export default {
             // 按钮
             if( that.$el.is(':checked') !== that.$label.hasClass('is-active')){
               if(that.$el.is(':checked')){
-                that.$label.addClass('is-active').attr('tabindex', 0).attr('aria-checked', true);
+                that.$label.addClass('is-active').attr('aria-checked', true);
               }else{
-                that.$label.removeClass('is-active').attr('tabindex', -1).attr('aria-checked', false);
+                that.$label.removeClass('is-active').attr('aria-checked', false);
               }
-              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
             }
           } else {
-            // 普通radio
+            // 普通checkbox
             if( that.$el.is(':checked') !== that.$parent.hasClass('is-checked')){
               if(that.$el.is(':checked')){
                 that.$parent.addClass('is-checked');
@@ -77,21 +77,20 @@ export default {
                 that.$parent.removeClass('is-checked');
                 that.$label.removeClass('is-checked').attr('aria-checked', false);
               }
-              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
             }
           }
         });
         this.hasInit = true;
-        if (options.value === this.$el.attr('value')) {
+        if (options.checked) {
           this.$el.click();
         }
       },
       disabled: function () {
         if (this.options.button) {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true).attr('tabindex', -1);
+          this.$label.addClass('is-disabled').attr('aria-disabled', true);
           this.$el.attr('disabled', true);
         } else {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true).attr('tabindex', -1);
+          this.$label.addClass('is-disabled').attr('aria-disabled', true);
           this.$parent.addClass('is-disabled');
           this.$el.attr('disabled', true);
         }
@@ -99,10 +98,9 @@ export default {
       show: function () {
         if (this.options.button) {
           this.$label.removeClass('is-disabled').attr('aria-disabled', false);
-          this.$el.is(':checked') ? this.$label.attr('tabindex',0) : this.$label.attr('tabindex',-1);
           this.$el.attr('disabled', false);
         } else {
-          this.$label.removeClass('is-disabled').attr('aria-disabled', false).attr('tabindex', 0);
+          this.$label.removeClass('is-disabled').attr('aria-disabled', false);
           this.$parent.removeClass('is-disabled');
           this.$el.attr('disabled', false);
         }
@@ -114,12 +112,12 @@ export default {
         allowedMethods = ['show', 'disabled'];
       this.each(function () {
         var $this = $(this),
-          data = $this.data('u-radio'),
+          data = $this.data('u-checkbox'),
           options = $.extend({}, $.fn[componentName].defaults,
             $this.data(), typeof option === 'object' && option);
         if (!data) {
-          data = new Radio($this, options);
-          $this.data('u-radio', data);
+          data = new Checkbox($this, options);
+          $this.data('u-checkbox', data);
           data.init();
         }
         if (typeof option === 'string') {
@@ -136,8 +134,8 @@ export default {
       'border': false,
       'size': '',
       'button': false,
-      'value': ''
+      'checked': false
     };
   },
-  componentName: 'radio'
+  componentName: 'checkbox'
 };
