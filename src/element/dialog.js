@@ -95,5 +95,5 @@ export default {
     $.extend($extend);
   },
   componentName: 'dialog',
-  optionsName: 'dialogDefault'
+  optionsName: 'dialogDefaults'
 }

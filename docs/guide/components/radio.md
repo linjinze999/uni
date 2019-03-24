@@ -64,7 +64,7 @@
 </div><br><br>
 <div role="radiogroup" class="el-radio-group">
   <input name="Demo5" type="radio" value="1" label="苹果"/>
-  <input name="Demo5" type="radio" value="2" label="葡萄"/>
+  <input name="Demo5" type="radio" value="2" label="葡萄" disabled/>
   <input name="Demo5" type="radio" value="3" label="香蕉"/>
   <input name="Demo5" type="radio" value="4" label="其他"/>
 </div><br><br>
@@ -84,10 +84,56 @@
 ```
 :::
 
+### 带有边框
+按钮样式的单选组合。
+::: demo 通过`$(el).radio({button: true})`在初始化时快速设置`radio`按钮样式。通过一个父元素将所有 Radio 包裹起来。
+
+``` html
+<div>
+  <input name="Demo7" type="radio" value="1" label="苹果"/>
+  <input name="Demo7" type="radio" value="2" label="葡萄"/>
+  <input name="Demo7" type="radio" value="3" label="香蕉"/>
+  <input name="Demo7" type="radio" value="4" label="其他"/>
+</div><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo8" type="radio" value="1" label="苹果"/>
+  <input name="Demo8" type="radio" value="2" label="葡萄"/>
+  <input name="Demo8" type="radio" value="3" label="香蕉"/>
+  <input name="Demo8" type="radio" value="4" label="其他"/>
+</div><br><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo9" type="radio" value="1" label="苹果"/>
+  <input name="Demo9" type="radio" value="2" label="葡萄"/>
+  <input name="Demo9" type="radio" value="3" label="香蕉" disabled/>
+  <input name="Demo9" type="radio" value="4" label="其他"/>
+</div><br><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo10" type="radio" value="1" label="苹果"/>
+  <input name="Demo10" type="radio" value="2" label="葡萄"/>
+  <input name="Demo10" type="radio" value="3" label="香蕉"/>
+  <input name="Demo10" type="radio" value="4" label="其他"/>
+</div>
+
+<script>
+  $('[name=Demo7]').radio({border: true});
+  $('[name=Demo8]').radio({border: true, size: 'medium'});
+  $('[name=Demo9]').radio({border: true, size: 'small'});
+  $('[name=Demo10]').radio({border: true, size: 'mini', disabled: true});
+</script>
+```
+:::
+
+### 参数
+| 参数      | 说明                       | 类型      | 可选值 | 默认值  |
+|---------- |--------------------------- |---------- |------  |-------- |
+| disabled     | 是否禁用radio（若 Radio 有`disabled`属性则以其为准） | boolean | - | `false` |
+| button     | 是否启用按钮模式 | boolean | - | `false` |
+| border     | 非按钮模式是否显示边框 | boolean | - | `false` |
+| size | 按钮/边框模式的大小设置 | string | medium / small / mini | `''` |
+
 ### 方法
-你可以通过调用`$(#id).button('xxx')`来快速设置按钮状态。
+你可以通过调用`$(el).radio('xxx')`来快速设置按钮状态。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
-| disabled | 禁用按钮 | `$(#id).button('disabled')` |
-| loading | 按钮显示加载中 | `$(#id).button('loading')` |
-| show | 取消禁用和加载状态 | `$(#id).button('show')` |
+| disabled | 禁用radio | `$(el).radio('disabled')` |
+| show | 取消禁用状态 | `$(el).radio('show')` |

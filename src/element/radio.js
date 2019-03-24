@@ -29,6 +29,7 @@ export default {
           this.$el.wrap(this.$label);
           this.$label = $(this.$el.parent()[0]);
           this.$el.after(this.$inner);
+          $(this.$label.parent()[0]).addClass('el-radio-group').attr('role', 'radiogroup');
         } else {
           // 普通radio
           this.$label = $('<label role="radio" tabindex="0"></label>');
@@ -52,6 +53,8 @@ export default {
           this.$label = $(this.$parent.parent()[0]);
           this.$parent.after('<span class="el-radio__label">'+ (this.$el.attr('label') || '') + '</span>');
         }
+        (options.disabled || this.$el.attr('disabled')) && this.disabled();
+        options.disabled = Boolean(this.$el.attr('disabled'));
         // 监听设置选中状态
         this.$label.on('click', function(){ this.$el.click(); });
         this.$el.on('change', function(){
@@ -63,7 +66,7 @@ export default {
               }else{
                 that.$label.removeClass('is-active').attr('tabindex', -1).attr('aria-checked', false);
               }
-              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).trigger('change');
+              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
             }
           } else {
             // 普通radio
@@ -75,7 +78,7 @@ export default {
                 that.$parent.removeClass('is-checked');
                 that.$label.removeClass('is-checked').attr('aria-checked', false);
               }
-              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).trigger('change');
+              $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
             }
           }
         });
