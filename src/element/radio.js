@@ -56,7 +56,6 @@ export default {
         (options.disabled || this.$el.attr('disabled')) && this.disabled();
         options.disabled = Boolean(this.$el.attr('disabled'));
         // 监听设置选中状态
-        this.$label.on('click', function(){ this.$el.click(); });
         this.$el.on('change', function(){
           if (options.button) {
             // 按钮
@@ -83,6 +82,9 @@ export default {
           }
         });
         this.hasInit = true;
+        if (options.value === this.$el.attr('value')) {
+          this.$el.click();
+        }
       },
       disabled: function () {
         if (this.options.button) {
@@ -133,7 +135,8 @@ export default {
       'disabled': false,
       'border': false,
       'size': '',
-      'button': false
+      'button': false,
+      'value': ''
     };
   },
   componentName: 'radio'

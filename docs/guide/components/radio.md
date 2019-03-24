@@ -14,7 +14,7 @@
 </div>
 
 <script>
-  $('[name=Demo1]').radio();
+  $('[name=Demo1]').radio({ value: '1' });
 </script>
 ```
 :::
@@ -76,10 +76,10 @@
 </div>
 
 <script>
-  $('[name=Demo3]').radio({button: true});
-  $('[name=Demo4]').radio({button: true, size: 'medium'});
-  $('[name=Demo5]').radio({button: true, size: 'small'});
-  $('[name=Demo6]').radio({button: true, size: 'mini', disabled: true});
+  $('[name=Demo3]').radio({button: true, value: '1'});
+  $('[name=Demo4]').radio({button: true, size: 'medium', value: '1'});
+  $('[name=Demo5]').radio({button: true, size: 'small', value: '1'});
+  $('[name=Demo6]').radio({button: true, size: 'mini', disabled: true, value: '1'});
 </script>
 ```
 :::
@@ -115,10 +115,10 @@
 </div>
 
 <script>
-  $('[name=Demo7]').radio({border: true});
-  $('[name=Demo8]').radio({border: true, size: 'medium'});
-  $('[name=Demo9]').radio({border: true, size: 'small'});
-  $('[name=Demo10]').radio({border: true, size: 'mini', disabled: true});
+  $('[name=Demo7]').radio({border: true, value: '1'});
+  $('[name=Demo8]').radio({border: true, size: 'medium', value: '1'});
+  $('[name=Demo9]').radio({border: true, size: 'small', value: '1'});
+  $('[name=Demo10]').radio({border: true, size: 'mini', disabled: true, value: '1'});
 </script>
 ```
 :::
@@ -130,6 +130,7 @@
 | button     | 是否启用按钮模式 | boolean | - | `false` |
 | border     | 非按钮模式是否显示边框 | boolean | - | `false` |
 | size | 按钮/边框模式的大小设置 | string | medium / small / mini | `''` |
+| value | 默认选中值 | string | - | `''` |
 
 ### 方法
 你可以通过调用`$(el).radio('xxx')`来快速设置按钮状态。
