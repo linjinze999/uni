@@ -1,52 +1,85 @@
 ## Radio 单选框
 在一组备选项中进行单选。由于选项默认可见，不宜过多，若选项过多，建议使用 Select 选择器。
 
-### 基础样式
-你可以使用原生的radio，也可以自己修改 radio 为符合主题风格的样式。以下静态基础样式，**无法点击**，
-若要实现交互可自己写样式的修改逻辑，也可参考[基础用法](#基础用法)。
-::: demo
-
-``` html
-<div>
-  <label role="radio" tabindex="0" class="el-radio">
-    <span class="el-radio__input">
-      <span class="el-radio__inner"></span>
-      <input type="radio" aria-hidden="true" tabindex="-1" class="el-radio__original" value="1">
-    </span>
-    <span class="el-radio__label">备选项</span>
-  </label>
-  <label role="radio" tabindex="0" class="el-radio is-checked" aria-checked="true">
-    <span class="el-radio__input is-checked">
-      <span class="el-radio__inner"></span>
-      <input type="radio" aria-hidden="true" tabindex="-1" class="el-radio__original" value="2">
-    </span>
-    <span class="el-radio__label">备选项</span>
-  </label>
-  <label role="radio" aria-disabled="true" tabindex="-1" class="el-radio is-disabled">
-    <span class="el-radio__input is-disabled">
-      <span class="el-radio__inner"></span>
-      <input type="radio" aria-hidden="true" disabled="disabled" tabindex="-1" class="el-radio__original" value="禁用">
-    </span>
-    <span class="el-radio__label">备选项</span>
-  </label>
-</div>
-```
-:::
-
 ### 基础用法
-快速设置 radio 样式的方法。
-::: demo 通过`$(el).radio()`快速设置`radio`样式。
+你可以使用原生的radio，也可以按照以下方法快速设置 radio 样式。
+::: demo 通过`$(el).radio()`快速设置`radio`样式，`label`属性表示文本值。
 
 ``` html
 <div>
-  <input name="Fruit" type="radio" value="1" label="苹果"/>
-  <input name="Fruit" type="radio" value="2" label="葡萄"/>
-  <input name="Fruit" type="radio" value="3" label="香蕉"/>
-  <input name="Fruit" type="radio" value="4" label="其他"/>
+  <input name="Demo1" type="radio" value="1" label="苹果"/>
+  <input name="Demo1" type="radio" value="2" label="葡萄"/>
+  <input name="Demo1" type="radio" value="3" label="香蕉"/>
+  <input name="Demo1" type="radio" value="4" label="其他"/>
 </div>
 
 <script>
-  $('[name=Fruit]').radio();
+  $('[name=Demo1]').radio();
+</script>
+```
+:::
+
+### 禁用状态
+单选框不可用的状态，可初始化时指定，也可动态设置。
+::: demo 通过`$(el).radio({disabled: true})`在初始化时快速设置`radio`禁用样式，或`$(el).radio('disabled'})`、`$(el).radio('show'})`动态设置禁用状态。
+
+``` html
+<div>
+  <input name="Demo2" type="radio" value="1" label="苹果"/>
+  <input name="Demo2" type="radio" value="2" label="葡萄"/>
+</div><br>
+<div>
+  <button onclick="demoRadio1()" class="el-button">禁用Radio</button>
+  <button onclick="demoRadio2()" class="el-button">启用Radio</button>
+</div>
+
+<script>
+  $('[name=Demo2]').radio({disabled: true});
+  function demoRadio1() {
+    $('[name=Demo2]').radio('disabled');
+  }
+  function demoRadio2() {
+    $('[name=Demo2]').radio('show');
+  }
+</script>
+```
+:::
+
+### 按钮样式
+按钮样式的单选组合。
+::: demo 通过`$(el).radio({button: true})`在初始化时快速设置`radio`按钮样式。通过一个`class="el-radio-group"`的父元素包裹起来。
+
+``` html
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo3" type="radio" value="1" label="苹果"/>
+  <input name="Demo3" type="radio" value="2" label="葡萄"/>
+  <input name="Demo3" type="radio" value="3" label="香蕉"/>
+  <input name="Demo3" type="radio" value="4" label="其他"/>
+</div><br><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo4" type="radio" value="1" label="苹果"/>
+  <input name="Demo4" type="radio" value="2" label="葡萄"/>
+  <input name="Demo4" type="radio" value="3" label="香蕉"/>
+  <input name="Demo4" type="radio" value="4" label="其他"/>
+</div><br><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo5" type="radio" value="1" label="苹果"/>
+  <input name="Demo5" type="radio" value="2" label="葡萄"/>
+  <input name="Demo5" type="radio" value="3" label="香蕉"/>
+  <input name="Demo5" type="radio" value="4" label="其他"/>
+</div><br><br>
+<div role="radiogroup" class="el-radio-group">
+  <input name="Demo6" type="radio" value="1" label="苹果"/>
+  <input name="Demo6" type="radio" value="2" label="葡萄"/>
+  <input name="Demo6" type="radio" value="3" label="香蕉"/>
+  <input name="Demo6" type="radio" value="4" label="其他"/>
+</div>
+
+<script>
+  $('[name=Demo3]').radio({button: true});
+  $('[name=Demo4]').radio({button: true, size: 'medium'});
+  $('[name=Demo5]').radio({button: true, size: 'small'});
+  $('[name=Demo6]').radio({button: true, size: 'mini', disabled: true});
 </script>
 ```
 :::

@@ -17,7 +17,7 @@ export default {
           // 按钮radio
           this.$label = $('<label role="radio" tabindex="0"></label>');
           var _classPrefix = 'el-radio-button';
-          var _classSize = options.size ? (_classPrefix + '-' + options.size) : '';
+          var _classSize = options.size ? (_classPrefix + '--' + options.size) : '';
           var _classChecked = this.$el.is(':checked') ? 'is-active' : '';
           this.$label.addClass([_classPrefix, _classSize, _classChecked].join(' '));
           this.$inner = $('<span class="' + _classPrefix + '__inner">'+ (this.$el.attr('label') || '') + '</span>');
@@ -33,7 +33,7 @@ export default {
           // 普通radio
           this.$label = $('<label role="radio" tabindex="0"></label>');
           var _classPrefix = 'el-radio';
-          var _classSize = (options.size && options.border) ? (_classPrefix + '-' + options.size) : '';
+          var _classSize = (options.size && options.border) ? (_classPrefix + '--' + options.size) : '';
           var _classBorder = options.border ? 'is-bordered' : '';
           var _classChecked = this.$el.is(':checked') ? 'is-checked' : '';
           this.$label.addClass([_classPrefix, _classSize, _classBorder, _classChecked].join(' '));
@@ -48,9 +48,9 @@ export default {
           this.$el.wrap(this.$parent);
           this.$parent = $(this.$el.parent()[0]);
           this.$el.before(this.$inner);
-          this.$el.after('<span class="el-radio__label">'+ (this.$el.attr('label') || '') + '</span>');
           this.$parent.wrap(this.$label);
           this.$label = $(this.$parent.parent()[0]);
+          this.$parent.after('<span class="el-radio__label">'+ (this.$el.attr('label') || '') + '</span>');
         }
         // 监听设置选中状态
         this.$label.on('click', function(){ this.$el.click(); });
@@ -130,8 +130,7 @@ export default {
       'disabled': false,
       'border': false,
       'size': '',
-      'button': false,
-      'textColor': '#ffffff'
+      'button': false
     };
   },
   componentName: 'radio'
