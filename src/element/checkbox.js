@@ -8,22 +8,22 @@ export default {
     Checkbox.prototype = {
       constructor: Checkbox,
       init: function () {
-        if(this.hasInit) {
+        if (this.hasInit) {
           return;
         }
         var options = this.options,
           that = this;
-        if (options.button){
+        if (options.button) {
           // 按钮checkbox
           this.$label = $('<label role="checkbox"></label>');
           var _classPrefix = 'el-checkbox-button';
           var _classSize = options.size ? (_classPrefix + '--' + options.size) : '';
           var _classChecked = this.$el.is(':checked') ? 'is-checked' : '';
           this.$label.addClass([_classPrefix, _classSize, _classChecked].join(' '));
-          this.$inner = $('<span class="' + _classPrefix + '__inner">'+ (this.$el.attr('label') || '') + '</span>');
+          this.$inner = $('<span class="' + _classPrefix + '__inner">' + (this.$el.attr('label') || '') + '</span>');
           var _classCheckbox = 'el-checkbox-button__original';
           this.$el.addClass(_classCheckbox).attr('aria-hidden', true);
-          if (this.$el.is(':checked')){
+          if (this.$el.is(':checked')) {
             this.$label.attr('aria-checked', true);
           }
           this.$el.wrap(this.$label);
@@ -43,7 +43,7 @@ export default {
           this.$el.addClass(_classCheckbox).attr('aria-hidden', true);
           var _classIndeterminate = options.indeterminate ? 'is-indeterminate' : '';
           this.$parent = $('<span class="el-checkbox__input ' + _classIndeterminate + '" aria-checked="mixed"></span>');
-          if (this.$el.is(':checked')){
+          if (this.$el.is(':checked')) {
             this.$parent.addClass('is-checked');
             this.$label.attr('aria-checked', true);
           }
@@ -52,13 +52,13 @@ export default {
           this.$el.before(this.$inner);
           this.$parent.wrap(this.$label);
           this.$label = $(this.$parent.parent()[0]);
-          this.$parent.after('<span class="el-checkbox__label">'+ (this.$el.attr('label') || '') + '</span>');
+          this.$parent.after('<span class="el-checkbox__label">' + (this.$el.attr('label') || '') + '</span>');
           $(this.$label.parent()[0]).addClass('el-checkbox-group').attr('role', 'group').attr('aria-label', 'checkbox-group');
         }
         (options.disabled || this.$el.attr('disabled')) && this.disabled();
         options.disabled = Boolean(this.$el.attr('disabled'));
         // 监听设置选中状态
-        this.$el.on('change', function(e){
+        this.$el.on('change', function (e) {
           that.onchange(e, options, that, false);
         });
         this.hasInit = true;
@@ -68,9 +68,9 @@ export default {
         }
         this.onchange('', options, that, true);
       },
-      onchange: function(e, options, that, local) {
+      onchange: function (e, options, that, local) {
         var _values = [];
-        $('input[type=checkbox][name=' + that.$el.attr('name') + ']:checked').each(function(){
+        $('input[type=checkbox][name=' + that.$el.attr('name') + ']:checked').each(function () {
           _values.push($(this).val());
         });
         if (options.min && options.min > _values.length && !that.$el.is(':checked')) {
@@ -81,20 +81,20 @@ export default {
         }
         if (options.button) {
           // 按钮
-          if( that.$el.is(':checked') !== that.$label.hasClass('is-checked')){
-            if(that.$el.is(':checked')){
+          if (that.$el.is(':checked') !== that.$label.hasClass('is-checked')) {
+            if (that.$el.is(':checked')) {
               that.$label.addClass('is-checked').attr('aria-checked', true);
-            }else{
+            } else {
               that.$label.removeClass('is-checked').attr('aria-checked', false);
             }
           }
         } else {
           // 普通checkbox
-          if( that.$el.is(':checked') !== that.$parent.hasClass('is-checked')){
-            if(that.$el.is(':checked')){
+          if (that.$el.is(':checked') !== that.$parent.hasClass('is-checked')) {
+            if (that.$el.is(':checked')) {
               that.$parent.addClass('is-checked');
               that.$label.addClass('is-checked').attr('aria-checked', true);
-            }else{
+            } else {
               that.$parent.removeClass('is-checked');
               that.$label.removeClass('is-checked').attr('aria-checked', false);
             }
@@ -121,12 +121,26 @@ export default {
           this.$parent.removeClass('is-disabled');
           this.$el.attr('disabled', false);
         }
+      },
+      set: function (event) {
+        if (this.$el.is(':disabled')) {
+          return;
+        }
+        if(event === 'checked') {
+          this.$el.prop('checked', true).trigger('change');
+        } else if (event === 'unchecked'){
+          this.$el.prop('checked', false).trigger('change');
+        } else if (event === 'indeterminate' && !this.options.button){
+          this.$parent.addClass('is-indeterminate');
+          this.$el.prop('checked', false).trigger('change');
+        }
       }
     };
     $.fn[componentName] = function () {
       var option = arguments[0],
+        args = arguments[1],
         value,
-        allowedMethods = ['show', 'disabled'];
+        allowedMethods = ['show', 'disabled', 'set'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-checkbox'),
@@ -141,7 +155,7 @@ export default {
           if ($.inArray(option, allowedMethods) < 0) {
             throw 'Unknown method: ' + option;
           }
-          value = data[option]();
+          value = data[option](args);
         }
       });
       return typeof value !== 'undefined' ? value : this;
@@ -151,7 +165,11 @@ export default {
       'border': false,
       'size': '',
       'button': false,
-      'checked': false
+      'checked': false,
+      'min': 0,
+      'max': 0,
+      'indeterminate': '',
+      'onchange': ''
     };
   },
   componentName: 'checkbox'
