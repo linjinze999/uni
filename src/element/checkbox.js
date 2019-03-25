@@ -59,29 +59,25 @@ export default {
         options.disabled = Boolean(this.$el.attr('disabled'));
         // 监听设置选中状态
         this.$el.on('change', function(e){
-          that.onchange(e, options, that, -1);
+          that.onchange(e, options, that, false);
         });
         this.hasInit = true;
         if (options.checked === true ||
           (Array.isArray(options.checked) && options.checked.indexOf(this.$el.attr('value')) > -1)) {
           this.$el.attr('checked', true);
         }
-        this.onchange('', options, that, 0);
+        this.onchange('', options, that, true);
       },
       onchange: function(e, options, that, local) {
         var _values = [];
         $('input[type=checkbox][name=' + that.$el.attr('name') + ']:checked').each(function(){
           _values.push($(this).val());
         });
-        if (options.min && options.min > _values.length) {
-          that.$el.attr('checked', true);
-          (local !== 1) && that.onchange('', options, that, 1);
-          return;
+        if (options.min && options.min > _values.length && !that.$el.is(':checked')) {
+          that.$el.prop('checked', true);
         }
-        if (options.max && options.max < _values.length) {
-          that.$el.attr('checked', false);
-          (local !== 1) && that.onchange('', options, that, 1);
-          return;
+        if (options.max && options.max < _values.length && that.$el.is(':checked')) {
+          that.$el.prop('checked', false);
         }
         if (options.button) {
           // 按钮
@@ -104,7 +100,7 @@ export default {
             }
           }
         }
-        (local === -1) && options.onchange && options.onchange(e);
+        !local && options.onchange && options.onchange(e);
       },
       disabled: function () {
         if (this.options.button) {
