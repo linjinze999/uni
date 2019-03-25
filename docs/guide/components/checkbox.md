@@ -14,7 +14,7 @@
 </div>
 
 <script>
-  $('[name=Demo1]').checkbox({ value: '1' });
+  $('[name=Demo1]').checkbox({ checked: ['1'] });
 </script>
 ```
 :::
@@ -41,6 +41,27 @@
   function demoCheckbox2() {
     $('[name=Demo2]').checkbox('show');
   }
+</script>
+```
+:::
+
+### indeterminate 状态
+`indeterminate`属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果
+
+### 可选项目数量的限制
+使用`min`和`max`属性能够限制可以被勾选的项目的数量。
+::: demo 通过`$(el).checkbox({min: 1, max: 3})`在初始化时设置`checkbox`最小/大选择数。
+
+``` html
+<div>
+  <input name="Demo11" type="checkbox" value="1" label="苹果"/>
+  <input name="Demo11" type="checkbox" value="2" label="葡萄"/>
+  <input name="Demo11" type="checkbox" value="3" label="香蕉"/>
+  <input name="Demo11" type="checkbox" value="4" label="其他"/>
+</div>
+
+<script>
+  $('[name=Demo11]').checkbox({min: 1, max: 3});
 </script>
 ```
 :::
@@ -76,10 +97,10 @@
 </div>
 
 <script>
-  $('[name=Demo3]').checkbox({button: true, value: '1'});
-  $('[name=Demo4]').checkbox({button: true, size: 'medium', value: '1'});
-  $('[name=Demo5]').checkbox({button: true, size: 'small', value: '1'});
-  $('[name=Demo6]').checkbox({button: true, size: 'mini', disabled: true, value: '1'});
+  $('[name=Demo3]').checkbox({button: true, checked: ['1']});
+  $('[name=Demo4]').checkbox({button: true, size: 'medium', checked: true});
+  $('[name=Demo5]').checkbox({button: true, size: 'small', checked: ['1']});
+  $('[name=Demo6]').checkbox({button: true, size: 'mini', disabled: true, checked: ['1']});
 </script>
 ```
 :::
@@ -115,10 +136,10 @@
 </div>
 
 <script>
-  $('[name=Demo7]').checkbox({border: true, value: '1'});
-  $('[name=Demo8]').checkbox({border: true, size: 'medium', value: '1'});
-  $('[name=Demo9]').checkbox({border: true, size: 'small', value: '1'});
-  $('[name=Demo10]').checkbox({border: true, size: 'mini', disabled: true, value: '1'});
+  $('[name=Demo7]').checkbox({border: true, checked: ['1']});
+  $('[name=Demo8]').checkbox({border: true, size: 'medium', checked: ['1']});
+  $('[name=Demo9]').checkbox({border: true, size: 'small', checked: ['1']});
+  $('[name=Demo10]').checkbox({border: true, size: 'mini', disabled: true, checked: ['1']});
 </script>
 ```
 :::
@@ -130,7 +151,11 @@
 | button     | 是否启用按钮模式 | boolean | - | `false` |
 | border     | 非按钮模式是否显示边框 | boolean | - | `false` |
 | size | 按钮/边框模式的大小设置 | string | medium / small / mini | `''` |
-| value | 默认选中值 | string | - | `''` |
+| checked | 默认选中值 | boolean / array | - | `false` |
+| min | 同名多选框最少选中数，0表示无限制（若没设置`checked`，默认选择前几个） | number | - | `0` |
+| max | 同名多选框最多选中数，0表示无限制（若设置了`checked`，只选中前几个） | number | - | `0` |
+| indeterminate | 设置 indeterminate 状态，只负责样式控制 | boolean | - | `false` |
+| onchange | 当绑定值变化时触发的事件 | function | - | - |
 
 ### 方法
 你可以通过调用`$(el).checkbox('xxx')`来快速设置按钮状态。

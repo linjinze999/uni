@@ -51,6 +51,7 @@ export default {
   border: 1px solid #ebebeb;
   background-color: #ffffff;
   border-radius: 3px;
+  transition: .2s;
 }
 
 .code-cover {
@@ -105,7 +106,7 @@ export default {
 </style>
 <style>
 .demo-code-slid-active, .demo-code-slid-leave-active {
-  transition: all .7s;
+  transition: all .6s;
 }
 .demo-code-slid-enter, .demo-code-slid-leave-to {
   margin-top: -100%;
