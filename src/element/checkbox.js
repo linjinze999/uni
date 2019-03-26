@@ -126,13 +126,18 @@ export default {
         if (this.$el.is(':disabled')) {
           return;
         }
-        if(event === 'checked') {
-          this.$el.prop('checked', true).trigger('change');
-        } else if (event === 'unchecked'){
-          this.$el.prop('checked', false).trigger('change');
+        if(event === 'checked' || event === true) {
+          !this.options.button && this.$parent.removeClass('is-indeterminate');
+          this.$el.prop('checked', true);
+          this.onchange('', this.options, this, true);
+        } else if (event === 'unchecked' || event === false){
+          !this.options.button && this.$parent.removeClass('is-indeterminate');
+          this.$el.prop('checked', false);
+          this.onchange('', this.options, this, true);
         } else if (event === 'indeterminate' && !this.options.button){
+          this.$el.prop('checked', false);
+          this.onchange('', this.options, this, true);
           this.$parent.addClass('is-indeterminate');
-          this.$el.prop('checked', false).trigger('change');
         }
       }
     };

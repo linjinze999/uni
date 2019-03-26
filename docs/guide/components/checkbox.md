@@ -46,7 +46,41 @@
 :::
 
 ### indeterminate 状态
-`indeterminate`属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果
+`indeterminate`属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果。
+::: demo 使用`$(el).checkbox('set', xxx)`来设置`checkbox`状态，避免重复触发`change`事件。
+
+``` html
+<div>
+  <input name="Demo12All" type="checkbox" label="全选"/><br><br>
+  <input name="Demo12" type="checkbox" value="1" label="苹果"/>
+  <input name="Demo12" type="checkbox" value="2" label="葡萄"/>
+  <input name="Demo12" type="checkbox" value="3" label="香蕉"/>
+  <input name="Demo12" type="checkbox" value="4" label="其他"/>
+</div>
+
+<script>
+  $('[name=Demo12]').checkbox({
+    onchange: function(){
+      var _all = $('[name=Demo12]').length;
+      var _checked = $('[name=Demo12]:checked').length;
+      if (_all === _checked) {
+        $('[name=Demo12All]').checkbox('set', true);
+      } else if (_checked === 0) {
+        $('[name=Demo12All]').checkbox('set', false);
+      } else {
+        $('[name=Demo12All]').checkbox('set', 'indeterminate');
+      }
+    }
+  });
+  $('[name=Demo12All]').checkbox({
+    onchange: function () {
+      $('[name=Demo12]').checkbox('set', $('[name=Demo12All]').is(':checked'));
+    }
+  });
+  
+</script>
+```
+:::
 
 ### 可选项目数量的限制
 使用`min`和`max`属性能够限制可以被勾选的项目的数量。
@@ -163,3 +197,4 @@
 |---------- |-------------- |-------- |
 | disabled | 禁用checkbox | `$(el).checkbox('disabled')` |
 | show | 取消禁用状态 | `$(el).checkbox('show')` |
+| set | 设置checkbox选中状态（不会触发 change 事件） | `$(el).checkbox('set', true / false / 'checked' / 'unchecked' / 'indeterminate')` |
