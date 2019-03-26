@@ -91,6 +91,7 @@ module.exports = {
                   children: [
                     'components/radio',
                     'components/checkbox',
+                    'components/input',
                   ]
                 },
                 {
