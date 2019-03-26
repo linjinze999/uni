@@ -13,113 +13,74 @@ export default {
         }
         var options = this.options,
           that = this;
-        // 普通checkbox
-        this.$label = $('<label role="checkbox"></label>');
-        var _classPrefix = 'el-checkbox';
-        var _classSize = (options.size && options.border) ? (_classPrefix + '--' + options.size) : '';
-        var _classBorder = options.border ? 'is-bordered' : '';
-        var _classChecked = this.$el.is(':checked') ? 'is-checked' : '';
-        this.$label.addClass([_classPrefix, _classSize, _classBorder, _classChecked].join(' '));
-        this.$inner = $('<span class="' + _classPrefix + '__inner"></span>');
-        var _classCheckbox = 'el-checkbox__original';
-        this.$el.addClass(_classCheckbox).attr('aria-hidden', true);
-        var _classIndeterminate = options.indeterminate ? 'is-indeterminate' : '';
-        this.$parent = $('<span class="el-checkbox__input ' + _classIndeterminate + '" aria-checked="mixed"></span>');
-        if (this.$el.is(':checked')) {
-          this.$parent.addClass('is-checked');
-          this.$label.attr('aria-checked', true);
-        }
-        this.$el.wrap(this.$parent);
-        this.$parent = $(this.$el.parent()[0]);
-        this.$el.before(this.$inner);
-        this.$parent.wrap(this.$label);
-        this.$label = $(this.$parent.parent()[0]);
-        this.$parent.after('<span class="el-checkbox__label">' + (this.$el.attr('label') || '') + '</span>');
-        $(this.$label.parent()[0]).addClass('el-checkbox-group').attr('role', 'group').attr('aria-label', 'checkbox-group');
-
-        (options.disabled || this.$el.attr('disabled')) && this.disabled();
-        options.disabled = Boolean(this.$el.attr('disabled'));
-        // 监听设置选中状态
-        this.$el.on('change', function (e) {
+        // 设置html
+        this.$checkbox = $('<input type="checkbox" class="el-switch__input">');
+        this.$checkbox.attr('name', options.name);
+        this.$left = $('<span class="el-switch__label el-switch__label--left"></span>');
+        this.$inactive = $('<span>' + options.inactiveHtml + '</span>');
+        this.$left.append(this.$inactive);
+        this.$switch = $('<span class="el-switch__core"></span>');
+        options.width && this.$switch.css('width', options.width + 'px');
+        this.$right = $('<span class="el-switch__label el-switch__label--right"></span>');
+        this.$active = $('<span>' + options.activeHtml + '</span>');
+        this.$right.append(this.$active);
+        this.$el.attr('role', 'switch').addClass('el-switch').append(this.$checkbox).append(this.$left)
+          .append(this.$switch).append(this.$right);
+        // 监听开关事件
+        this.$switch.on('click', function(e){
+          that.$checkbox.attr('checked', !that.$checkbox.is(':checked'));
           that.onchange(e, options, that, false);
         });
+        options.on && this.$checkbox.attr('checked', true);
+        // 更新显示
+        this.update();
+        options.disabled && this.disabled();
         this.hasInit = true;
-        if (options.checked) {
-          this.$el.attr('checked', true);
+      },
+      update: function(){
+        if(!this.$checkbox.is(':checked')){
+          this.$left.addClass('is-active');
+          this.$inactive.attr('aria-hidden', false);
+          this.$right.removeClass('is-active');
+          this.$active.attr('aria-hidden', true);
+          this.$el.removeClass('is-checked').attr('aria-checked', false);
+          this.options.inactiveColor && this.$switch.css({
+            'borderColor': this.options.inactiveColor,
+            'backgroundColor': this.options.inactiveColor
+          });
+        } else {
+          this.$left.removeClass('is-active');
+          this.$inactive.attr('aria-hidden', true);
+          this.$right.addClass('is-active');
+          this.$active.attr('aria-hidden', false);
+          this.$el.addClass('is-checked').attr('aria-checked', true);
+          this.options.activeColor && this.$switch.css({
+            'borderColor': this.options.activeColor,
+            'backgroundColor': this.options.activeColor
+          });
         }
-        this.onchange('', options, that, true);
       },
       onchange: function (e, options, that, local) {
-        var _values = [];
-        $('input[type=checkbox][name=' + that.$el.attr('name') + ']:checked').each(function () {
-          _values.push($(this).val());
-        });
-        if (options.min && options.min > _values.length && !that.$el.is(':checked')) {
-          that.$el.prop('checked', true);
-        }
-        if (options.max && options.max < _values.length && that.$el.is(':checked')) {
-          that.$el.prop('checked', false);
-        }
-        if (options.button) {
-          // 按钮
-          if (that.$el.is(':checked') !== that.$label.hasClass('is-checked')) {
-            if (that.$el.is(':checked')) {
-              that.$label.addClass('is-checked').attr('aria-checked', true);
-            } else {
-              that.$label.removeClass('is-checked').attr('aria-checked', false);
-            }
-          }
-        } else {
-          // 普通checkbox
-          if (that.$el.is(':checked') !== that.$parent.hasClass('is-checked')) {
-            if (that.$el.is(':checked')) {
-              that.$parent.addClass('is-checked');
-              that.$label.addClass('is-checked').attr('aria-checked', true);
-            } else {
-              that.$parent.removeClass('is-checked');
-              that.$label.removeClass('is-checked').attr('aria-checked', false);
-            }
-          }
-        }
+        that.update();
         !local && options.onchange && options.onchange(e);
       },
       disabled: function () {
-        if (this.options.button) {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true);
-          this.$el.attr('disabled', true);
-        } else {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true);
-          this.$parent.addClass('is-disabled');
-          this.$el.attr('disabled', true);
-        }
+        this.$el.attr('aria-disabled', true).addClass('is-disabled');
+        this.$checkbox.attr('disabled', true);
+        this.options.disabled = true;
       },
       show: function () {
-        if (this.options.button) {
-          this.$label.removeClass('is-disabled').attr('aria-disabled', false);
-          this.$el.attr('disabled', false);
-        } else {
-          this.$label.removeClass('is-disabled').attr('aria-disabled', false);
-          this.$parent.removeClass('is-disabled');
-          this.$el.attr('disabled', false);
-        }
+        this.$el.attr('aria-disabled', false).removeClass('is-disabled');
+        this.$checkbox.attr('disabled', false);
+        this.options.disabled = false;
       },
-      set: function (event) {
-        if (this.$el.is(':disabled')) {
-          return;
-        }
-        if (event === 'checked' || event === true) {
-          !this.options.button && this.$parent.removeClass('is-indeterminate');
-          this.$el.prop('checked', true);
-          this.onchange('', this.options, this, true);
-        } else if (event === 'unchecked' || event === false) {
-          !this.options.button && this.$parent.removeClass('is-indeterminate');
-          this.$el.prop('checked', false);
-          this.onchange('', this.options, this, true);
-        } else if (event === 'indeterminate' && !this.options.button) {
-          this.$el.prop('checked', false);
-          this.onchange('', this.options, this, true);
-          this.$parent.addClass('is-indeterminate');
-        }
+      set: function (on) {
+        this.$checkbox.attr('checked', !!on);
+        this.options.on = !!on;
+        this.update();
+      },
+      get: function () {
+        return this.options.on ? this.options.activeValue : this.options.inactiveValue;
       }
     };
     $.fn[componentName] = function () {
@@ -148,14 +109,16 @@ export default {
     };
     $.fn[componentName].defaults = {
       'disabled': false,
-      'border': false,
-      'size': '',
-      'button': false,
-      'checked': false,
-      'min': 0,
-      'max': 0,
-      'indeterminate': '',
-      'onchange': ''
+      'width': 40,
+      'activeHtml': '',
+      'inactiveHtml': '',
+      'activeValue': true,
+      'inactiveValue': false,
+      'activeColor': '',
+      'inactiveColor': '',
+      'name': '',
+      'onchange': '',
+      'on': false
     };
   },
   componentName: 'switch'

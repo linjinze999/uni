@@ -145,7 +145,7 @@ export default {
       var option = arguments[0],
         args = arguments[1],
         value,
-        allowedMethods = ['show', 'disabled', 'set'];
+        allowedMethods = ['show', 'disabled', 'set', 'get', 'update'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-checkbox'),
