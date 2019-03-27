@@ -13,102 +13,27 @@ export default {
         }
         var options = this.options,
           that = this;
-        if (options.button) {
-          // 按钮radio
-          this.$label = $('<label role="radio" tabindex="0"></label>');
-          var _classPrefix = 'el-radio-button';
-          var _classSize = options.size ? (_classPrefix + '--' + options.size) : '';
-          var _classChecked = this.$el.is(':checked') ? 'is-active' : '';
-          this.$label.addClass([_classPrefix, _classSize, _classChecked].join(' '));
-          this.$inner = $('<span class="' + _classPrefix + '__inner">' + (this.$el.attr('label') || '') + '</span>');
-          var _classRadio = 'el-radio-button__orig-radio';
-          this.$el.addClass(_classRadio).attr('aria-hidden', true).attr('tabindex', -1);
-          if (this.$el.is(':checked')) {
-            this.$label.attr('aria-checked', true).attr('tabindex', 0);
-          }
-          this.$el.wrap(this.$label);
-          this.$label = $(this.$el.parent()[0]);
-          this.$el.after(this.$inner);
-          $(this.$label.parent()[0]).addClass('el-radio-group').attr('role', 'radiogroup');
-        } else {
-          // 普通radio
-          this.$label = $('<label role="radio" tabindex="0"></label>');
-          var _classPrefix = 'el-radio';
-          var _classSize = (options.size && options.border) ? (_classPrefix + '--' + options.size) : '';
-          var _classBorder = options.border ? 'is-bordered' : '';
-          var _classChecked = this.$el.is(':checked') ? 'is-checked' : '';
-          this.$label.addClass([_classPrefix, _classSize, _classBorder, _classChecked].join(' '));
-          this.$inner = $('<span class="' + _classPrefix + '__inner"></span>');
-          var _classRadio = 'el-radio__original';
-          this.$el.addClass(_classRadio).attr('aria-hidden', true).attr('tabindex', -1);
-          this.$parent = $('<span class="el-radio__input"></span>');
-          if (this.$el.is(':checked')) {
-            this.$parent.addClass('is-checked');
-            this.$label.attr('aria-checked', true);
-          }
-          this.$el.wrap(this.$parent);
-          this.$parent = $(this.$el.parent()[0]);
-          this.$el.before(this.$inner);
-          this.$parent.wrap(this.$label);
-          this.$label = $(this.$parent.parent()[0]);
-          this.$parent.after('<span class="el-radio__label">' + (this.$el.attr('label') || '') + '</span>');
-        }
-        (options.disabled || this.$el.attr('disabled')) && this.disabled();
-        options.disabled = Boolean(this.$el.attr('disabled'));
-        // 监听设置选中状态
-        this.$el.on('change', function(){
-          that.onchange(options, that);
-        });
-        this.hasInit = true;
-        if (options.value === this.$el.attr('value')) {
-          this.$el.attr('checked', true);
-        }
-        this.$el.trigger('change');
-      },
-      onchange: function (options, that) {
-        if (options.button) {
-          // 按钮
-          if (that.$el.is(':checked') !== that.$label.hasClass('is-active')) {
-            if (that.$el.is(':checked')) {
-              that.$label.addClass('is-active').attr('tabindex', 0).attr('aria-checked', true);
-            } else {
-              that.$label.removeClass('is-active').attr('tabindex', -1).attr('aria-checked', false);
-            }
-            $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
-          }
-        } else {
-          // 普通radio
-          if (that.$el.is(':checked') !== that.$parent.hasClass('is-checked')) {
-            if (that.$el.is(':checked')) {
-              that.$parent.addClass('is-checked');
-              that.$label.addClass('is-checked').attr('aria-checked', true);
-            } else {
-              that.$parent.removeClass('is-checked');
-              that.$label.removeClass('is-checked').attr('aria-checked', false);
-            }
-            $('input[type=radio][name=' + that.$el.attr('name') + ']').not(that.$el).not('[disabled]').trigger('change');
-          }
-        }
-      },
-      disabled: function () {
-        if (this.options.button) {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true).attr('tabindex', -1);
-          this.$el.attr('disabled', true);
-        } else {
-          this.$label.addClass('is-disabled').attr('aria-disabled', true).attr('tabindex', -1);
-          this.$parent.addClass('is-disabled');
-          this.$el.attr('disabled', true);
-        }
-      },
-      show: function () {
-        if (this.options.button) {
-          this.$label.removeClass('is-disabled').attr('aria-disabled', false);
-          this.$el.is(':checked') ? this.$label.attr('tabindex', 0) : this.$label.attr('tabindex', -1);
-          this.$el.attr('disabled', false);
-        } else {
-          this.$label.removeClass('is-disabled').attr('aria-disabled', false).attr('tabindex', 0);
-          this.$parent.removeClass('is-disabled');
-          this.$el.attr('disabled', false);
+        this.$el.attr({
+          'role': 'slider',
+          'aria-valuemin': 0,
+          'tabindex': 0,
+          'aria-valuemax': options.max
+        }).addClass('el-rate');
+        this.$rates = [];
+        for( var i = 0; i < 5; i++) {
+          (function(_i){
+            var _rate = $('<span class="el-rate__item" style="cursor: pointer;"></span>');
+            var _iconp = $('<i class="el-rate__icon el-icon-star-off" style="color: rgb(198, 209, 222);"></i>');
+            var _iconc = $('<i class="el-rate__decimal el-icon-star-on" style="color: rgb(247, 186, 42); width: 50%;"></i>');
+            _iconp.append(_iconc);
+            _rate.append(_iconp);
+            that.$el.append(_rate);
+            that.$rates.push({
+              rate: _rate,
+              iconp: _iconp,
+              iconc: _iconc
+            });
+          })(i);
         }
       }
     };
@@ -137,10 +62,22 @@ export default {
     };
     $.fn[componentName].defaults = {
       'disabled': false,
-      'border': false,
-      'size': '',
-      'button': false,
-      'value': ''
+      'allowHalf': false,
+      'max': 5,
+      'lowThreshold': 2,
+      'highThreshold': 4,
+      'colors': ['#F7BA2A', '#F7BA2A', '#F7BA2A'],
+      'voidColor': '#C6D1DE',
+      'disabledVoidColor': '#EFF2F7',
+      'iconClasses': ['el-icon-star-on', 'el-icon-star-on','el-icon-star-on'],
+      'voidIconClass': '#EFF2F7',
+      'disabledVoidIconClass': 'el-icon-star-on',
+      'showText': false,
+      'showScore': false,
+      'textColor': '#1F2D3D',
+      'texts': ['极差', '失望', '一般', '满意', '惊喜'],
+      'scoreTemplate': '{value}',
+      'onchange': ''
     };
   },
   componentName: 'rate'

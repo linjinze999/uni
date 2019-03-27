@@ -4,6 +4,7 @@ import Button from './element/button';
 import Radio from './element/radio';
 import Checkbox from './element/checkbox';
 import Switch from './element/switch';
+import Rate from './element/rate';
 import Dialog from './element/dialog';
 import Loading from './element/loading';
 import Progress from './element/progress';
@@ -21,6 +22,7 @@ const fn = [
   Switch,
   Loading,
   Progress,
-  Button
+  Button,
+  Rate
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));
