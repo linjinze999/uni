@@ -28,7 +28,11 @@ export default {
           .append(this.$switch).append(this.$right);
         // 监听开关事件
         this.$switch.on('click', function(e){
+          if (that.options.disabled) {
+            return;
+          }
           that.$checkbox.attr('checked', !that.$checkbox.is(':checked'));
+          that.options.on = that.$checkbox.is(':checked');
           that.onchange(e, options, that, false);
         });
         options.on && this.$checkbox.attr('checked', true);
@@ -80,14 +84,14 @@ export default {
         this.update();
       },
       get: function () {
-        return this.options.on ? this.options.activeValue : this.options.inactiveValue;
+        return this.$checkbox.is(':checked') ? this.options.activeValue : this.options.inactiveValue;
       }
     };
     $.fn[componentName] = function () {
       var option = arguments[0],
         args = arguments[1],
         value,
-        allowedMethods = ['show', 'disabled', 'set'];
+        allowedMethods = ['show', 'disabled', 'set', 'get'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-switch'),
