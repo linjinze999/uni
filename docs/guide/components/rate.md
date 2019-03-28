@@ -2,14 +2,70 @@
 评分组件
 
 ### 基础用法
-::: demo 通过`activeHtml`、`inactiveHtml`设置显示文本；通过`activeColor`、`inactiveColor`设置开关背景色。
+::: demo 评分被分为三个等级，可以利用颜色对分数及情感倾向进行分级（默认情况下不区分颜色）。三个等级所对应的颜色用过`colors`属性设置，而它们对应的两个阈值则通过 `lowThreshold` 和 `highThreshold` 设定。
 
 ``` html
-<div id="demo-rate1"></div><br><br>
+默认不区分颜色
+<div id="demo-rate1"></div><br>
+区分颜色
 <div id="demo-rate2"></div>
 
 <script>
   $('#demo-rate1').rate();
+  $('#demo-rate2').rate({colors: ['#99A9BF', '#F7BA2A', '#FF9900']});
+</script>
+```
+:::
+
+### 辅助文字
+用辅助文字直接地表达对应分数
+::: demo 为组件设置 `showText` 属性会在右侧显示辅助文字。通过设置 `texts` 可以为每一个分值指定对应的辅助文字。`texts` 为一个数组，长度应等于最大值 `max`。
+
+``` html
+显示文本
+<div id="demo-rate3"></div><br>
+显示分数
+<div id="demo-rate4"></div>
+
+<script>
+  $('#demo-rate3').rate({showText: true});
+  $('#demo-rate4').rate({showScore: true});
+</script>
+```
+:::
+
+### 其它 icon
+当有多层评价时，可以用不同类型的 icon 区分评分层级
+::: demo 设置`iconClasses`属性可以自定义对应 3 个不同分段的图标。本例还使用`voidIconClass`指定了未选中时的图标类名。
+
+``` html
+<div id="demo-rate5"></div>
+
+<script>
+  $('#demo-rate5').rate({
+    iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
+    voidIconClass: 'icon-rate-face-off',
+    colors: ['#99A9BF', '#F7BA2A', '#FF9900']
+  });
+</script>
+```
+:::
+
+### 只读
+只读的评分用来展示分数，允许出现半星
+::: demo 为组件设置 `disabled` 属性表示组件为只读，支持小数分值。此时若设置 `showScore`，则会在右侧显示目前的分值。可以提供 `scoreTemplate` 作为显示模板，模板为一个包含了 `{value}` 的字符串，`{value}` 会被解析为分值。。
+
+``` html
+<div id="demo-rate6"></div>
+
+<script>
+  $('#demo-rate6').rate({
+    value: 3,
+    disabled: true,
+    showScore: true,
+    textColor: '#ff9900',
+    scoreTemplate: '{value}'
+  });
 </script>
 ```
 :::

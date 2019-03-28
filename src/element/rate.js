@@ -22,7 +22,7 @@ export default {
         this.$rates = [];
         for (var i = 0; i < 5; i++) {
           (function (_i) {
-            var _rate = $('<span class="el-rate__item" style="cursor: pointer;"></span>');
+            var _rate = $('<span class="el-rate__item" style="cursor: pointer"></span>');
             var _iconp = $('<i class="el-rate__icon ' + options.voidIconClass + '" style="' + options.voidColor + ';"></i>');
             var _iconActive = '';
             if (_i < options.lowThreshold) {
@@ -41,23 +41,32 @@ export default {
               iconp: _iconp,
               iconc: _iconc
             });
-            _iconp.on('click', function (e) {
-              that.options.value = (_i + 1);
+            _rate.on('click', function (e) {
+              var oldValue = that.options.value,
+                newValue = (_i + 1);
+              that.options.value = newValue;
               that.update(_i);
+              that.onchange && that.onchange(newValue, oldValue);
             });
-            _iconp.on('mousemove', function (e) {
-              _iconp.addClass('hover');
+            _rate.on('mousemove', function (e) {
+              !that.options.disabled && _iconp.addClass('hover');
               that.update(_i + 1, true);
             });
-            _iconp.on('mouseleave', function (e) {
-              _iconp.removeClass('hover');
+            _rate.on('mouseleave', function (e) {
+              !that.options.disabled && _iconp.removeClass('hover');
               that.update(_i + 1);
             });
-
           })(i);
         }
+        that.$text = $('<span class="el-rate__text" style="color: ' + options.textColor + '"></span>');
+        that.$el.append(that.$text);
+        that.update(0, false, true);
+        options.disabled && that.disabled();
       },
-      update: function (idx, isTemp) {
+      update: function (idx, isTemp, local) {
+        if (this.options.disabled && !local) {
+          return;
+        }
         var options = this.options,
           that = this,
           _i = 0,
@@ -92,7 +101,23 @@ export default {
           for (; _i < options.max; _i++) {
             that.$rates[_i].iconc.css('width', '0');
           }
+          // 显示文本/分数
+          if (options.showText && options.value > 0) {
+            that.$text.html(options.texts[Math.floor(options.value) - 1]);
+          } else if (options.showScore) {
+            that.$text.html(options.scoreTemplate.replace(/{ *value *}/g, options.value));
+          } else {
+            that.$text.html('');
+          }
         }
+      },
+      disabled: function () {
+        this.options.disabled = true;
+        this.$el.find('.el-rate__item').css('cursor', 'auto');
+      },
+      show: function () {
+        this.options.disabled = false;
+        this.$el.find('.el-rate__item').css('cursor', 'pointer');
       }
     };
     $.fn[componentName] = function () {
