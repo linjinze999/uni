@@ -71,25 +71,32 @@
 :::
 
 ### 参数
-| 参数      | 说明                       | 类型      | 可选值 | 默认值  |
-|---------- |--------------------------- |---------- |------  |-------- |
-| disabled     | 是否禁用开关 | boolean | - | `false` |
-| on     | 开关是否开启 | boolean | - | `false` |
-| width     | 开关宽度（单位`px`） | number | - | `40` |
-| activeHtml | 开关右边文本（开状态），支持html | string | - | `''` |
-| inactiveHtml | 开关左边文本（关状态），支持html | string | - | `''` |
-| activeValue | 开状态的值（由`get`方法获取） | - | - | `true` |
-| inactiveValue | 关状态的值（由`get`方法获取） | - | - | `false` |
-| activeColor | 开状态的背景色 | string | - | - |
-| inactiveColor | 关状态的背景色 | string | - | - |
-| name | 开关内置`checkbox`的`name`属性 | string | - | - |
-| onchange | 开关变化时触发的事件（`set`方法不会触发） | function | - | - |
+| 参数      | 说明    | 类型      | 可选值       | 默认值   |
+|---------- |-------- |---------- |-------------  |-------- |
+| value | 分数值 | number | - | `0` |
+| max | 最大分值 | number | - | `5` |
+| disabled | 是否为只读 | boolean | - | `false` |
+| allowHalf | 是否允许半选 | boolean | - | `false` |
+| lowThreshold | 低分和中等分数的界限值，值本身被划分在低分中 | number | - | `2` |
+| highThreshold | 高分和中等分数的界限值，值本身被划分在高分中 | number | - | `4` |
+| colors | icon 的颜色数组，共有 3 个元素，为 3 个分段所对应的颜色 | array | - | `['#F7BA2A', '#F7BA2A', '#F7BA2A']` |
+| voidColor | 未选中 icon 的颜色 | string | - | `'#C6D1DE'` |
+| disabledVoidColor | 只读时未选中 icon 的颜色 | string | - | `'#EFF2F7'` |
+| iconClasses | icon 的类名数组，共有 3 个元素，为 3 个分段所对应的类名 | array | - | `['el-icon-star-on', 'el-icon-star-on','el-icon-star-on']` |
+| voidIconClass | 未选中 icon 的类名 | string | - | `'el-icon-star-off'` |
+| disabledVoidIconClass | 只读时未选中 icon 的类名 | string | - | `'el-icon-star-on'` |
+| showText | 是否显示辅助文字，若为真，则会从 texts 数组中选取当前分数对应的文字内容 | boolean | - | `false` |
+| showScore | 是否显示当前分数，（优先级低于 show-text ） | boolean | - | `false` |
+| textColor | 辅助文字的颜色 | string | - | `'#1F2D3D'` |
+| texts | 辅助文字数组 | array | - | `['极差', '失望', '一般', '满意', '惊喜']` |
+| scoreTemplate | 分数显示模板 | string | - | `'{value}'` |
+| onchange | 值改变时触发的事件（参数`(newValue, oldValue)`） | function | - | - |
 
 ### 方法
-你可以通过调用`$(el).switch('xxx')`来调用开关方法。
+你可以通过调用`$(el).rate('xxx')`来调用开关方法。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
-| disabled | 禁用开关 | `$(el).switch('disabled')` |
-| show | 取消禁用状态 | `$(el).switch('show')` |
-| set | 设置开关选中状态（不会触发 change 事件） | `$(el).switch('set', true / false)` |
-| get | 获取开关值（`activeValue`/`inactiveValue`） | `$(el).switch('get')` |
+| disabled | 禁用评分 | `$(el).rate('disabled')` |
+| show | 取消禁用状态 | `$(el).rate('show')` |
+| set | 设置分数（不会触发 change 事件） | `$(el).rate('set', 3)` |
+| get | 获取分数 | `$(el).rate('get')` |

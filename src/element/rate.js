@@ -45,8 +45,8 @@ export default {
               var oldValue = that.options.value,
                 newValue = (_i + 1);
               that.options.value = newValue;
-              that.update(_i);
-              that.onchange && that.onchange(newValue, oldValue);
+              that.update(_i + 1);
+              oldValue !== newValue && that.onchange && that.onchange(newValue, oldValue);
             });
             _rate.on('mousemove', function (e) {
               !that.options.disabled && _iconp.addClass('hover');
@@ -70,7 +70,8 @@ export default {
         var options = this.options,
           that = this,
           _i = 0,
-          _color = 0;
+          _color = 0,
+          _score = '';
         if (isTemp) {
           // 临时修改
           if (idx < options.lowThreshold) {
@@ -86,6 +87,7 @@ export default {
           for (; _i < options.max; _i++) {
             that.$rates[_i].iconc.css('width', '0');
           }
+          _score = options.scoreTemplate.replace(/{ *value *}/g, idx);
         } else {
           // 正式修改
           if (options.value < options.lowThreshold) {
@@ -101,14 +103,15 @@ export default {
           for (; _i < options.max; _i++) {
             that.$rates[_i].iconc.css('width', '0');
           }
-          // 显示文本/分数
-          if (options.showText && options.value > 0) {
-            that.$text.html(options.texts[Math.floor(options.value) - 1]);
-          } else if (options.showScore) {
-            that.$text.html(options.scoreTemplate.replace(/{ *value *}/g, options.value));
-          } else {
-            that.$text.html('');
-          }
+          _score = options.scoreTemplate.replace(/{ *value *}/g, options.value);
+        }
+        // 显示文本/分数
+        if (options.showText && options.value > 0) {
+          that.$text.html(options.texts[Math.floor(options.value) - 1]);
+        } else if (options.showScore) {
+          that.$text.html(_score);
+        } else {
+          that.$text.html('');
         }
       },
       disabled: function () {
@@ -118,12 +121,19 @@ export default {
       show: function () {
         this.options.disabled = false;
         this.$el.find('.el-rate__item').css('cursor', 'pointer');
+      },
+      set: function (value) {
+        this.options.value = value;
+        this.update(0, false, true);
+      },
+      get: function () {
+        return this.options.value;
       }
     };
     $.fn[componentName] = function () {
       var option = arguments[0],
         value,
-        allowedMethods = ['show', 'disabled'];
+        allowedMethods = ['show', 'disabled', 'set', 'get'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-rate'),
