@@ -2,7 +2,7 @@
 用于展示操作进度，告知用户当前状态和预期。
 
 ### 线形进度条
-::: demo 调用`$('#id').progress()`方法初始化进度条；调用`$('#id').progress('update')`方法更新进度条，`update`方法支持传入number或object，number表示更新百分比，object支持更新三个参数：`percentage`、`color`、`text`。
+::: demo 调用`$('#id').progress()`方法初始化进度条；调用`$('#id').progress('set')`方法更新进度条，`set`方法支持传入number或object，number表示更新百分比，object支持更新三个参数：`percentage`、`color`、`text`。
 
 ```html
 百分比外显：
@@ -22,27 +22,27 @@
   $('#progress2').progress({textInside: true, strokeWidth: 18});
 })();
 function progress1() {
-  $('#progress1, #progress2').progress('update', {
+  $('#progress1, #progress2').progress('set', {
     text: '',
     percentage: 0,
     color: '#20a0ff'
   });
 }
 function progress2() {
-  $('#progress1, #progress2').progress('update', 30);
+  $('#progress1, #progress2').progress('set', 30);
 }
 function progress3() {
-  $('#progress1, #progress2').progress('update', 60);
+  $('#progress1, #progress2').progress('set', 60);
 }
 function progress4() {
-  $('#progress1, #progress2').progress('update', {
+  $('#progress1, #progress2').progress('set', {
     text: 'Done',
     percentage: 100,
     color: '#67c23a'
   });
 }
 function progress5() {
-  $('#progress1, #progress2').progress('update', {
+  $('#progress1, #progress2').progress('set', {
     text: 'Fail',
     percentage: 100,
     color: '#ff4949'
@@ -69,27 +69,27 @@ function progress5() {
   $('#progress3').progress({type: 'circle'});
 })();
 function progress6() {
-  $('#progress3').progress('update', {
+  $('#progress3').progress('set', {
     text: '',
     percentage: 0,
     color: '#20a0ff'
   });
 }
 function progress7() {
-  $('#progress3').progress('update', 30);
+  $('#progress3').progress('set', 30);
 }
 function progress8() {
-  $('#progress3').progress('update', 60);
+  $('#progress3').progress('set', 60);
 }
 function progress9() {
-  $('#progress3').progress('update', {
+  $('#progress3').progress('set', {
     text: 'Done',
     percentage: 100,
     color: '#67c23a'
   });
 }
 function progress10() {
-  $('#progress3').progress('update', {
+  $('#progress3').progress('set', {
     text: 'Fail',
     percentage: 100,
     color: '#ff4949'
@@ -113,7 +113,7 @@ function progress10() {
 | text | 自定义文字（覆盖百分比显示） | string | - | `''` |
 
 ### 方法
-你可以通过调用`$(#id).progress('update', xxx)`来更新**已被初始化过**的元素的进度状态。
+你可以通过调用`$(#id).progress('set', xxx)`来更新**已被初始化过**的元素的进度状态。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------------------------- |
-| update | 更新进度条状态，传入number表示更新百分比进度，传入object支持更新进度条的三种状态：`percentage`、`color`、`text`。 | `$(#id).progress('update', 20)`或`$(#id).progress('update', {text: 'Done', percentage: 100, color: '#67c23a'}})` |
+| set | 更新进度条状态，传入number表示更新百分比进度，传入object支持更新进度条的三种状态：`percentage`、`color`、`text`。 | `$(#id).progress('set', 20)`或`$(#id).progress('set', {text: 'Done', percentage: 100, color: '#67c23a'}})` |

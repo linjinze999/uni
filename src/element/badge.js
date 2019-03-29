@@ -6,51 +6,73 @@ export default {
     }
 
     Badge.prototype = {
-      constructor: Loading,
+      constructor: Badge,
       init: function () {
-        var options = this.options;
-        // 初始化遮罩
-        this.lid = new Date().getTime();
-        if (this.$el.css('position') === 'static' && !this.$el.is('body') && !this.$el.is('html')) {
-          this.$el.addClass('el-loading-parent--relative');
+        if (this.hasInit) {
+          return;
         }
-        var _background = options.background ? ('background-color: ' + options.background + ';') : '';
-        this.$el.append('<div id="' + this.lid + '" class="el-loading-mask" style="display: none;' + _background + '"></div>');
-        this.$load = $('#' + this.lid);
-        this.update();
-      },
-      update: function() {
         var options = this.options;
-        var _main = typeof options.main === 'function' ? options.main() : options.main;
-        if (_main) {
-          this.$load.html(_main);
+        this.$parent = $('<div class="el-badge"></div>');
+        this.$badge = $('<sup class="el-badge__content el-badge__content--' + options.type + ' is-fixed"></sup>');
+        options.hidden && this.$badge.hide();
+        options.isDot && this.$badge.addClass('is-dot');
+        if (typeof options.value === 'number' && typeof options.max === 'number') {
+          this.$badge.html(options.value > options.max ? options.max + '+' : options.value);
+        } else if (!options.isDot) {
+          this.$badge.html(options.value);
+        }
+        this.$el.wrap(this.$parent);
+        this.$parent = $(this.$el.parent()[0]);
+        this.$parent.append(this.$badge);
+        this.hasInit = true;
+      },
+      update: function () {
+        if (this.options.hidden) {
+          this.$badge.hide();
         } else {
-          var _icon = options.icon || '<svg viewBox="25 25 50 50" class="circular"><circle cx="50" cy="50" r="20" ' +
-            'fill="none" class="path"></circle></svg>';
-          var _text = typeof options.text === 'function' ? options.text() : options.text;
-          _text = _text ? ('<p class="el-loading-text">' + _text + '</p>') : '';
-          this.$load.html('<div class="el-loading-spinner">' + _icon + _text + '</div>');
+          this.$badge.show();
+        }
+        if (this.options.isDot) {
+          this.$badge.addClass('is-dot');
+        } else {
+          this.$badge.removeClass('is-dot');
+        }
+        if (typeof this.options.value === 'number' && typeof this.options.max === 'number') {
+          this.$badge.html(this.options.value > this.options.max ? this.options.max + '+' : this.options.value);
+        } else if (!this.options.isDot) {
+          this.$badge.html(this.options.value);
+        } else {
+          this.$badge.html('');
         }
       },
-      show: function () {
+      set: function (value) {
+        if (typeof value === 'string' || typeof value === 'number') {
+          this.options.value = value;
+        } else {
+          value = value || {};
+          this.options.value = value.hasOwnProperty('value') ? value.value : this.options.value;
+          this.options.max = value.hasOwnProperty('max') ? value.max : this.options.max;
+          this.options.isDot = value.hasOwnProperty('isDot') ? value.isDot : this.options.isDot;
+          this.options.hidden = value.hasOwnProperty('hidden') ? value.hidden : this.options.hidden;
+          this.options.type = value.hasOwnProperty('type') ? value.type : this.options.type;
+        }
         this.update();
-        this.$load.show();
       },
-      hide: function () {
-        this.$load.hide();
+      get: function () {
+        return this.options.value;
       }
     };
     $.fn[componentName] = function () {
       var option = arguments[0],
+        args = arguments,
         value,
-        allowedMethods = ['show', 'hide'];
+        allowedMethods = ['set', 'get'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-badge'),
           options = $.extend({}, $.fn[componentName].defaults,
             $this.data(), typeof option === 'object' && option);
-        if (!data || options.override) {
-          data && data.lid && $('#' + data.lid).remove();
+        if (!data) {
           data = new Badge($this, options);
           $this.data('u-badge', data);
           data.init();
@@ -59,20 +81,17 @@ export default {
           if ($.inArray(option, allowedMethods) < 0) {
             throw 'Unknown method: ' + option;
           }
-          value = data[option]();
-        } else {
-          options.autoShow && data.show();
+          value = data[option](args[1]);
         }
       });
       return typeof value !== 'undefined' ? value : this;
     };
     $.fn[componentName].defaults = {
-      'icon': '',
-      'text': '',
-      'main': '',
-      'background': '',
-      'autoShow': true,
-      'override': false
+      'value': '',
+      'max': '',
+      'isDot': false,
+      'hidden': false,
+      'type': '',
     };
   },
   componentName: 'badge'

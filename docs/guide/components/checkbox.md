@@ -77,7 +77,7 @@
       $('[name=Demo12]').checkbox('set', $('[name=Demo12All]').is(':checked'));
     }
   });
-  
+
 </script>
 ```
 :::
@@ -179,6 +179,7 @@
 :::
 
 ### 参数
+你可以通过修改`$.fn.checkbox.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).checkbox({xx: xx})`。
 | 参数      | 说明                       | 类型      | 可选值 | 默认值  |
 |---------- |--------------------------- |---------- |------  |-------- |
 | disabled     | 是否禁用checkbox（若 Checkbox 有`disabled`属性则以其为准） | boolean | - | `false` |

@@ -2,73 +2,101 @@
 出现在按钮、图标旁的数字或状态标记。
 
 ### 基本用法
-基础的加载动效用法。
-::: demo 调用`$('#id').loading()`方法初始化加载动效，调用`$('#id').loading('hide')`取消加载。
+展示新消息数量。
+::: demo 调用`$(el).badge()`方法初始化标记。
 
 ```html
 <style>
-.demo-loading1 { text-align: center; height: 100px; padding-top: 36px;
-  box-sizing: border-box; border: 1px solid #ccc; }
+#demo-badge-parent1 .el-badge{ margin-right: 40px; }
 </style>
 
-<div id="loading1" class="demo-loading1">Loading ...</div><br>
-<button onclick="loading1()" class="el-button">显示加载动效</button>
-<button onclick="loading2()" class="el-button">隐藏加载动效</button>
+<div id="demo-badge-parent1">
+  <button class="el-button" id="demo-badge1">评论</button>
+  <button class="el-button" id="demo-badge2">回复</button>
+  <button class="el-button" id="demo-badge3">评论</button>
+  <button class="el-button" id="demo-badge4">回复</button>
+  <span id="demo-badge5">评论</span>
+</div>
 
 <script>
-function loading1() { $('#loading1').loading(); }
-function loading2() { $('#loading1').loading('hide'); }
+$('#demo-badge1').badge({value: 12});
+$('#demo-badge2').badge({value: 12, max: 9});
+$('#demo-badge3').badge({value: 1, type: 'primary'});
+$('#demo-badge4').badge({value: 2, type: 'warning'});
+$('#demo-badge5').badge({value: 0, hidden: true});
 </script>
 ```
 :::
 
-### 自定义
-自定义加载特效。
-::: demo 通过配置`icon`、`text`、`main`、`background`来自定义特效。
+### 自定义内容
+可以显示数字以外的文本内容，或以红点的形式标注需要关注的内容。
+::: demo `value`可以是`number`或`string`。
 
 ```html
 <style>
-.demo-loading2 { text-align: center; height: 100px; padding-top: 36px;
-  box-sizing: border-box; border: 1px solid #ccc; }
+#demo-badge-parent2 .el-badge{ margin-right: 40px; }
 </style>
 
-<div id="loading2" class="demo-loading2">Loading ...</div><br>
-<button onclick="loading3()" class="el-button">配置型动效</button>
-<button onclick="loading4()" class="el-button">自定义动效</button>
+<div id="demo-badge-parent2">
+  <button class="el-button" id="demo-badge6">评论</button>
+  <button class="el-button" id="demo-badge7">回复</button>
+  <button class="el-button el-button--primary" id="demo-badge8"><i class="el-icon-share"></i></button>
+  <span id="demo-badge9">数据查询</span>
+</div>
 
 <script>
-function loading3() {
-  $('#loading2').loading({
-    icon: '<i class="el-icon-loading"></i>',
-    text: 'Loading ...',
-    override: true
-  });
+$('#demo-badge6').badge({value: 'new'});
+$('#demo-badge7').badge({value: 'hot'});
+$('#demo-badge8').badge({isDot: true});
+$('#demo-badge9').badge({isDot: true});
+</script>
+```
+:::
+
+### 方法
+::: demo 通过调用`$(el).badge('set', xxx)`、`$(el).badge('get')`设置、获取值，设置值可以直接传入`value`，也可以传入新的配置参数。
+
+```html
+<style>
+#demo-badge-parent3 .el-badge{ margin-right: 40px; }
+</style>
+
+<div id="demo-badge-parent3">
+  <button class="el-button" id="demo-badge10" onclick="demoBadge1()">设置值</button>
+  <button class="el-button" id="demo-badge11" onclick="demoBadge2()">获取值</button>
+  <button class="el-button" id="demo-badge12" onclick="demoBadge3()">重新设置</button>
+</div>
+
+<script>
+$('#demo-badge10').badge({value: 9});
+$('#demo-badge11').badge({value: 5});
+$('#demo-badge12').badge({isDot: true});
+function demoBadge1 () {
+  $('#demo-badge10').badge('set', 8);
 }
-function loading4() {
-  $('#loading2').loading({
-    main: '<div class="el-loading-spinner" style="color: #fff;">Loading ...</div>',
-    background: 'rgba(0, 0, 0, 0.8)',
-    override: true
-  });
+function demoBadge2 () {
+  alert($('#demo-badge11').badge('get'));
+}
+function demoBadge3 () {
+  $('#demo-badge12').badge('set', {max: 5, value: 3, isDot: false});
 }
 </script>
 ```
 :::
 
 ### 参数
-你可以通过修改`$.fn.loading.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(#id).loading({xx: xx})`。
+你可以通过修改`$.fn.badge.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).badge({xx: xx})`。
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
-| icon | 自定义加载图标，支持html | string | - | `''` |
-| text | 自定义加载文本，支持html、函数返回 | string / function | - | `''` |
-| main | 自定义加载特效（覆盖`icon`和`text`），支持html、函数返回，你可以添加`el-loading-spinner`类让其居中 | string / function | - | `''` |
-| background | 遮罩背景色 | string | - | `''` |
-| autoShow | 初始化时自动显示特效 | boolean | - | `true` |
-| override | 若有旧特效，是否重新覆盖 | boolean | - | `false` |
+| value | 显示值 | number / string | - | `''` |
+| max | 最大值，超过最大值会显示 '{max}+'，要求 value 是 Number 类型 | number | - | - |
+| isDot | 小圆点 | boolean | - | `false` |
+| hidden | 隐藏 badge | boolean | - | `false` |
+| type | 类型 | string | primary / success / warning / danger / info | - |
 
 ### 方法
-你可以通过调用`$(#id).loading('xxx')`来调用**已被初始化过**的元素的Loading方法。
+你可以通过调用`$(el).badge('xxx')`来调用**已被初始化过**的元素的Badge方法。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
-| show | 显示加载特效 | `$(#id).loading('show')` |
-| hide | 隐藏加载特效 | `$(#id).loading('hide')` |
+| set | 重新设置Badge（可直接传入值，也可传入新的配置参数） | `$(el).badge('set', 9)`或`$(el).badge('set', {'hidden', true})` |
+| get | 获取值 | `$(el).badge('get')` |

@@ -115,6 +115,7 @@ export default {
         that.$el.append(that.$text);
         that.update(0, false, true);
         options.disabled && that.disabled();
+        this.hasInit = true;
       },
       update: function (idx, isTemp, local) {
         if (this.options.disabled && !local) {

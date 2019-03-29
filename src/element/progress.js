@@ -63,7 +63,7 @@ export default {
         }
         this.$el.append(_html.join(''));
       },
-      update: function (options) {
+      set: function (options) {
         // 更新数据
         if (typeof options === 'number') {
           this.options.percentage = options;
@@ -91,7 +91,7 @@ export default {
       var option = arguments[0],
         args = arguments,
         value,
-        allowedMethods = ['update'];
+        allowedMethods = ['set'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-progress'),
