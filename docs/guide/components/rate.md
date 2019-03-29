@@ -60,12 +60,25 @@
 
 <script>
   $('#demo-rate6').rate({
-    value: 3,
+    value: 3.7,
     disabled: true,
     showScore: true,
     textColor: '#ff9900',
     scoreTemplate: '{value}'
   });
+</script>
+```
+:::
+
+### 方法
+调用方法
+::: demo 示模板，模板为一个包含了 `{value}` 的字符串，`{value}` 会被解析为分值。。
+
+``` html
+<div id="demo-rate7"></div>
+
+<script>
+  $('#demo-rate7').rate({ allowHalf: true, showScore: true });
 </script>
 ```
 :::

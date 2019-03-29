@@ -41,16 +41,39 @@ export default {
               iconp: _iconp,
               iconc: _iconc
             });
-            _rate.on('click', function (e) {
+            _rate.on('click', function (event) {
               var oldValue = that.options.value,
                 newValue = (_i + 1);
+              if (that.options.allowHalf) {
+                var target = $(event.target);
+                if (target.hasClass('el-rate__item')) {
+                  target = target.find('.el-rate__icon');
+                }
+                if (target.hasClass('el-rate__decimal')) {
+                  target = target.parent();
+                }
+                var left = event.offsetX * 2 <= target.innerWidth();
+                newValue = left ? (_i + 0.5) : (_i + 1);
+              }
               that.options.value = newValue;
               that.update(_i + 1);
               oldValue !== newValue && that.onchange && that.onchange(newValue, oldValue);
             });
-            _rate.on('mousemove', function (e) {
+            _rate.on('mousemove', function (event) {
               !that.options.disabled && _iconp.addClass('hover');
-              that.update(_i + 1, true);
+              var _currentValue = _i + 1;
+              if (that.options.allowHalf) {
+                var target = $(event.target);
+                if (target.hasClass('el-rate__item')) {
+                  target = target.find('.el-rate__icon');
+                }
+                if (target.hasClass('el-rate__decimal')) {
+                  target = target.parent();
+                }
+                var left = event.offsetX * 2 <= target.innerWidth();
+                _currentValue = left ? (_i + 0.5) : (_i + 1);
+              }
+              that.update(_currentValue, true);
             });
             _rate.on('mouseleave', function (e) {
               !that.options.disabled && _iconp.removeClass('hover');
@@ -71,7 +94,9 @@ export default {
           that = this,
           _i = 0,
           _color = 0,
-          _score = '';
+          _score = '',
+          _value = 0,
+          _half = false;
         if (isTemp) {
           // 临时修改
           if (idx < options.lowThreshold) {
@@ -81,13 +106,21 @@ export default {
           } else {
             _color = 2;
           }
+          if (this.options.allowHalf) {
+            _half = idx === Math.floor(idx) ? false : true;
+          }
           for (; _i < idx; _i++) {
-            that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
+            if (_half && _i === Math.floor(idx)){
+              that.$rates[_i].iconc.css({'width': '50%', 'color': options.colors[_color]});
+            } else {
+              that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
+            }
           }
           for (; _i < options.max; _i++) {
             that.$rates[_i].iconc.css('width', '0');
           }
           _score = options.scoreTemplate.replace(/{ *value *}/g, idx);
+          _value = idx;
         } else {
           // 正式修改
           if (options.value < options.lowThreshold) {
@@ -97,17 +130,25 @@ export default {
           } else {
             _color = 2;
           }
+          if (this.options.allowHalf) {
+            _half = options.value === Math.floor(options.value) ? false : true;
+          }
           for (; _i < options.value; _i++) {
-            that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
+            if (_half && _i === Math.floor(options.value)){
+              that.$rates[_i].iconc.css({'width': '50%', 'color': options.colors[_color]});
+            } else {
+              that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
+            }
           }
           for (; _i < options.max; _i++) {
             that.$rates[_i].iconc.css('width', '0');
           }
           _score = options.scoreTemplate.replace(/{ *value *}/g, options.value);
+          _value = options.value;
         }
         // 显示文本/分数
-        if (options.showText && options.value > 0) {
-          that.$text.html(options.texts[Math.floor(options.value) - 1]);
+        if (options.showText && _value > 0) {
+          that.$text.html(options.texts[Math.floor(_value) - 1]);
         } else if (options.showScore) {
           that.$text.html(_score);
         } else {
