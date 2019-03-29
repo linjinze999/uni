@@ -97,13 +97,20 @@ module.exports = {
                   ]
                 },
                 {
+                  title: 'Data',
+                  collapsable: false,
+                  children: [
+                    'components/tag',
+                    'components/progress',
+                  ]
+                },
+                {
                   title: 'Others',
                   collapsable: false,
                   children: [
                     'components/ui18n',
                     'components/dialog',
                     'components/loading',
-                    'components/progress',
                   ]
                 },
               ]
