@@ -62,6 +62,7 @@
   $('#demo-rate6').rate({
     value: 3.7,
     disabled: true,
+    allowHalf: true,
     showScore: true,
     textColor: '#ff9900',
     scoreTemplate: '{value}'
@@ -75,10 +76,18 @@
 ::: demo 示模板，模板为一个包含了 `{value}` 的字符串，`{value}` 会被解析为分值。。
 
 ``` html
-<div id="demo-rate7"></div>
+<div id="demo-rate7"></div><br>
+<button onclick="demoRate1()" class="el-button">禁用</button>
+<button onclick="demoRate2()" class="el-button">启用</button>
+<button onclick="demoRate3()" class="el-button">设置值</button>
+<button onclick="demoRate4()" class="el-button">获取值</button>
 
 <script>
   $('#demo-rate7').rate({ allowHalf: true, showScore: true });
+  function demoRate1 () { $('#demo-rate7').rate('disabled'); };
+  function demoRate2 () { $('#demo-rate7').rate('show'); };
+  function demoRate3 () { $('#demo-rate7').rate('set', 3.5); };
+  function demoRate4 () { alert($('#demo-rate7').rate('get')); };
 </script>
 ```
 :::

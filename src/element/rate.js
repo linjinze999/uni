@@ -81,6 +81,36 @@ export default {
             });
           })(i);
         }
+        that.$el.on('keydown', function (e) {
+          if (that.options.disabled) {
+            return;
+          }
+          var currentValue = that.options.value,
+            oldValue = that.options.value;
+          var keyCode = e.keyCode;
+          if (keyCode === 38 || keyCode === 39) { // left / down
+            if (that.options.allowHalf) {
+              currentValue += 0.5;
+            } else {
+              currentValue += 1;
+            }
+            e.stopPropagation();
+            e.preventDefault();
+          } else if (keyCode === 37 || keyCode === 40) {
+            if (that.options.allowHalf) {
+              currentValue -= 0.5;
+            } else {
+              currentValue -= 1;
+            }
+            e.stopPropagation();
+            e.preventDefault();
+          }
+          currentValue = currentValue < 0 ? 0 : currentValue;
+          currentValue = currentValue > that.options.max ? that.options.max : currentValue;
+          that.options.value = currentValue;
+          that.update();
+          oldValue !== currentValue && that.onchange && that.onchange(currentValue, oldValue);
+        });
         that.$text = $('<span class="el-rate__text" style="color: ' + options.textColor + '"></span>');
         that.$el.append(that.$text);
         that.update(0, false, true);
@@ -110,7 +140,7 @@ export default {
             _half = idx === Math.floor(idx) ? false : true;
           }
           for (; _i < idx; _i++) {
-            if (_half && _i === Math.floor(idx)){
+            if (_half && _i === Math.floor(idx)) {
               that.$rates[_i].iconc.css({'width': '50%', 'color': options.colors[_color]});
             } else {
               that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
@@ -134,7 +164,7 @@ export default {
             _half = options.value === Math.floor(options.value) ? false : true;
           }
           for (; _i < options.value; _i++) {
-            if (_half && _i === Math.floor(options.value)){
+            if (_half && _i === Math.floor(options.value)) {
               that.$rates[_i].iconc.css({'width': '50%', 'color': options.colors[_color]});
             } else {
               that.$rates[_i].iconc.css({'width': '100%', 'color': options.colors[_color]});
@@ -173,6 +203,7 @@ export default {
     };
     $.fn[componentName] = function () {
       var option = arguments[0],
+        args = arguments,
         value,
         allowedMethods = ['show', 'disabled', 'set', 'get'];
       this.each(function () {
@@ -189,7 +220,7 @@ export default {
           if ($.inArray(option, allowedMethods) < 0) {
             throw 'Unknown method: ' + option;
           }
-          value = data[option]();
+          value = data[option](args[1]);
         }
       });
       return typeof value !== 'undefined' ? value : this;
