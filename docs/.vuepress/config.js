@@ -102,6 +102,7 @@ module.exports = {
                   children: [
                     'components/tag',
                     'components/progress',
+                    'components/badge',
                   ]
                 },
                 {

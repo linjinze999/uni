@@ -1,6 +1,7 @@
 const $ = require('jquery');
 import I18n from './element/i18n'
 import Button from './element/button';
+import Badge from './element/badge';
 import Radio from './element/radio';
 import Checkbox from './element/checkbox';
 import Switch from './element/switch';
@@ -23,6 +24,7 @@ const fn = [
   Loading,
   Progress,
   Button,
-  Rate
+  Rate,
+  Badge
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));
