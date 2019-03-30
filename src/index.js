@@ -1,5 +1,6 @@
 const $ = require('jquery');
-import I18n from './element/i18n'
+import I18n from './element/i18n';
+import Alert from './element/alert';
 import Button from './element/button';
 import Badge from './element/badge';
 import Radio from './element/radio';
@@ -18,6 +19,7 @@ const extend = [
 extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName));
 
 const fn = [
+  Alert,
   Radio,
   Checkbox,
   Switch,

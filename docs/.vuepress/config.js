@@ -84,8 +84,7 @@ module.exports = {
                     'components/icon',
                     'components/button',
                   ]
-                },
-                {
+                }, {
                   title: 'Form',
                   collapsable: false,
                   children: [
@@ -95,8 +94,7 @@ module.exports = {
                     'components/switch',
                     'components/rate',
                   ]
-                },
-                {
+                }, {
                   title: 'Data',
                   collapsable: false,
                   children: [
@@ -104,14 +102,19 @@ module.exports = {
                     'components/progress',
                     'components/badge',
                   ]
-                },
-                {
+                }, {
+                  title: 'Notice',
+                  collapsable: false,
+                  children: [
+                    'components/alert',
+                    'components/loading',
+                  ]
+                }, {
                   title: 'Others',
                   collapsable: false,
                   children: [
                     'components/ui18n',
                     'components/dialog',
-                    'components/loading',
                   ]
                 },
               ]
