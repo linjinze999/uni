@@ -60,12 +60,12 @@ module.exports = {
         lastUpdated: '上次更新',
         nav: [
           {
-            text: '指南',
-            link: '/guide/',
+            text: 'Element',
+            link: '/element/',
           }
         ],
         sidebar: {
-          '/guide/': [
+          '/element/': [
             '',
             'start',
             {
