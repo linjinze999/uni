@@ -1,7 +1,7 @@
 const md = require('markdown-it')();
 module.exports = {
   dest: 'vuepress',
-  bash: '/uni/',
+  base: '/uni/',
   locales: {
     '/': {
       lang: 'zh-CN',
