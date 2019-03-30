@@ -3,18 +3,20 @@ import I18n from './element/i18n';
 import Alert from './element/alert';
 import Button from './element/button';
 import Badge from './element/badge';
-import Radio from './element/radio';
 import Checkbox from './element/checkbox';
-import Switch from './element/switch';
-import Rate from './element/rate';
 import Dialog from './element/dialog';
 import Loading from './element/loading';
+import Message from './element/message';
 import Progress from './element/progress';
+import Radio from './element/radio';
+import Rate from './element/rate';
+import Switch from './element/switch';
 import './element/theme-chalk/src/index.scss';
 
 const extend = [
   I18n,
-  Dialog
+  Dialog,
+  Message
 ];
 extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName));
 

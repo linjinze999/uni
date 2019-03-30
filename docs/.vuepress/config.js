@@ -108,6 +108,7 @@ module.exports = {
                   children: [
                     'components/alert',
                     'components/loading',
+                    'components/message',
                   ]
                 }, {
                   title: 'Others',
