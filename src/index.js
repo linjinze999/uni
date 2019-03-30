@@ -1,4 +1,3 @@
-const $ = require('jquery');
 import I18n from './element/i18n';
 import Alert from './element/alert';
 import Button from './element/button';
@@ -12,6 +11,8 @@ import Radio from './element/radio';
 import Rate from './element/rate';
 import Switch from './element/switch';
 import './element/theme-chalk/src/index.scss';
+
+const $ = window.$;
 
 const extend = [
   I18n,

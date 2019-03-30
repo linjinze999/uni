@@ -1,8 +1,6 @@
-import '../../src/index';
-
-export default ({
-  Vue,
-  options,
-  router,
-  siteData
-}) => {}
+export default ({ isServer }) => {
+  if (!isServer) {
+    window.$ = window.jQuery = require('jquery');
+    require('../../src/index');
+  }
+}

@@ -7,6 +7,7 @@
     "watch": "webpack --config build/webpack.develop.js --watch",
     "docs:dev": "vuepress dev docs",
     "docs:dev2": "vuepress dev docs --host 192.168.116.136",
+    "docs:build": "vuepress build docs",
     "dev": "npm run docs:dev",
     "dev2": "npm run docs:dev2",
     "build": "webpack --config build/webpack.production.js",
