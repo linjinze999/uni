@@ -1,5 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const path = require('path');
 module.exports = {
   entry: {
     app: './src/index.js'
@@ -24,11 +24,22 @@ module.exports = {
         })
       }, {
         test:/\.(png)|(jpg)|(gif)|(woff)|(woff2)|(svg)|(eot)|(ttf)$/,
-        use: 'url-loader'
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]'
+          }
+        }]
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("css/uni.css"),
-  ]
+    new ExtractTextPlugin("uni.css"),
+  ],
+  externals: {
+    jquery: 'jQuery'
+  },
+  devServer: {
+    contentBase: './dist'
+  }
 };
