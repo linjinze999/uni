@@ -1,6 +1,6 @@
 const md = require('markdown-it')();
 module.exports = {
-  dest: 'vuepress',
+  dest: 'docs',
   base: '/uni/',
   locales: {
     '/': {
