@@ -20,6 +20,7 @@ module.exports = {
     ['meta', {name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png'}],
     ['meta', {name: 'msapplication-TileColor', content: '#000000'}],
     ['script', {src: '/assets/js/article.js'}],
+    ['script', {src: 'https://hm.baidu.com/hm.js?eeab23144137d3b40f28f0b49126c2ed'}],
     ['link', {rel: 'stylesheet', href: '/assets/css/common.css'}]
   ],
   plugins: [
