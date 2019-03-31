@@ -112,6 +112,12 @@ module.exports = {
                     'components/notification',
                   ]
                 }, {
+                  title: 'Navigation',
+                  collapsable: false,
+                  children: [
+                    'components/breadcrumb',
+                  ]
+                }, {
                   title: 'Others',
                   collapsable: false,
                   children: [

@@ -1,7 +1,8 @@
 import I18n from './element/i18n';
 import Alert from './element/alert';
-import Button from './element/button';
 import Badge from './element/badge';
+import Breakcrumb from './element/breakcrumb';
+import Button from './element/button';
 import Checkbox from './element/checkbox';
 import Dialog from './element/dialog';
 import Loading from './element/loading';
@@ -26,6 +27,7 @@ extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName)
 const fn = [
   Alert,
   Badge,
+  Breakcrumb,
   Button,
   Checkbox,
   Loading,
