@@ -39,6 +39,7 @@ export default {
         $message.append($close);
       }
       $message.close = close;
+      $message.data('u-message-close', close);
       $message.css({top: 0});
       // 定时关闭
       var timer;

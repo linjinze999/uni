@@ -117,7 +117,11 @@ function demoMessage9() {
 | onClose | 关闭时的回调函数, 参数为被关闭的 message 的JQuery实例 | function | - | - |
 
 ### 方法
-调用 `$.$message` 会返回当前 Message 的JQuery实例。如果需要手动关闭实例，可以调用它的 `close` 方法。
-| 方法名 | 说明 |
-| ---- | ---- |
-| close | 关闭当前的 Message |
+调用 `$.message()` 会返回当前 Message 的JQuery实例。如果需要手动关闭实例，可以调用它的 `close` 方法。
+| 方法名 | 说明 | 示例 |
+| ---- | ---- | ----- |
+| close | 关闭当前的 Message | `_m = $.message(); _m.close();` |
+
+::: tip 提示
+你也可以用`$('.el-message').data('u-message-close')`获取`close`方法，可参考 Notification 关闭所有通知框的示例。
+:::

@@ -109,6 +109,7 @@ module.exports = {
                     'components/alert',
                     'components/loading',
                     'components/message',
+                    'components/notification',
                   ]
                 }, {
                   title: 'Others',

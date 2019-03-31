@@ -6,6 +6,7 @@ import Checkbox from './element/checkbox';
 import Dialog from './element/dialog';
 import Loading from './element/loading';
 import Message from './element/message';
+import Notification from './element/notification';
 import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
@@ -17,19 +18,20 @@ const $ = window.$;
 const extend = [
   I18n,
   Dialog,
-  Message
+  Message,
+  Notification
 ];
 extend.forEach( e => e.init($, e.componentName, e.optionsName, I18n.optionsName));
 
 const fn = [
   Alert,
-  Radio,
+  Badge,
+  Button,
   Checkbox,
-  Switch,
   Loading,
   Progress,
-  Button,
+  Radio,
   Rate,
-  Badge
+  Switch
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));
