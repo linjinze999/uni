@@ -61,7 +61,7 @@ export default {
 
       function close () {
         options.onclose && options.onclose($notification);
-        $notification.animate({opacity: 0}, 250, function () {
+        $notification.animate({opacity: 0, height: 0, paddingTop: 0}, 250, function () {
           $notification.remove();
         });
       }
