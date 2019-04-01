@@ -2,10 +2,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 module.exports = {
   entry: {
-    app: './src/index.js'
+    uni: './src/index.js'
   },
   output: {
-    filename: 'uni.min.js',
+    filename: '[name].min.js',
     path: path.resolve(__dirname, '../dist')
   },
   module: {
@@ -38,8 +38,5 @@ module.exports = {
   ],
   externals: {
     jquery: 'jQuery'
-  },
-  devServer: {
-    contentBase: './dist'
   }
 };
