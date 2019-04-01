@@ -12,6 +12,7 @@ import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
 import Switch from './element/switch';
+import Tabs from './element/tabs';
 import './element/theme-chalk/src/index.scss';
 
 const $ = window.$;
@@ -34,6 +35,7 @@ const fn = [
   Progress,
   Radio,
   Rate,
-  Switch
+  Switch,
+  Tabs
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));

@@ -115,6 +115,7 @@ module.exports = {
                   title: 'Navigation',
                   collapsable: false,
                   children: [
+                    'components/tabs',
                     'components/breadcrumb',
                   ]
                 }, {
