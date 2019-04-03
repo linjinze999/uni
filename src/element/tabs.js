@@ -10,20 +10,34 @@ export default {
       init: function () {
         var that = this,
           options = this.options;
-        this.$el.addClass('el-tabs el-tabs--top');
-        this.$header = $('<div class="el-tabs__header is-top">' +
-          '  <div class="el-tabs__nav-wrap is-top">' +
+        // 位置设置
+        options.tabPosition = (['left', 'right', 'top', 'bottom'].indexOf(options.tabPosition) > -1) ? options.tabPosition : 'top';
+        this.vertical = (['left', 'right'].indexOf(options.tabPosition) > -1) ? true : false;
+        this.$el.addClass('el-tabs el-tabs--' + options.tabPosition);
+        // 样式设置
+        if (options.type === 'card') {
+          this.$el.addClass('el-tabs--card');
+        } else if (options.type === 'border-card') {
+          this.$el.addClass('el-tabs--border-card');
+        }
+        var positionClass = 'is-' + options.tabPosition;
+        // 插入的html
+        this.$header = $('<div class="el-tabs__header ' + positionClass + '">' +
+          '  <div class="el-tabs__nav-wrap ' + positionClass + '">' +
           '    <div class="el-tabs__nav-scroll">' +
-          '      <div role="tablist" class="el-tabs__nav is-top" style="transform: translateX(0px);">' +
-          '        <div class="el-tabs__active-bar is-top"></div>' +
+          '      <div role="tablist" class="el-tabs__nav ' + positionClass + '" style="transform: translate' + (this.vertical ? 'Y' : 'X') + '(0px);">' +
           '</div></div></div></div>');
         this.$content = $('<div class="el-tabs__content"></div>');
         this.$tablist = this.$header.find('.el-tabs__nav');
-        this.$tabActiveBar = this.$header.find('.el-tabs__active-bar');
+        if (['border-card', 'card'].indexOf(options.type) === -1) {
+          this.$tabActiveBar = $('<div class="el-tabs__active-bar ' + positionClass + '"></div>');
+          this.$tablist.append(this.$tabActiveBar);
+        }
         this.contents = {};
         this.tabs = {};
-
+        // tabs
         $.each(options.tabs, function (idx, val) {
+          // 设置参数
           var _option;
           var _defaults = {
             'label': '',
@@ -40,7 +54,8 @@ export default {
             _option = $.extend({}, _defaults, val);
           }
           _option.label = _option.label || _option.name;
-          var _header = $('<div aria-controls="pane-' + _option.name + '" role="tab" tabindex="-1" class="el-tabs__item is-top">' + _option.label + '</div>');
+          // 插入tab
+          var _header = $('<div aria-controls="pane-' + _option.name + '" role="tab" tabindex="-1" class="el-tabs__item ' + positionClass + '">' + _option.label + '</div>');
           _header.data('u-tabs-tab-name', _option.name);
           var _content = $('<div role="tabpanel" aria-labelledby="tab-' + _option.name + '" class="el-tab-pane" style="display: none;" aria-hidden="true"></div>');
           if (_option.selector) {
@@ -56,6 +71,7 @@ export default {
           that.$tablist.append(_header);
           that.$content.append(_content);
         });
+        // 初始化
         options.value = options.value || options.tabs[0].name;
         this.$el.append(this.$header).append(this.$content);
         this.changeTab(options.value);
@@ -68,11 +84,19 @@ export default {
           'aria-selected': false
         });
         this.tabs[newValue] && this.tabs[newValue].addClass('is-active').attr({'tabindex': 0, 'aria-selected': true});
-        var translateX = this.tabs[newValue].position().left + parseInt(this.tabs[newValue].css('padding-left').replace('px', ''));
-        this.$tabActiveBar.css({
-          'width': this.tabs[newValue].width() + 'px',
-          'transform': 'translateX(' + translateX + 'px)'
-        });
+        if (this.$tabActiveBar && this.vertical) {
+          var translateY = this.tabs[newValue].position().top + parseInt(this.tabs[newValue].css('padding-top').replace('px', ''));
+          this.$tabActiveBar.css({
+            'height': this.tabs[newValue].height() + 'px',
+            'transform': 'translateY(' + translateY + 'px)'
+          });
+        } else if (this.$tabActiveBar && !this.vertical) {
+          var translateX = this.tabs[newValue].position().left + parseInt(this.tabs[newValue].css('padding-left').replace('px', ''));
+          this.$tabActiveBar.css({
+            'width': this.tabs[newValue].width() + 'px',
+            'transform': 'translateX(' + translateX + 'px)'
+          });
+        }
         this.contents[newValue] && this.contents[newValue].show();
         this.options.value = newValue;
       },
@@ -82,10 +106,11 @@ export default {
           oldValue = this.options.value,
           newValue = $el.data('u-tabs-tab-name');
         this.options.tabClick && this.options.tabClick($el, newValue, oldValue);
+        // 不用切换
         if (newValue === oldValue) {
           return;
         }
-
+        // 切换前调用 beforeLeave()
         if (this.options.beforeLeave) {
           var before = this.options.beforeLeave(newValue, oldValue);
           if (before && before.then) {
@@ -135,7 +160,7 @@ export default {
       'closable': false,
       'addable': false,
       'editable': false,
-      'tabPosition': '',
+      'tabPosition': 'top',
       'stretch': '',
       'beforeLeave': function () {
         return true;
