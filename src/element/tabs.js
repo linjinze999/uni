@@ -22,24 +22,43 @@ export default {
         }
         this.positionClass = 'is-' + options.tabPosition;
         // 插入的html
-        this.$header = $('<div class="el-tabs__header ' + this.positionClass + '">' +
-          '<div class="el-tabs__nav-wrap ' + this.positionClass + '"><div class="el-tabs__nav-scroll">' +
-          '<div role="tablist" class="el-tabs__nav ' + this.positionClass + ((options.stretch && ['top', 'bottom'].indexOf(options.tabPosition) !== -1) ? ' is-stretch' : '') +
-          '" style="transform: translate' + (this.vertical ? 'Y' : 'X') + '(0px);">' +
-          '</div></div></div></div>');
-        this.$content = $('<div class="el-tabs__content"></div>');
-        this.$tablist = this.$header.find('.el-tabs__nav');
-        if (['border-card', 'card'].indexOf(options.type) === -1) {
-          this.$tabActiveBar = $('<div class="el-tabs__active-bar ' + this.positionClass + '"></div>');
-          this.$tablist.append(this.$tabActiveBar);
-        }
+        // $header
+        this.$header = $('<div class="el-tabs__header ' + this.positionClass + '"></div>');
+        // $header > $add
         if (options.addable) {
           this.$add = $('<span tabindex="0" class="el-tabs__new-tab"><i class="el-icon-plus"></i></span>');
           this.$add.on('click', function (e) {
             that.options.tabAdd && that.options.tabAdd();
           });
-          this.$header.prepend(this.$add);
+          this.$header.append(this.$add);
         }
+        // $header > $navWrap
+        this.$navWrap = $('<div class="el-tabs__nav-wrap ' + this.positionClass + '"></div>');
+        this.$navPrev = $('<span class="el-tabs__nav-prev" style="display: none;"><i class="el-icon-arrow-left"></i></span>');
+        this.$navPrev.on('click', function () {
+          that.scrollPrev();
+        });
+        this.$navNext = $('<span class="el-tabs__nav-next" style="display: none;"><i class="el-icon-arrow-right"></i></span>');
+        this.$navNext.on('click', function () {
+          that.scrollNext();
+        });
+        this.$navWrap.append(this.$navPrev);
+        this.$navWrap.append(this.$navNext);
+        this.$header.append(this.$navWrap);
+        // $header > $navWrap > $navScroll
+        this.$navScroll = $('<div class="el-tabs__nav-scroll"></div>');
+        this.$navWrap.append(this.$navScroll);
+        // $header > $navWrap > $navScroll > $tablist
+        this.tablistOffset = 0;
+        this.$tablist = $('<div role="tablist" class="el-tabs__nav ' + this.positionClass +
+          ((options.stretch && ['top', 'bottom'].indexOf(options.tabPosition) !== -1) ? ' is-stretch' : '') + '"></div>');
+        if (['border-card', 'card'].indexOf(options.type) === -1) {
+          this.$tabActiveBar = $('<div class="el-tabs__active-bar ' + this.positionClass + '"></div>');
+          this.$tablist.append(this.$tabActiveBar);
+        }
+        this.$navScroll.append(this.$tablist);
+        // $content
+        this.$content = $('<div class="el-tabs__content"></div>');
         // 初始化
         this.contents = {};
         this.tabs = {};
@@ -47,6 +66,19 @@ export default {
         options.value = options.value || this.findNextTab(0);
         this.$el.append(this.$header).append(this.$content);
         this.set(options.value);
+      },
+      scrollPrev () {
+        if (!this.tablistOffset) return;
+        this.tablistOffset = this.tablistOffset > this.$navScroll.width() ? this.tablistOffset - this.$navScroll.width() : 0;
+        this.$tablist.css('transform', 'translateX(-' + this.tablistOffset + 'px)');
+      },
+      scrollNext () {
+        var navSize = this.$tablist.width();
+        var containerSize = this.$navScroll.width();
+        var currentOffset = this.tablistOffset;
+        if (navSize - currentOffset <= containerSize) return;
+        this.tablistOffset = navSize - currentOffset > containerSize * 2 ? currentOffset + containerSize : (navSize - containerSize);
+        this.$tablist.css('transform', 'translateX(-' + this.tablistOffset + 'px)');
       },
       findNextTab: function (index) {
         var options = this.options;
@@ -110,6 +142,18 @@ export default {
           that.$tablist.append(_header);
           that.$content.append(_content);
         });
+        this.showScroll();
+      },
+      showScroll: function () {
+        if (this.$navWrap.width() >= this.$tablist.outerWidth()) {
+          this.$navWrap.removeClass('is-scrollable');
+          this.$navPrev.hide();
+          this.$navNext.hide();
+        } else {
+          this.$navWrap.addClass('is-scrollable');
+          this.$navPrev.show();
+          this.$navNext.show();
+        }
       },
       add: function (tab) {
         this.options.tabs.push(tab);
@@ -130,6 +174,7 @@ export default {
         this.tabs[name].remove();
         delete this.contents[name];
         delete this.tabs[name];
+        this.showScroll();
         if (name === this.options.value) {
           this.set(this.findNextTab(index));
         }
@@ -138,12 +183,14 @@ export default {
         if (!this.tabs[newValue]) {
           return;
         }
+        // 取消旧选中标签
         var oldValue = this.options.value;
         this.contents[oldValue] && this.contents[oldValue].hide();
         this.tabs[oldValue] && this.tabs[oldValue].removeClass('is-active').attr({
           'tabindex': -1,
           'aria-selected': false
         });
+        // 设置新选中标签
         this.tabs[newValue].addClass('is-active').attr({'tabindex': 0, 'aria-selected': true});
         if (this.$tabActiveBar && this.vertical) {
           var translateY = this.tabs[newValue].position().top + parseInt(this.tabs[newValue].css('padding-top').replace('px', ''));
@@ -160,6 +207,16 @@ export default {
         }
         this.contents[newValue].show();
         this.options.value = newValue;
+        // 偏移
+        if (this.$navWrap.width() < this.$tablist.outerWidth()) {
+          if (this.tablistOffset > this.tabs[newValue].position().left) {
+            this.tablistOffset = this.tabs[newValue].position().left;
+            this.$tablist.css('transform', 'translateX(-' + this.tablistOffset + 'px)');
+          } else if ((this.tablistOffset + this.$navScroll.width()) < (this.tabs[newValue].position().left + this.tabs[newValue].outerWidth())) {
+            this.tablistOffset = this.tabs[newValue].position().left - (this.$navScroll.width() - this.tabs[newValue].outerWidth());
+            this.$tablist.css('transform', 'translateX(-' + this.tablistOffset + 'px)');
+          }
+        }
       },
       get: function () {
         return this.options.value;
