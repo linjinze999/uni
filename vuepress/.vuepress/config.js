@@ -49,7 +49,7 @@ module.exports = {
   themeConfig: {
     repo: 'linjinze999/uni',
     docsRepo: 'linjinze999/uni',
-    docsDir: 'docs',
+    docsDir: 'vuepress',
     editLinks: true,
     sidebarDepth: 0,
     locales: {
