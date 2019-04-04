@@ -117,6 +117,7 @@ module.exports = {
                   children: [
                     'components/tabs',
                     'components/breadcrumb',
+                    'components/dropdown',
                   ]
                 }, {
                   title: 'Others',

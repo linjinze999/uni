@@ -5,6 +5,7 @@ import Breakcrumb from './element/breakcrumb';
 import Button from './element/button';
 import Checkbox from './element/checkbox';
 import Dialog from './element/dialog';
+import Dropdown from './element/dropdown';
 import Loading from './element/loading';
 import Message from './element/message';
 import Notification from './element/notification';
@@ -31,6 +32,7 @@ const fn = [
   Breakcrumb,
   Button,
   Checkbox,
+  Dropdown,
   Loading,
   Progress,
   Radio,
