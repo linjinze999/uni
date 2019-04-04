@@ -2,19 +2,14 @@
 将动作或菜单折叠到下拉菜单中。
 
 ### 基础用法
-基础的、简洁的标签页。
-::: demo 利用`$(el).tabs()`快速初始化标签页。
+移动到下拉菜单上，展开更多操作。
+::: demo 利用`$(el).dropdown()`快速初始化标签页。
 
 ``` html
-<div id="demo-tabs1"></div>
+<div id="demo-dropdown1">悬浮展开</div>
 
 <script>
-  $('#demo-tabs1').tabs([
-    { name: '用户管理', content: '<div>用户管理内容</div>' },
-    { name: '配置管理', content: '<div>配置管理内容</div>' },
-    { name: '角色管理', content: '<div>角色管理内容</div>' },
-    { name: '定时任务补偿', content: '<div>定时任务补偿内容</div>' },
-  ]);
+  $('#demo-dropdown1').dropdown(['a', 'b', 'c']);
 </script>
 ```
 :::
