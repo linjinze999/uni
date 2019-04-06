@@ -12,6 +12,7 @@ import Notification from './element/notification';
 import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
+import Steps from './element/steps';
 import Switch from './element/switch';
 import Tabs from './element/tabs';
 import './element/theme-chalk/src/index.scss';
@@ -37,6 +38,7 @@ const fn = [
   Progress,
   Radio,
   Rate,
+  Steps,
   Switch,
   Tabs
 ];

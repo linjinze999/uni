@@ -118,6 +118,7 @@ module.exports = {
                     'components/tabs',
                     'components/breadcrumb',
                     'components/dropdown',
+                    'components/steps',
                   ]
                 }, {
                   title: 'Others',
