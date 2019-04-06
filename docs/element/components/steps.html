@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Steps 步骤条 | uni组件库</title>
+    <meta name="description" content="基于JQuery的组件库">
+    <link rel="icon" href="/uni/logo.png">
+  <link rel="manifest" href="/uni/manifest.json">
+  <meta name="theme-color" content="#3eaf7c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/uni/icons/apple-touch-icon-152x152.png">
+  <link rel="mask-icon" href="/uni/icons/safari-pinned-tab.svg" color="#3eaf7c">
+  <meta name="msapplication-TileImage" content="/icons/msapplication-icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#000000">
+  <script src="/uni/assets/js/article.js"></script>
+  <script src="https://hm.baidu.com/hm.js?eeab23144137d3b40f28f0b49126c2ed"></script>
+  <link rel="stylesheet" href="/uni/assets/css/common.css">
+    
+    <link rel="preload" href="/uni/assets/css/0.styles.92cd5b7e.css" as="style"><link rel="preload" href="/uni/assets/js/app.f678ff35.js" as="script"><link rel="preload" href="/uni/assets/js/2.065cb988.js" as="script"><link rel="preload" href="/uni/assets/js/28.5452c3ad.js" as="script"><link rel="preload" href="/uni/assets/js/3.76c39b22.js" as="script"><link rel="prefetch" href="/uni/assets/js/10.acc017d6.js"><link rel="prefetch" href="/uni/assets/js/11.62d6f057.js"><link rel="prefetch" href="/uni/assets/js/12.385136a5.js"><link rel="prefetch" href="/uni/assets/js/13.3f1debd0.js"><link rel="prefetch" href="/uni/assets/js/14.c0cd4c16.js"><link rel="prefetch" href="/uni/assets/js/15.06c89571.js"><link rel="prefetch" href="/uni/assets/js/16.df52391c.js"><link rel="prefetch" href="/uni/assets/js/17.efe2491d.js"><link rel="prefetch" href="/uni/assets/js/18.b4300c02.js"><link rel="prefetch" href="/uni/assets/js/19.27800d30.js"><link rel="prefetch" href="/uni/assets/js/20.6e6eb4ab.js"><link rel="prefetch" href="/uni/assets/js/21.4a03368b.js"><link rel="prefetch" href="/uni/assets/js/22.8d7859ac.js"><link rel="prefetch" href="/uni/assets/js/23.94ae24c1.js"><link rel="prefetch" href="/uni/assets/js/24.73909512.js"><link rel="prefetch" href="/uni/assets/js/25.4d97093c.js"><link rel="prefetch" href="/uni/assets/js/26.1fc474f1.js"><link rel="prefetch" href="/uni/assets/js/27.1ce02b21.js"><link rel="prefetch" href="/uni/assets/js/29.c06938ad.js"><link rel="prefetch" href="/uni/assets/js/30.4b09eaed.js"><link rel="prefetch" href="/uni/assets/js/31.2e6022cb.js"><link rel="prefetch" href="/uni/assets/js/32.79def463.js"><link rel="prefetch" href="/uni/assets/js/33.0d7625f7.js"><link rel="prefetch" href="/uni/assets/js/34.f0327f91.js"><link rel="prefetch" href="/uni/assets/js/4.7613fb98.js"><link rel="prefetch" href="/uni/assets/js/5.2e929b4e.js"><link rel="prefetch" href="/uni/assets/js/6.046509d3.js"><link rel="prefetch" href="/uni/assets/js/7.653ccbfc.js"><link rel="prefetch" href="/uni/assets/js/8.10f8be41.js"><link rel="prefetch" href="/uni/assets/js/9.6ab969b4.js">
+    <link rel="stylesheet" href="/uni/assets/css/0.styles.92cd5b7e.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/uni/" class="home-link router-link-active"><!----> <span class="site-name">uni组件库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/uni/element/" class="sidebar-link">Element</a></li><li><a href="/uni/element/start.html" class="sidebar-link">安装</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Basic</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/layout.html" class="sidebar-link">Layout 布局</a></li><li><a href="/uni/element/components/container.html" class="sidebar-link">Container 布局容器</a></li><li><a href="/uni/element/components/color.html" class="sidebar-link">Color 色彩</a></li><li><a href="/uni/element/components/typography.html" class="sidebar-link">Typography 字体</a></li><li><a href="/uni/element/components/border.html" class="sidebar-link">Border 边框</a></li><li><a href="/uni/element/components/icon.html" class="sidebar-link">Icon 图标</a></li><li><a href="/uni/element/components/button.html" class="sidebar-link">Button 按钮</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Form</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/radio.html" class="sidebar-link">Radio 单选框</a></li><li><a href="/uni/element/components/checkbox.html" class="sidebar-link">Checkbox 多选框</a></li><li><a href="/uni/element/components/input.html" class="sidebar-link">Input 输入框</a></li><li><a href="/uni/element/components/switch.html" class="sidebar-link">Switch 开关</a></li><li><a href="/uni/element/components/rate.html" class="sidebar-link">Rate 评分</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Data</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tag.html" class="sidebar-link">Tag 标签</a></li><li><a href="/uni/element/components/progress.html" class="sidebar-link">Progress 进度条</a></li><li><a href="/uni/element/components/badge.html" class="sidebar-link">Badge 标记</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Notice</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/alert.html" class="sidebar-link">Alert 警告</a></li><li><a href="/uni/element/components/loading.html" class="sidebar-link">Loading 加载</a></li><li><a href="/uni/element/components/message.html" class="sidebar-link">Message 消息提示</a></li><li><a href="/uni/element/components/notification.html" class="sidebar-link">Notification 通知</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading open"><span>Navigation</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tabs.html" class="sidebar-link">Tabs 标签页</a></li><li><a href="/uni/element/components/breadcrumb.html" class="sidebar-link">Breadcrumb 面包屑</a></li><li><a href="/uni/element/components/dropdown.html" class="sidebar-link">Dropdown 下拉菜单</a></li><li><a href="/uni/element/components/steps.html" class="active sidebar-link">Steps 步骤条</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Others</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/ui18n.html" class="sidebar-link">Ui18n 国际化</a></li><li><a href="/uni/element/components/dialog.html" class="sidebar-link">Dialog 对话框</a></li></ul></section></li></ul></section></li></ul> </aside> <main class="page"> <div class="content default"><h2 id="steps-步骤条"><a href="#steps-步骤条" aria-hidden="true" class="header-anchor">#</a> Steps 步骤条</h2> <p>引导用户按照流程完成任务的分步导航条，可根据实际应用场景设定步骤，步骤不得少于 2 步。</p> <h3 id="基础用法"><a href="#基础用法" aria-hidden="true" class="header-anchor">#</a> 基础用法</h3> <p>简单的步骤条。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-steps1" data-v-515e4fee></div> <br data-v-515e4fee> <button onclick="demoSteps1()" class="el-button" data-v-515e4fee>下一步</button> <script data-v-515e4fee>
+  $('#demo-steps1').steps({
+    finishStatus: 'success',
+    active: 2,
+    data: ['步骤1','步骤2','步骤3']
+  });
+  var demoSteps1Active = 2;
+  function demoSteps1() {
+    demoSteps1Active += 1;
+    if (demoSteps1Active &gt; 4) {
+      demoSteps1Active = 1;
+    }
+    $('#demo-steps1').steps('set', demoSteps1Active);
+  }
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <div class="warning custom-block"><p class="custom-block-title">注意</p> <p><code>$(el)</code>的<code>innerHtml</code>将被替换。</p></div> <h3 id="有描述的步骤条"><a href="#有描述的步骤条" aria-hidden="true" class="header-anchor">#</a> 有描述的步骤条</h3> <p>每一步骤显示出该步骤的状态。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-steps2" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-steps2').steps({
+    active: 2,
+    alignCenter: true,
+    data: [
+      { title: '步骤1', description: '这是一段很长很长很长的描述性文字' },
+      { title: '步骤2', description: '这是一段很长很长很长的描述性文字' },
+      { title: '步骤3', description: '这是一段描述性文字' },
+      { title: '步骤4', description: '这是一段描述性文字' }
+    ]
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="自定义步骤条"><a href="#自定义步骤条" aria-hidden="true" class="header-anchor">#</a> 自定义步骤条</h3> <p>可自定义图标、宽度、状态。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-steps3" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-steps3').steps({
+    active: 2,
+    space: 200,
+    data: [
+      { title: '步骤1', icon: 'el-icon-edit', status: 'error' },
+      { title: '步骤2', icon: 'el-icon-upload' },
+      { title: '步骤3', icon: 'el-icon-picture' }
+    ]
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="竖式步骤条"><a href="#竖式步骤条" aria-hidden="true" class="header-anchor">#</a> 竖式步骤条</h3> <p>竖直方向的步骤条。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-steps4" style="height:300px;" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-steps4').steps({
+    active: 2,
+    direction: 'vertical',
+    data: [
+      { title: '步骤1' },
+      { title: '步骤2' },
+      { title: '步骤3', description: '这是一段文字描述' }
+    ]
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="简单风格的步骤条"><a href="#简单风格的步骤条" aria-hidden="true" class="header-anchor">#</a> 简单风格的步骤条</h3> <p>设置 <code>simple</code> 可应用简洁风格，该条件下 <code>align-center / description / direction / space</code> 都将失效。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-steps5" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-steps5').steps({
+    active: 2,
+    simple: true,
+    finishStatus: 'success',
+    data: ['步骤1', '步骤2', '步骤3']
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="参数"><a href="#参数" aria-hidden="true" class="header-anchor">#</a> 参数</h3> <p>你可以通过修改<code>$.fn.steps.defaults</code>来修改全局默认配置，也可以在初始化时传入指定配置<code>$(#id).steps({xx: xx})</code>。
+参数默认为 Json ，若为数组，则会被当做<code>data</code>赋值。</p> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>可选值</th> <th>默认值</th></tr></thead> <tbody><tr><td>data</td> <td>步骤参数数组，具体配置见下方【data参数】</td> <td>array</td> <td>-</td> <td><code>[]</code></td></tr> <tr><td>space</td> <td>每个 step 的间距，不填写将自适应间距。支持百分比。</td> <td>number / string</td> <td>-</td> <td>-</td></tr> <tr><td>direction</td> <td>显示方向</td> <td>string</td> <td>vertical/horizontal</td> <td><code>'horizontal'</code></td></tr> <tr><td>active</td> <td>设置当前激活步骤</td> <td>number</td> <td>-</td> <td>1</td></tr> <tr><td>processStatus</td> <td>设置当前步骤的状态</td> <td>string</td> <td>wait / process / finish / error / success</td> <td><code>'process'</code></td></tr> <tr><td>finishStatus</td> <td>设置结束步骤的状态</td> <td>string</td> <td>wait / process / finish / error / success</td> <td><code>'finish'</code></td></tr> <tr><td>alignCenter</td> <td>进行居中对齐</td> <td>boolean</td> <td>-</td> <td><code>false</code></td></tr> <tr><td>simple</td> <td>是否应用简洁风格</td> <td>boolean</td> <td>-</td> <td><code>false</code></td></tr></tbody></table> <h3 id="data参数"><a href="#data参数" aria-hidden="true" class="header-anchor">#</a> data参数</h3> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>可选值</th> <th>默认值</th></tr></thead> <tbody><tr><td>title</td> <td>标题</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>description</td> <td>描述性文字</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>icon</td> <td>图标</td> <td>传入 icon 的 class</td> <td>string</td> <td>-</td></tr> <tr><td>status</td> <td>设置当前步骤的状态，不设置则根据 steps 确定状态</td> <td>string</td> <td>wait / process / finish / error / success</td> <td>-</td></tr></tbody></table> <h3 id="方法"><a href="#方法" aria-hidden="true" class="header-anchor">#</a> 方法</h3> <p>你可以通过调用<code>$(#id).steps('set', xxx)</code>来更新<strong>已被初始化过</strong>的步骤条的状态。</p> <table><thead><tr><th>方法</th> <th>说明</th> <th>举例</th></tr></thead> <tbody><tr><td>set</td> <td>设置当前激活步骤，从<code>1</code>开始算</td> <td><code>$(el).steps('set', 2)</code></td></tr></tbody></table></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/linjinze999/uni/edit/master/vuepress/element/components/steps.md" target="_blank" rel="noopener noreferrer">帮我改进此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">2019-4-6 22:06:28</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/uni/element/components/dropdown.html" class="prev">
+          Dropdown 下拉菜单
+        </a></span> <span class="next"><a href="/uni/element/components/ui18n.html">
+          Ui18n 国际化
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/uni/assets/js/app.f678ff35.js" defer></script><script src="/uni/assets/js/2.065cb988.js" defer></script><script src="/uni/assets/js/28.5452c3ad.js" defer></script><script src="/uni/assets/js/3.76c39b22.js" defer></script>
+  </body>
+</html>
