@@ -126,6 +126,7 @@ module.exports = {
                   children: [
                     'components/ui18n',
                     'components/dialog',
+                    'components/tooltip',
                   ]
                 },
               ]
