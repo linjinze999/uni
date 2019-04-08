@@ -129,6 +129,7 @@ module.exports = {
                     'components/tooltip',
                     'components/popover',
                     'components/card',
+                    'components/carousel',
                   ]
                 },
               ]
