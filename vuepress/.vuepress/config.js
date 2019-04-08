@@ -128,6 +128,7 @@ module.exports = {
                     'components/dialog',
                     'components/tooltip',
                     'components/popover',
+                    'components/card',
                   ]
                 },
               ]
