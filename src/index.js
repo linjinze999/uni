@@ -3,6 +3,7 @@ import Alert from './element/alert';
 import Badge from './element/badge';
 import Breakcrumb from './element/breakcrumb';
 import Button from './element/button';
+import Carousel from './element/carousel';
 import Checkbox from './element/checkbox';
 import Dialog from './element/dialog';
 import Dropdown from './element/dropdown';
@@ -34,6 +35,7 @@ const fn = [
   Badge,
   Breakcrumb,
   Button,
+  Carousel,
   Checkbox,
   Dropdown,
   Loading,
