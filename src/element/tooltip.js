@@ -65,7 +65,7 @@ export default {
           this.$tooltip.css({
             bottom: '100%',
             left: '50%',
-            transform: 'translate(-50%, -' + options.offset + 'px)'
+            transform: 'translate(-50%, ' + (-options.offset) + 'px)'
           }).attr('x-placement', 'top');
           that.$arrow.css({
             left: '50%',
@@ -75,7 +75,7 @@ export default {
           this.$tooltip.css({
             bottom: '100%',
             left: '0',
-            transform: 'translate(0, -' + options.offset + 'px)'
+            transform: 'translate(0, ' + (-options.offset) + 'px)'
           }).attr('x-placement', 'top');
           that.$arrow.css({
             left: (this.$el.innerWidth() / 2) + 'px',
@@ -85,7 +85,7 @@ export default {
           this.$tooltip.css({
             bottom: '100%',
             left: '100%',
-            transform: 'translate(-100%, -' + options.offset + 'px)'
+            transform: 'translate(-100%, ' + (-options.offset) + 'px)'
           }).attr('x-placement', 'top');
           that.$arrow.css({
             right: (this.$el.innerWidth() / 2) + 'px',
@@ -99,7 +99,7 @@ export default {
           this.$tooltip.css({
             top: '50%',
             right: '100%',
-            transform: 'translate(-' + options.offset + 'px, -50%)'
+            transform: 'translate(' + (-options.offset) + 'px, -50%)'
           }).attr('x-placement', 'left');
         } else if (that.options.placement === 'left-top') {
           that.$arrow.css({
@@ -109,7 +109,7 @@ export default {
           this.$tooltip.css({
             top: '0',
             right: '100%',
-            transform: 'translate(-' + options.offset + 'px, 0)'
+            transform: 'translate(' + (-options.offset) + 'px, 0)'
           }).attr('x-placement', 'left');
         } else if (that.options.placement === 'left-bottom') {
           that.$arrow.css({
@@ -119,7 +119,7 @@ export default {
           this.$tooltip.css({
             top: '100%',
             right: '100%',
-            transform: 'translate(-' + options.offset + 'px, -100%)'
+            transform: 'translate(' + (-options.offset) + 'px, -100%)'
           }).attr('x-placement', 'left');
         } else if (that.options.placement === 'right') {
           that.$arrow.css({
@@ -190,7 +190,6 @@ export default {
         that.timeout = setTimeout(function () {
           that._visible = true;
           that.$tooltip.attr('aria-hidden', false).show();
-          that.$arrow.show();
           if ((typeof that.options.hideAfter === 'number') && that.options.hideAfter > 0) {
             setTimeout(function () {
               that.hide();
@@ -205,7 +204,6 @@ export default {
         that.timeout = setTimeout(function () {
           that._visible = false;
           that.$tooltip.attr('aria-hidden', true).hide();
-          that.$arrow.hide();
         }, 100);
       }
     };
