@@ -9,6 +9,7 @@ import Dropdown from './element/dropdown';
 import Loading from './element/loading';
 import Message from './element/message';
 import Notification from './element/notification';
+import Popover from './element/popover';
 import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
@@ -36,6 +37,7 @@ const fn = [
   Checkbox,
   Dropdown,
   Loading,
+  Popover,
   Progress,
   Radio,
   Rate,

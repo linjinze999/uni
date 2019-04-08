@@ -127,6 +127,7 @@ module.exports = {
                     'components/ui18n',
                     'components/dialog',
                     'components/tooltip',
+                    'components/popover',
                   ]
                 },
               ]
