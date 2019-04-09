@@ -10,14 +10,38 @@ export default {
       init: function () {
         var that = this,
           options = this.options;
-        if(this.hasInit) return;
+        if (this.hasInit) return;
         options.initialIndex = options.initialIndex >= options.data.length ? 0 : options.initialIndex;
         this.$el.addClass('el-carousel');
-        this.$contailer = $('<div class="el-carousel__container" style="'+options.height+'"></div>');
-        this.$prev = $('<button type="button" class="el-carousel__arrow el-carousel__arrow--left" style="display: none;">' +
+        this.$contailer = $('<div class="el-carousel__container" style="height:' + options.height + '"></div>');
+        this.$prev = $('<button type="button" class="el-carousel__arrow el-carousel__arrow--left">' +
           '<i class="el-icon-arrow-left"></i></button>');
-        this.$next = $('<button type="button" class="el-carousel__arrow el-carousel__arrow--right" style="display: none;">' +
+        this.$next = $('<button type="button" class="el-carousel__arrow el-carousel__arrow--right">' +
           '<i class="el-icon-arrow-right"></i></button>');
+        this.$prev.on('click', function(){
+          that.set(options.active - 1);
+        });
+        this.$next.on('click', function(){
+          that.set(options.active + 1);
+        });
+        if (options.arrow === 'always') {
+          this.$prev.show();
+          this.$next.show();
+        } else if (options.arrow === 'never') {
+          this.$prev.hide();
+          this.$next.hide();
+        } else {
+          this.$prev.hide();
+          this.$next.hide();
+          this.$el.on('mouseenter', function () {
+            that.$prev.show();
+            that.$next.show();
+          });
+          this.$el.on('mouseleave', function () {
+            that.$prev.hide();
+            that.$next.hide();
+          });
+        }
         this.$contailer.append(this.$prev).append(this.$next);
         this.$indicators = $('<ul class="el-carousel__indicators"></ul>');
         $.each(options.data, function (index, item) {
@@ -26,24 +50,49 @@ export default {
             label: '',
             content: ''
           };
-          if(typeof item === 'string'){
+          if (typeof item === 'string') {
             item = {content: item};
           }
           var _option = $.extend({}, _default, item);
-          _option.$item = $('<div class="el-carousel__item is-animating" style="transform: translateX(-349px) scale(1);">'+_option.content+'</div>');
-          _option.$indicator = $('<li class="el-carousel__indicator"><button class="el-carousel__button">'+_option.label+'</button></li>');
-          if(options.initialIndex === index){
-            _option.$item.addClass('is-active');
-          }
+          _option.$item = $('<div class="el-carousel__item is-animating">' + _option.content + '</div>');
+          _option.$indicator = $('<li class="el-carousel__indicator"><button class="el-carousel__button">' + _option.label + '</button></li>');
+          _option.$indicator.on((options.trigger === 'click' ? 'click' : 'hover'), function () {
+            that.set(index);
+          });
           that.$contailer.append(_option.$item);
           that.$indicators.append(_option.$indicator);
           options.data[index] = _option;
         });
         this.$el.append(this.$contailer).append(this.$indicators);
+        this.set(options.initialIndex);
+        if (options.autoplay) {
+          that.timmer = setInterval(function () {
+            that.set(options.active + 1);
+          }, options.interval);
+        }
         this.hasInit = true;
       },
       set: function (active) {
-        // todo
+        var _width = this.$el.width();
+        var _len = this.options.data.length;
+        active = active > (_len - 1) ? 0 : active;
+        active = active < 0 ? (_len - 1) : active;
+        this.options.active = active;
+        $.each(this.options.data, function (index, item) {
+          if (index === active) {
+            item.$indicator.addClass('is-active');
+            item.$item.addClass('is-active').css('transform', 'translateX(0px) scale(1)');
+          } else if (index === active - 1 || (active === 0 && index === (_len - 1))) {
+            item.$indicator.removeClass('is-active');
+            item.$item.removeClass('is-active').css('transform', 'translateX(-' + _width + 'px) scale(1)');
+          } else if (index === active + 1 || (active === (_len - 1) && index === 0)) {
+            item.$indicator.removeClass('is-active');
+            item.$item.removeClass('is-active').css('transform', 'translateX(' + _width + 'px) scale(1)');
+          } else {
+            item.$indicator.removeClass('is-active');
+            item.$item.removeClass('is-active').css('transform', 'translateX(-' + (_width * index) + 'px) scale(1)');
+          }
+        });
       }
     };
     $.fn[componentName] = function () {
@@ -76,7 +125,7 @@ export default {
       return typeof value !== 'undefined' ? value : this;
     };
     $.fn[componentName].defaults = {
-      'height': '150px',
+      'height': '300px',
       'initialIndex': 0,
       'trigger': '',
       'autoplay': true,
