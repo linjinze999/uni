@@ -3,10 +3,11 @@
 
 ### 基础用法
 适用广泛的基础用法
-::: demo
+::: demo 通过`$(el).carousel()`初始化走马灯，可传入参数配置，也可直接传入播放数组。
 
 ```html
 <style>.demo-carouse {line-height: 300px; text-align: center;}</style>
+
 默认 Hover 指示器触发
 <div id="demo-carousel1"></div>
 <br>
@@ -33,112 +34,105 @@ Click 指示器触发
 ```
 :::
 
-### 有描述的步骤条
-每一步骤显示出该步骤的状态。
-::: demo 配置`data`的`description`参数。
+### 指示器
+可以将指示器的显示位置设置在容器外部
+::: demo `indicatorPosition`属性定义了指示器的位置。默认情况下，它会显示在走马灯内部，设置为`outside`则会显示在外部；设置为`none`则不会显示指示器。
 
 ```html
-<div id="demo-steps2"></div>
+<style>.demo-carouse {line-height: 300px; text-align: center;}</style>
+
+<div id="demo-carousel3"></div>
 
 <script>
-  $('#demo-steps2').steps({
-    active: 2,
-    alignCenter: true,
+  $('#demo-carousel3').carousel({
+    indicatorPosition: 'outside',
     data: [
-      { title: '步骤1', description: '这是一段很长很长很长的描述性文字' },
-      { title: '步骤2', description: '这是一段很长很长很长的描述性文字' },
-      { title: '步骤3', description: '这是一段描述性文字' },
-      { title: '步骤4', description: '这是一段描述性文字' }
+      '<div class="demo-carouse" style="background-color: #d3dce6">1</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">2</div>',
+      '<div class="demo-carouse" style="background-color: #d3dce6">3</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">4</div>'
     ]
   });
 </script>
 ```
 :::
 
-### 自定义步骤条
-可自定义图标、宽度、状态。
-::: demo
+### 切换箭头
+可以设置切换箭头的显示时机
+::: demo `arrow`属性定义了切换箭头的显示时机。默认情况下，切换箭头只有在鼠标 `hover` 到走马灯上时才会显示；若将`arrow`设置为`always`，则会一直显示；设置为`never`，则会一直隐藏。
 
 ```html
-<div id="demo-steps3"></div>
+<style>.demo-carouse {line-height: 300px; text-align: center;}</style>
+
+<div id="demo-carousel4"></div>
 
 <script>
-  $('#demo-steps3').steps({
-    active: 2,
-    space: 200,
+  $('#demo-carousel4').carousel({
+    arrow: 'always',
     data: [
-      { title: '步骤1', icon: 'el-icon-edit', status: 'error' },
-      { title: '步骤2', icon: 'el-icon-upload' },
-      { title: '步骤3', icon: 'el-icon-picture' }
+      '<div class="demo-carouse" style="background-color: #d3dce6">1</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">2</div>',
+      '<div class="demo-carouse" style="background-color: #d3dce6">3</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">4</div>'
     ]
   });
 </script>
 ```
 :::
 
-### 竖式步骤条
-竖直方向的步骤条。
-::: demo 设置`direction`属性为`vertical`，并且设置元素高度。
+### 卡片化
+当页面宽度方向空间空余，但高度方向空间匮乏时，可使用卡片风格
+::: demo 将`type`属性设置为`card`即可启用卡片模式。从交互上来说，卡片模式和一般模式的最大区别在于，可以通过直接点击两侧的幻灯片进行切换。
 
 ```html
-<div id="demo-steps4" style="height: 300px;"></div>
+<style>.demo-carouse {line-height: 300px; text-align: center;}</style>
+
+<div id="demo-carousel5"></div>
 
 <script>
-  $('#demo-steps4').steps({
-    active: 2,
-    direction: 'vertical',
+  $('#demo-carousel5').carousel({
+    type: 'card',
     data: [
-      { title: '步骤1' },
-      { title: '步骤2' },
-      { title: '步骤3', description: '这是一段文字描述' }
+      '<div class="demo-carouse" style="background-color: #d3dce6">1</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">2</div>',
+      '<div class="demo-carouse" style="background-color: #d3dce6">3</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">4</div>',
+      '<div class="demo-carouse" style="background-color: #d3dce6">5</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">6</div>'
     ]
-  });
-</script>
-```
-:::
-
-### 简单风格的步骤条
-设置 `simple` 可应用简洁风格，该条件下 `align-center / description / direction / space` 都将失效。
-::: demo 设置`direction`属性为`vertical`，并且设置元素高度。
-
-```html
-<div id="demo-steps5"></div>
-
-<script>
-  $('#demo-steps5').steps({
-    active: 2,
-    simple: true,
-    finishStatus: 'success',
-    data: ['步骤1', '步骤2', '步骤3']
   });
 </script>
 ```
 :::
 
 ### 参数
-你可以通过修改`$.fn.steps.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(#id).steps({xx: xx})`。
+你可以通过修改`$.fn.carousel.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).carousel({xx: xx})`。
 参数默认为 Json ，若为数组，则会被当做`data`赋值。
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
-|---------- |-------- |---------- |-------------  |-------- |
-| data          | 步骤参数数组，具体配置见下方【data参数】   | array  | - | `[]` |
-| space | 每个 step 的间距，不填写将自适应间距。支持百分比。 | number / string | - | - |
-| direction | 显示方向 | string | vertical/horizontal | `'horizontal'` |
-| active | 设置当前激活步骤  | number | - | 1 |
-| processStatus | 设置当前步骤的状态 | string | wait / process / finish / error / success | `'process'` |
-| finishStatus | 设置结束步骤的状态 | string | wait / process / finish / error / success | `'finish'` |
-| alignCenter | 进行居中对齐 | boolean | - | `false` |
-| simple | 是否应用简洁风格 | boolean | - | `false` |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| data          | 具体走马灯内容数组，具体配置见下方【data参数】   | array  | - | `[]` |
+| height | 走马灯的高度 | string | - | `'300px'` |
+| initialIndex | 初始状态激活的幻灯片的索引，从 0 开始 | number | - | `0` |
+| trigger | 指示器的触发方式 | string | click | - |
+| autoplay | 是否自动切换 | boolean | - | true |
+| interval | 自动切换的时间间隔，单位为毫秒 | number | - | 3000 |
+| indicatorPosition | 指示器的位置 | string | outside/none | - |
+| arrow | 切换箭头的显示时机 | string | always/hover/never | `'hover'` |
+| type | 走马灯的类型 | string | card | - |
+| loop | 是否循环显示 | boolean | - | `true` |
+| change | 幻灯片切换时触发，参数为`(目前激活的幻灯片的 name，原幻灯片的 name)` | function | - | - |
 
 ### data参数
-| 参数      | 说明    | 类型      | 可选值       | 默认值   |
-|---------- |-------- |---------- |-------------  |-------- |
-| title | 标题 | string | - | - |
-| description | 描述性文字 | string | - | - |
-| icon | 图标 | 传入 icon 的 class | string | - |
-| status | 设置当前步骤的状态，不设置则根据 steps 确定状态 | string | wait / process / finish / error / success | - |
+| 参数      | 说明          | 类型      | 可选值                           | 默认值  |
+|---------- |-------------- |---------- |--------------------------------  |-------- |
+| name | 幻灯片的名字，可用作 `set` 方法的参数 | string | - | 数组的索引index |
+| label | 该幻灯片所对应指示器的文本 | string | - | - |
+| content | 该幻灯片所对应内容 | string | - | - |
 
 ### 方法
-你可以通过调用`$(#id).steps('set', xxx)`来更新**已被初始化过**的步骤条的状态。
-| 方法      | 说明          | 举例  |
-|---------- |-------------- |---------------- |
-| set | 设置当前激活步骤，从`1`开始算 | `$(el).steps('set', 2)` |
+你可以通过调用`$(el).carousel('xxx', xxx)`来调用**已被初始化过**的走马灯的方法。
+| 方法名    | 说明          | 参数 | 举例 |
+|---------- |-------------- |  --  | ------ |
+| set  | 手动切换幻灯片 | 需要切换的幻灯片的索引，从 0 开始；或相应的 `name` 值 | `$(el).carousel('set', 3)` |
+| prev | 切换至上一张幻灯片 | - | `$(el).carousel('prev')` |
+| next | 切换至下一张幻灯片 | - | `$(el).carousel('next')` |
