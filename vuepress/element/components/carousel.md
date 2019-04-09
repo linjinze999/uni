@@ -2,33 +2,24 @@
 在有限空间内，循环播放同一类型的图片、文字等内容。
 
 ### 基础用法
-简单的步骤条。
-::: demo 设置`active`属性，接受一个`Number`，表明步骤的 index，从 1 开始。需要定宽的步骤条时，设置`space`属性即可，它接受`Boolean`，单位为`px`，如果不设置，则为自适应。设置`finishStatus`属性可以改变已经完成的步骤的状态。
+适用广泛的基础用法
+::: demo
 
 ```html
-<div id="demo-steps1"></div>
+默认 Hover 指示器触发
+<div id="demo-carousel1"></div>
 <br>
-<button onclick="demoSteps1()" class="el-button">下一步</button>
+Click 指示器触发
+<div id="demo-carousel2"></div>
 
 <script>
-  $('#demo-steps1').steps({
-    finishStatus: 'success',
-    active: 2,
+  $('#demo-carousel1').carousel(['步骤1','步骤2','步骤3']);
+  $('#demo-carousel2').carousel({
+    trigger: 'click',
     data: ['步骤1','步骤2','步骤3']
   });
-  var demoSteps1Active = 2;
-  function demoSteps1() {
-    demoSteps1Active += 1;
-    if (demoSteps1Active > 4) {
-      demoSteps1Active = 1;
-    }
-    $('#demo-steps1').steps('set', demoSteps1Active);
-  }
 </script>
 ```
-:::
-::: warning 注意
-`$(el)`的`innerHtml`将被替换。
 :::
 
 ### 有描述的步骤条
