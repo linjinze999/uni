@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Popover 弹出框 | uni组件库</title>
+    <meta name="description" content="基于JQuery的组件库">
+    <link rel="icon" href="/uni/logo.png">
+  <link rel="manifest" href="/uni/manifest.json">
+  <meta name="theme-color" content="#3eaf7c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/uni/icons/apple-touch-icon-152x152.png">
+  <link rel="mask-icon" href="/uni/icons/safari-pinned-tab.svg" color="#3eaf7c">
+  <meta name="msapplication-TileImage" content="/icons/msapplication-icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#000000">
+  <script src="/uni/assets/js/article.js"></script>
+  <script src="https://hm.baidu.com/hm.js?eeab23144137d3b40f28f0b49126c2ed"></script>
+  <link rel="stylesheet" href="/uni/assets/css/common.css">
+    
+    <link rel="preload" href="/uni/assets/css/0.styles.92cd5b7e.css" as="style"><link rel="preload" href="/uni/assets/js/app.fad41be4.js" as="script"><link rel="preload" href="/uni/assets/js/2.53110a80.js" as="script"><link rel="preload" href="/uni/assets/js/27.78455977.js" as="script"><link rel="preload" href="/uni/assets/js/3.76c39b22.js" as="script"><link rel="prefetch" href="/uni/assets/js/10.4c0c80fa.js"><link rel="prefetch" href="/uni/assets/js/11.e638abe6.js"><link rel="prefetch" href="/uni/assets/js/12.7d9ba60d.js"><link rel="prefetch" href="/uni/assets/js/13.3e935d6f.js"><link rel="prefetch" href="/uni/assets/js/14.7b2cd79b.js"><link rel="prefetch" href="/uni/assets/js/15.b2691559.js"><link rel="prefetch" href="/uni/assets/js/16.134af524.js"><link rel="prefetch" href="/uni/assets/js/17.94a2ac47.js"><link rel="prefetch" href="/uni/assets/js/18.424887fb.js"><link rel="prefetch" href="/uni/assets/js/19.0ae6fbfb.js"><link rel="prefetch" href="/uni/assets/js/20.b7bfda2e.js"><link rel="prefetch" href="/uni/assets/js/21.e61b147b.js"><link rel="prefetch" href="/uni/assets/js/22.12e67fab.js"><link rel="prefetch" href="/uni/assets/js/23.4891e042.js"><link rel="prefetch" href="/uni/assets/js/24.94bcf3ae.js"><link rel="prefetch" href="/uni/assets/js/25.7d8d6e35.js"><link rel="prefetch" href="/uni/assets/js/26.1a4850fb.js"><link rel="prefetch" href="/uni/assets/js/28.ab5b2dda.js"><link rel="prefetch" href="/uni/assets/js/29.f6201e69.js"><link rel="prefetch" href="/uni/assets/js/30.f56a127b.js"><link rel="prefetch" href="/uni/assets/js/31.56641671.js"><link rel="prefetch" href="/uni/assets/js/32.b346638c.js"><link rel="prefetch" href="/uni/assets/js/33.cf7274a7.js"><link rel="prefetch" href="/uni/assets/js/34.6b6c6fb7.js"><link rel="prefetch" href="/uni/assets/js/35.71531f7d.js"><link rel="prefetch" href="/uni/assets/js/36.ecea7e83.js"><link rel="prefetch" href="/uni/assets/js/37.4ccca580.js"><link rel="prefetch" href="/uni/assets/js/38.b26a3f77.js"><link rel="prefetch" href="/uni/assets/js/4.c1ce3c1d.js"><link rel="prefetch" href="/uni/assets/js/5.2e929b4e.js"><link rel="prefetch" href="/uni/assets/js/6.01514bd8.js"><link rel="prefetch" href="/uni/assets/js/7.bb258ab7.js"><link rel="prefetch" href="/uni/assets/js/8.f68739bf.js"><link rel="prefetch" href="/uni/assets/js/9.6f061ea8.js">
+    <link rel="stylesheet" href="/uni/assets/css/0.styles.92cd5b7e.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/uni/" class="home-link router-link-active"><!----> <span class="site-name">uni组件库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/uni/element/" class="sidebar-link">Element</a></li><li><a href="/uni/element/start.html" class="sidebar-link">安装</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Basic</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/layout.html" class="sidebar-link">Layout 布局</a></li><li><a href="/uni/element/components/container.html" class="sidebar-link">Container 布局容器</a></li><li><a href="/uni/element/components/color.html" class="sidebar-link">Color 色彩</a></li><li><a href="/uni/element/components/typography.html" class="sidebar-link">Typography 字体</a></li><li><a href="/uni/element/components/border.html" class="sidebar-link">Border 边框</a></li><li><a href="/uni/element/components/icon.html" class="sidebar-link">Icon 图标</a></li><li><a href="/uni/element/components/button.html" class="sidebar-link">Button 按钮</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Form</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/radio.html" class="sidebar-link">Radio 单选框</a></li><li><a href="/uni/element/components/checkbox.html" class="sidebar-link">Checkbox 多选框</a></li><li><a href="/uni/element/components/input.html" class="sidebar-link">Input 输入框</a></li><li><a href="/uni/element/components/switch.html" class="sidebar-link">Switch 开关</a></li><li><a href="/uni/element/components/rate.html" class="sidebar-link">Rate 评分</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Data</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tag.html" class="sidebar-link">Tag 标签</a></li><li><a href="/uni/element/components/progress.html" class="sidebar-link">Progress 进度条</a></li><li><a href="/uni/element/components/badge.html" class="sidebar-link">Badge 标记</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Notice</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/alert.html" class="sidebar-link">Alert 警告</a></li><li><a href="/uni/element/components/loading.html" class="sidebar-link">Loading 加载</a></li><li><a href="/uni/element/components/message.html" class="sidebar-link">Message 消息提示</a></li><li><a href="/uni/element/components/notification.html" class="sidebar-link">Notification 通知</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Navigation</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tabs.html" class="sidebar-link">Tabs 标签页</a></li><li><a href="/uni/element/components/breadcrumb.html" class="sidebar-link">Breadcrumb 面包屑</a></li><li><a href="/uni/element/components/dropdown.html" class="sidebar-link">Dropdown 下拉菜单</a></li><li><a href="/uni/element/components/steps.html" class="sidebar-link">Steps 步骤条</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading open"><span>Others</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/ui18n.html" class="sidebar-link">Ui18n 国际化</a></li><li><a href="/uni/element/components/dialog.html" class="sidebar-link">Dialog 对话框</a></li><li><a href="/uni/element/components/tooltip.html" class="sidebar-link">Tooltip 文字提示</a></li><li><a href="/uni/element/components/popover.html" class="active sidebar-link">Popover 弹出框</a></li><li><a href="/uni/element/components/card.html" class="sidebar-link">Card 卡片</a></li><li><a href="/uni/element/components/carousel.html" class="sidebar-link">Carousel 走马灯</a></li></ul></section></li></ul></section></li></ul> </aside> <main class="page"> <div class="content default"><h2 id="popover-弹出框"><a href="#popover-弹出框" aria-hidden="true" class="header-anchor">#</a> Popover 弹出框</h2> <h3 id="基础用法"><a href="#基础用法" aria-hidden="true" class="header-anchor">#</a> 基础用法</h3> <p>Popover 的属性与 Tooltip 很类似，因此对于重复属性，请参考 Tooltip 的文档，在此文档中不做详尽解释。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><button id="demo-popover1" class="el-button" data-v-515e4fee>hover激活</button> <button id="demo-popover2" class="el-button" data-v-515e4fee>click激活</button> <button id="demo-popover3" class="el-button" data-v-515e4fee>focus激活</button> <button id="demo-popover4" onclick="demoPopover4()" class="el-button" data-v-515e4fee>手动激活</button> <script data-v-515e4fee>
+  $('#demo-popover1').popover({
+    trigger: 'hover',
+    title: '标题',
+    content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+    width: '200px'
+  });
+  $('#demo-popover2').popover({
+    trigger: 'click',
+    itle: '标题',
+    content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+    width: '200px'
+  });
+  $('#demo-popover3').popover({
+    trigger: 'focus',
+    title: '标题',
+    content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+    width: '200px'
+  });
+  $('#demo-popover4').popover({
+    trigger: 'manual',
+    title: '标题',
+    content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
+    width: '200px'
+  });
+  var demoPopover4Show = false;
+  function demoPopover4 () {
+    demoPopover4Show = !demoPopover4Show;
+    if (demoPopover4Show) {
+      $('#demo-popover4').popover('show');
+    } else {
+      $('#demo-popover4').popover('hide');
+    }
+  }
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="嵌套信息"><a href="#嵌套信息" aria-hidden="true" class="header-anchor">#</a> 嵌套信息</h3> <p>可以在 Popover 中嵌套多种类型信息，以下为嵌套表格的例子。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><button id="demo-popover5" class="el-button" data-v-515e4fee>click激活</button> <script data-v-515e4fee>
+  $('#demo-popover5').popover({
+    trigger: 'click',
+    content: '&lt;table&gt;&lt;tr&gt;&lt;th&gt;Month&lt;/th&gt;&lt;th&gt;Savings&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;January&lt;/td&gt;&lt;td&gt;$100&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;',
+    width: '200px'
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="嵌套操作"><a href="#嵌套操作" aria-hidden="true" class="header-anchor">#</a> 嵌套操作</h3> <p>当然，你还可以嵌套操作，这相比 Dialog 更为轻量：</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><button id="demo-popover6" class="el-button" data-v-515e4fee>删除</button> <script data-v-515e4fee>
+  $('#demo-popover6').popover({
+    trigger: 'click',
+    content: '&lt;p&gt;是否删除？&lt;/p&gt;&lt;div style=&quot;text-align: right;&quot;&gt;' +
+     '&lt;button onclick=&quot;demoPopover6()&quot; class=&quot;el-button el-button--mini&quot;&gt;取消&lt;/button&gt;' +
+      '&lt;button onclick=&quot;demoPopover6()&quot; class=&quot;el-button el-button--primary el-button--mini&quot;&gt;确定&lt;/button&gt;&lt;/div&gt;',
+    width: '200px'
+  });
+  function demoPopover6 () {
+    $('#demo-popover6').popover('hide');
+  }
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="参数"><a href="#参数" aria-hidden="true" class="header-anchor">#</a> 参数</h3> <p>你可以通过修改<code>$.fn.popover.defaults</code>来修改全局默认配置，也可以在初始化时传入指定配置<code>$(#id).popover({xx: xx})</code>。</p> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>可选值</th> <th>默认值</th></tr></thead> <tbody><tr><td>trigger</td> <td>触发方式</td> <td>String</td> <td>click/focus/hover/manual</td> <td><code>'click'</code></td></tr> <tr><td>title</td> <td>标题</td> <td>String</td> <td>-</td> <td>-</td></tr> <tr><td>content</td> <td>显示的内容，支持html</td> <td>String</td> <td>-</td> <td>-</td></tr> <tr><td>width</td> <td>宽度</td> <td>String</td> <td>-</td> <td>最小宽度 150px</td></tr> <tr><td>placement</td> <td>出现的位置</td> <td>String</td> <td>top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end</td> <td><code>'bottom'</code></td></tr> <tr><td>disabled</td> <td>Tooltip 是否可用</td> <td>Boolean</td> <td>-</td> <td>false</td></tr> <tr><td>offset</td> <td>出现位置的偏移量</td> <td>Number</td> <td>-</td> <td>0</td></tr> <tr><td>visibleArrow</td> <td>是否显示 Tooltip 箭头，</td> <td>Boolean</td> <td>-</td> <td>true</td></tr> <tr><td>openDelay</td> <td>延迟出现，单位毫秒</td> <td>Number</td> <td>-</td> <td>0</td></tr> <tr><td>popoverClass</td> <td>为 Popover 添加类名</td> <td>String</td> <td>-</td> <td>-</td></tr> <tr><td>afterEnter</td> <td>显示后执行</td> <td>Function</td> <td>-</td> <td>-</td></tr> <tr><td>afterAfter</td> <td>隐藏后执行</td> <td>Function</td> <td>-</td> <td>-</td></tr></tbody></table> <h3 id="方法"><a href="#方法" aria-hidden="true" class="header-anchor">#</a> 方法</h3> <p>你可以通过调用<code>$(el).popover('xxx')</code>来调用<strong>已被初始化过</strong>的元素的 Popover 方法。</p> <table><thead><tr><th>方法</th> <th>说明</th> <th>举例</th></tr></thead> <tbody><tr><td>set</td> <td>重新设置 Popover 参数，若传入字符串则当做<code>content</code>处理</td> <td><code>$(el).popover('set', {xx: xx})</code></td></tr> <tr><td>show</td> <td>显示加载特效</td> <td><code>$(el).popover('show')</code></td></tr> <tr><td>hide</td> <td>隐藏加载特效</td> <td><code>$(el).popover('hide')</code></td></tr></tbody></table></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/linjinze999/uni/edit/master/vuepress/element/components/popover.md" target="_blank" rel="noopener noreferrer">帮我改进此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">2019-4-8 11:25:31</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/uni/element/components/tooltip.html" class="prev">
+          Tooltip 文字提示
+        </a></span> <span class="next"><a href="/uni/element/components/card.html">
+          Card 卡片
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/uni/assets/js/app.fad41be4.js" defer></script><script src="/uni/assets/js/2.53110a80.js" defer></script><script src="/uni/assets/js/27.78455977.js" defer></script><script src="/uni/assets/js/3.76c39b22.js" defer></script>
+  </body>
+</html>
