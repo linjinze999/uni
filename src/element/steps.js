@@ -33,9 +33,9 @@ export default {
           }
           step = $.extend({}, _default, step);
           var _status = 'wait';
-          if ((index + 1) < options.active) {
+          if (index < options.active) {
             _status = options.finishStatus;
-          } else if ((index + 1) == options.active) {
+          } else if (index == options.active) {
             _status = options.processStatus;
           }
           if (step.status) {
@@ -77,9 +77,9 @@ export default {
         options.active = parseInt(active);
         $.each(options.data, function (index, step) {
           var _status = 'wait';
-          if ((index + 1) < options.active) {
+          if (index < options.active) {
             _status = options.finishStatus;
-          } else if ((index + 1) == options.active) {
+          } else if (index == options.active) {
             _status = options.processStatus;
           }
           if (step.status) {

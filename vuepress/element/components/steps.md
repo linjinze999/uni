@@ -3,7 +3,7 @@
 
 ### 基础用法
 简单的步骤条。
-::: demo 设置`active`属性，接受一个`Number`，表明步骤的 index，从 1 开始。需要定宽的步骤条时，设置`space`属性即可，它接受`Boolean`，单位为`px`，如果不设置，则为自适应。设置`finishStatus`属性可以改变已经完成的步骤的状态。
+::: demo 设置`active`属性，接受一个`Number`，表明步骤的 index，从 0 开始。需要定宽的步骤条时，设置`space`属性即可，它接受`Boolean`，单位为`px`，如果不设置，则为自适应。设置`finishStatus`属性可以改变已经完成的步骤的状态。
 
 ```html
 <div id="demo-steps1"></div>
@@ -13,14 +13,14 @@
 <script>
   $('#demo-steps1').steps({
     finishStatus: 'success',
-    active: 2,
+    active: 1,
     data: ['步骤1','步骤2','步骤3']
   });
-  var demoSteps1Active = 2;
+  var demoSteps1Active = 1;
   function demoSteps1() {
     demoSteps1Active += 1;
-    if (demoSteps1Active > 4) {
-      demoSteps1Active = 1;
+    if (demoSteps1Active > 3) {
+      demoSteps1Active = 0;
     }
     $('#demo-steps1').steps('set', demoSteps1Active);
   }
@@ -40,7 +40,7 @@
 
 <script>
   $('#demo-steps2').steps({
-    active: 2,
+    active: 1,
     alignCenter: true,
     data: [
       { title: '步骤1', description: '这是一段很长很长很长的描述性文字' },
@@ -62,7 +62,7 @@
 
 <script>
   $('#demo-steps3').steps({
-    active: 2,
+    active: 1,
     space: 200,
     data: [
       { title: '步骤1', icon: 'el-icon-edit', status: 'error' },
@@ -83,7 +83,7 @@
 
 <script>
   $('#demo-steps4').steps({
-    active: 2,
+    active: 1,
     direction: 'vertical',
     data: [
       { title: '步骤1' },
@@ -104,7 +104,7 @@
 
 <script>
   $('#demo-steps5').steps({
-    active: 2,
+    active: 1,
     simple: true,
     finishStatus: 'success',
     data: ['步骤1', '步骤2', '步骤3']
