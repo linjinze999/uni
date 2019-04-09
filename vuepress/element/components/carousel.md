@@ -15,13 +15,19 @@ Click 指示器触发
 
 <script>
   $('#demo-carousel1').carousel([
-    '<div class="demo-carouse" style="background-color: #f5222d">步骤1</div>',
-    '<div class="demo-carouse" style="background-color: #fa8c16">步骤2</div>',
-    '<div class="demo-carouse" style="background-color: #a0d911">步骤3</div>'
+    '<div class="demo-carouse" style="background-color: #d3dce6">1</div>',
+    '<div class="demo-carouse" style="background-color: #99a9bf">2</div>',
+    '<div class="demo-carouse" style="background-color: #d3dce6">3</div>',
+    '<div class="demo-carouse" style="background-color: #99a9bf">4</div>'
   ]);
   $('#demo-carousel2').carousel({
     trigger: 'click',
-    data: ['步骤1','步骤2','步骤3']
+    data: [
+      '<div class="demo-carouse" style="background-color: #d3dce6">1</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">2</div>',
+      '<div class="demo-carouse" style="background-color: #d3dce6">3</div>',
+      '<div class="demo-carouse" style="background-color: #99a9bf">4</div>'
+    ]
   });
 </script>
 ```
