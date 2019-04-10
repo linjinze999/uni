@@ -5,6 +5,7 @@ import Breakcrumb from './element/breakcrumb';
 import Button from './element/button';
 import Carousel from './element/carousel';
 import Checkbox from './element/checkbox';
+import Collapse from './element/collapse';
 import Dialog from './element/dialog';
 import Dropdown from './element/dropdown';
 import Loading from './element/loading';
@@ -37,6 +38,7 @@ const fn = [
   Button,
   Carousel,
   Checkbox,
+  Collapse,
   Dropdown,
   Loading,
   Popover,

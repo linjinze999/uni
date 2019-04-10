@@ -130,6 +130,7 @@ module.exports = {
                     'components/popover',
                     'components/card',
                     'components/carousel',
+                    'components/collapse',
                   ]
                 },
               ]
