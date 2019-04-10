@@ -18,6 +18,7 @@ import Rate from './element/rate';
 import Steps from './element/steps';
 import Switch from './element/switch';
 import Tabs from './element/tabs';
+import Timeline from './element/timeline';
 import Tooltip from './element/tooltip';
 import './element/theme-chalk/src/index.scss';
 
@@ -48,6 +49,7 @@ const fn = [
   Steps,
   Switch,
   Tabs,
+  Timeline,
   Tooltip
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));

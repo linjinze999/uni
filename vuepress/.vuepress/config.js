@@ -131,6 +131,7 @@ module.exports = {
                     'components/card',
                     'components/carousel',
                     'components/collapse',
+                    'components/timeline',
                   ]
                 },
               ]
