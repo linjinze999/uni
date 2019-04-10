@@ -22,7 +22,7 @@ export default {
           content: ''
         };
         options.data = options.data.sort(function (a, b) {
-          return options.reverse ? (a.timestamp > b.timestamp) : (a.timestamp < b.timestamp);
+          return options.reverse ? (a.timestamp >= b.timestamp) : (a.timestamp <= b.timestamp);
         });
         $.each(options.data, function (index, time) {
           time = $.extend({}, _default, time);
