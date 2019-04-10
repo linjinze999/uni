@@ -53,7 +53,7 @@ export default {
         $.each(options.data, function (index, item) {
           var _isActive = false;
           for (var _idx in active) {
-            if (item.name == active[_idx]) {
+            if (item.name === active[_idx]) {
               _isActive = true;
               break;
             }
