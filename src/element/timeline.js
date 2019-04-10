@@ -21,13 +21,24 @@ export default {
           icon: '',
           content: ''
         };
+        options.data = options.data.sort(function (a, b) {
+          return options.reverse ? (a.timestamp > b.timestamp) : (a.timestamp < b.timestamp);
+        });
         $.each(options.data, function (index, time) {
           time = $.extend({}, _default, time);
           // html
+          var _icon = time.icon ? '<i v-if="icon" class="el-timeline-item__icon ' + time.icon + '"></i>' : '';
+          var _timestampTop = (!time.hideTimestamp && time.placement === 'top') ?
+            '<div class="el-timeline-item__timestamp is-top">' + time.timestamp + '</div>' :
+            '';
+          var _timestampBottom = (!time.hideTimestamp && time.placement === 'bottom') ?
+            '<div class="el-timeline-item__timestamp is-bottom">' + time.timestamp + '</div>' :
+            '';
           time.$item = $('<li class="el-timeline-item"><div class="el-timeline-item__tail"></div>' +
-            '<div class="el-timeline-item__node el-timeline-item__node--normal el-timeline-item__node--"></div>' +
-            '<div class="el-timeline-item__wrapper"><div class="el-timeline-item__content">' + time.content +
-            '</div><div class="el-timeline-item__timestamp is-bottom">' + time.timestamp + '</div></div></li>');
+            '<div class="el-timeline-item__node el-timeline-item__node--normal el-timeline-item__node--' + time.type +
+            ' el-timeline-item__node--' + time.size + '" style="background-color: ' + time.color + '">' + _icon + '</div>' +
+            '<div class="el-timeline-item__wrapper">' + _timestampTop + '<div class="el-timeline-item__content">' + time.content +
+            '</div>' + _timestampBottom + '</div></li>');
           that.$timeline.append(time.$item);
         });
         this.$el.append(this.$timeline);
