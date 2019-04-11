@@ -6,6 +6,7 @@ import Button from './element/button';
 import Carousel from './element/carousel';
 import Checkbox from './element/checkbox';
 import Collapse from './element/collapse';
+import ColorPicker from './element/colorPicker';
 import Dialog from './element/dialog';
 import Dropdown from './element/dropdown';
 import Loading from './element/loading';
@@ -40,6 +41,7 @@ const fn = [
   Carousel,
   Checkbox,
   Collapse,
+  ColorPicker,
   Dropdown,
   Loading,
   Popover,

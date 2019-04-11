@@ -93,6 +93,7 @@ module.exports = {
                     'components/input',
                     'components/switch',
                     'components/rate',
+                    'components/colorPicker',
                   ]
                 }, {
                   title: 'Data',
