@@ -3,21 +3,14 @@
 
 ### 基础用法
 移动到下拉菜单上，展开更多操作。
-::: demo 利用`$(el).dropdown()`快速初始化标签页。
+::: demo 利用`$(el).colorPicker()`快速初始化颜色选择器。
 
 ``` html
-<style>#demo-dropdown1 { cursor: pointer; color: rgb(64, 158, 255);}</style>
-
-<span id="demo-dropdown1">悬浮展开</span>
+<p>有默认值</p>
+<div id="demo-color-picker1"></div>
 
 <script>
-  $('#demo-dropdown1').dropdown([
-    '黄金糕',
-    '狮子头',
-    '螺蛳粉',
-    {content: '双皮奶', disabled: true},
-    {content: '蚵仔煎', divided: true}
-    ]);
+  $('#demo-color-picker1').colorPicker();
 </script>
 ```
 :::
