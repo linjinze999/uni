@@ -98,8 +98,7 @@ export default {
         });
         // 插入$el
         this.$colorDropdown.append(this.$wrapper, this.$alpha, this.$predefine, this.$btns);
-        this.$el.addClass('el-color-picker el-color-picker--' + (options.size + options.disabled ? ' is-disabled' : ''))
-          .append(this.$trigger, this.$colorDropdown);
+        this.$el.addClass('el-color-picker el-color-picker--' + options.size).append(this.$trigger, this.$colorDropdown);
         this.$trigger.on('click', function () {
           if (!options.disabled) {
             that._show ? that.hide() : that.show();
