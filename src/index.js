@@ -21,6 +21,7 @@ import Switch from './element/switch';
 import Tabs from './element/tabs';
 import Timeline from './element/timeline';
 import Tooltip from './element/tooltip';
+import Transfer from './element/transfer';
 import './element/theme-chalk/src/index.scss';
 
 const $ = window.$;
@@ -52,6 +53,7 @@ const fn = [
   Switch,
   Tabs,
   Timeline,
-  Tooltip
+  Tooltip,
+  Transfer
 ];
 fn.forEach( f => f.init($, f.componentName, I18n.optionsName));
