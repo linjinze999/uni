@@ -10,6 +10,10 @@ export default {
       init: function () {
         var options = this.options,
           that = this;
+        var title1 = options.titles[0] || '',
+          title2 = options.titles[1] || '';
+        title1 = typeof title1 === 'function' ? title1() : title1;
+        title2 = typeof title2 === 'function' ? title2() : title2;
         // left
         this.$left = $('<div class="el-transfer-panel"></div>');
         this.$leftHeader = $('<p class="el-transfer-panel__header">' +
@@ -18,10 +22,7 @@ export default {
           '          <span class="el-checkbox__inner"></span>' +
           '          <input type="checkbox" aria-hidden="true" class="el-checkbox__original" value="">' +
           '        </span>' +
-          '        <span class="el-checkbox__label">' +
-          '          列表 1' +
-          '          <span></span>' +
-          '        </span>' +
+          '        <span class="el-checkbox__label">' + title1 + '<span></span></span>' +
           '      </label>' +
           '    </p>');
         this.$leftHeaderLabel = this.$leftHeader.find('.el-checkbox');
@@ -41,8 +42,14 @@ export default {
         this.$buttons = $('<div class="el-transfer__buttons"></div>');
         this.$buttonsLeft = $('<button disabled="disabled" type="button" class="el-button el-button--primary is-disabled el-transfer__button">' +
           '<span><i class="el-icon-arrow-left"></i></span></button>');
+        this.$buttonsLeft.on('click', function () {
+          that.toLeft();
+        });
         this.$buttonsRight = $('<button type="button" class="el-button el-button--primary is-disabled el-transfer__button" disabled="disabled">' +
           '<span><i class="el-icon-arrow-right"></i></span></button>');
+        this.$buttonsRight.on('click', function () {
+          that.toRight();
+        });
         this.$buttons.append(this.$buttonsLeft, this.$buttonsRight);
         // right
         this.$right = $('<div class="el-transfer-panel"></div>');
@@ -52,10 +59,7 @@ export default {
           '          <span class="el-checkbox__inner"></span>' +
           '          <input type="checkbox" aria-hidden="true" class="el-checkbox__original" value="">' +
           '        </span>' +
-          '        <span class="el-checkbox__label">' +
-          '          列表 2' +
-          '          <span></span>' +
-          '        </span>' +
+          '        <span class="el-checkbox__label">' + title2 + '<span></span></span>' +
           '      </label>' +
           '    </p>');
         this.$rightHeaderLabel = this.$rightHeader.find('.el-checkbox');
@@ -97,10 +101,15 @@ export default {
             '        </label>');
           item.$checkbox = item.$el.find('input[type=checkbox]');
           item.$input = item.$el.find('.el-checkbox__input');
+          item.position = 'left';
           if (!item.disabled) {
             item.$el.on('change', function () {
               that.changeCheck(item, item.$checkbox.is(':checked'));
-              that.leftCheck();
+              if (item.position === 'left') {
+                that.leftCheck();
+              } else {
+                that.rightCheck();
+              }
             });
           }
           that.left.push(item);
@@ -108,6 +117,40 @@ export default {
         });
         //
         this.$el.addClass('el-transfer').append(this.$left, this.$buttons, this.$right);
+      },
+      updateLeftHeaderText: function(){
+        var _checked = this.left.filter(function (item) {
+          return item.$checkbox.is(':checked');
+        });
+        this.$leftHeaderText.html(this.options.format.noChecked.replace(/\${ *checked *}/g, _checked.length.toString())
+          .replace(/\${ *total *}/g, this.left.length.toString()));
+      },
+      updateRightHeaderText: function(){
+        var _checked = this.right.filter(function (item) {
+          return item.$checkbox.is(':checked');
+        });
+        this.$rightHeaderText.html(this.options.format.hasChecked.replace(/\${ *checked *}/g, _checked.length.toString())
+          .replace(/\${ *total *}/g, this.right.length.toString()));
+      },
+      updateButtonsLeft: function(){
+        var _checked = this.right.some(function (item) {
+          return item.$checkbox.is(':checked');
+        });
+        if(_checked){
+          this.$buttonsLeft.attr('disabled', false).removeClass('is-disabled');
+        }else{
+          this.$buttonsLeft.attr('disabled', true).addClass('is-disabled');
+        }
+      },
+      updateButtonsRight: function(){
+        var _checked = this.left.some(function (item) {
+          return item.$checkbox.is(':checked');
+        });
+        if(_checked){
+          this.$buttonsRight.attr('disabled', false).removeClass('is-disabled');
+        }else{
+          this.$buttonsRight.attr('disabled', true).addClass('is-disabled');
+        }
       },
       changeCheck: function (item, checked) {
         item.$checkbox.prop('checked', !!checked);
@@ -124,78 +167,102 @@ export default {
         if (_checked) {
           this.$leftHeaderLabel.addClass('is-checked').attr('aria-checked', true);
           this.$leftHeaderInput.addClass('is-checked');
-          this.$buttonsRight.attr('disabled', false).removeClass('is-disabled');
         } else {
           this.$leftHeaderLabel.removeClass('is-checked').attr('aria-checked', false);
           this.$leftHeaderInput.removeClass('is-checked');
-          this.$buttonsRight.attr('disabled', true).addClass('is-disabled');
         }
         for (var index in this.left) {
           !this.left[index].disabled && this.changeCheck(this.left[index], _checked);
         }
+        this.updateLeftHeaderText();
+        this.updateButtonsRight();
       },
-      leftCheck: function (item) {
+      leftCheck: function () {
         var _checked = this.left.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         if (_checked.length === 0) {
-          this.$buttonsRight.attr('disabled', true).addClass('is-disabled');
           this.$leftHeaderLabel.removeClass('is-checked');
           this.$leftHeaderInput.removeClass('is-checked is-indeterminate');
           this.$leftHeaderCheckbox.prop('checked', false);
         } else if (_checked.length === this.left.length) {
-          this.$buttonsRight.attr('disabled', false).removeClass('is-disabled');
           this.$leftHeaderLabel.addClass('is-checked');
           this.$leftHeaderInput.removeClass('is-indeterminate').addClass('is-checked');
           this.$leftHeaderCheckbox.prop('checked', true);
         } else {
-          this.$buttonsRight.attr('disabled', false).removeClass('is-disabled');
           this.$leftHeaderLabel.removeClass('is-checked');
           this.$leftHeaderInput.removeClass('is-checked').addClass('is-indeterminate');
           this.$leftHeaderCheckbox.prop('checked', false);
         }
+        this.updateLeftHeaderText();
+        this.updateButtonsRight();
       },
       toRight: function () {
-
+        var that = this, options = that.options;
+        for (var index = 0; index < this.left.length; index++) {
+          var item = this.left[index];
+          if (item.$checkbox.is(':checked')) {
+            item.position = 'right';
+            that.changeCheck(item, false);
+            that.right.push(item);
+            that.$rightBodyCheckboxGroup.append(item.$el);
+            that.left.splice(index, 1);
+            index--;
+          }
+        }
+        this.leftCheck();
+        this.rightCheck();
       },
       rightCheckAll: function () {
         var _checked = this.$rightHeaderCheckbox.is(':checked');
         if (_checked) {
           this.$rightHeaderLabel.addClass('is-checked').attr('aria-checked', true);
           this.$rightHeaderInput.addClass('is-checked');
-          this.$buttonsLeft.attr('disabled', false).removeClass('is-disabled');
         } else {
           this.$rightHeaderLabel.removeClass('is-checked').attr('aria-checked', false);
           this.$rightHeaderInput.removeClass('is-checked');
-          this.$buttonsLeft.attr('disabled', true).addClass('is-disabled');
         }
         for (var index in this.right) {
           !this.right[index].disabled && this.changeCheck(this.right[index], _checked);
         }
+        this.updateRightHeaderText();
+        this.updateButtonsLeft();
       },
-      rightCheck: function (item) {
+      rightCheck: function () {
         var _checked = this.right.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         if (_checked.length === 0) {
-          this.$buttonsLeft.attr('disabled', true).addClass('is-disabled');
           this.$rightHeaderLabel.removeClass('is-checked');
           this.$rightHeaderInput.removeClass('is-checked is-indeterminate');
           this.$rightHeaderCheckbox.prop('checked', false);
-        } else if (_checked.length === this.left.length) {
-          this.$buttonsLeft.attr('disabled', false).removeClass('is-disabled');
+        } else if (_checked.length === this.right.length) {
           this.$rightHeaderLabel.addClass('is-checked');
           this.$rightHeaderInput.removeClass('is-indeterminate').addClass('is-checked');
           this.$rightHeaderCheckbox.prop('checked', true);
         } else {
-          this.$buttonsLeft.attr('disabled', false).removeClass('is-disabled');
           this.$rightHeaderLabel.removeClass('is-checked');
           this.$rightHeaderInput.removeClass('is-checked').addClass('is-indeterminate');
           this.$rightHeaderCheckbox.prop('checked', false);
         }
+        this.updateRightHeaderText();
+        this.updateButtonsLeft();
       },
       toLeft: function () {
-
+        var that = this, options = that.options;
+        for (var index = 0; index < this.right.length; index++) {
+          var item = this.right[index];
+          if (item.$checkbox.is(':checked')) {
+            item.position = 'left';
+            that.changeCheck(item, false);
+            that.left.push(item);
+            that.$leftBodyCheckboxGroup.append(item.$el);
+            that.right.splice(index, 1);
+            index--;
+          }
+        }
+        this.rightCheck();
+        this.leftCheck();
       }
     };
     $.fn[componentName] = function () {
