@@ -12,161 +12,30 @@
 ```
 :::
 
-### 禁用状态
-单选框不可用的状态，可初始化时指定，也可动态设置。
-::: demo 通过`$(el).checkbox({disabled: true})`在初始化时快速设置`checkbox`禁用样式，或`$(el).checkbox('disabled'})`、`$(el).checkbox('show'})`动态设置禁用状态。
+### 可搜索
+在数据很多的情况下，可以对数据进行搜索和过滤。
+::: demo 设置 filterable 为 true 即可开启搜索模式。默认情况下，若数据项的 label 属性包含搜索关键字，则会在搜索结果中显示。你也可以使用 filter-method 定义自己的搜索逻辑。filter-method 接收一个方法，当搜索关键字变化时，会将当前的关键字和每个数据项传给该方法。若方法返回 true，则会在搜索结果中显示对应的数据项。。
 
 ``` html
-<div>
-  <input name="Demo2" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo2" type="checkbox" value="2" label="葡萄"/>
-</div><br>
-<div>
-  <button onclick="demoCheckbox1()" class="el-button">禁用Checkbox</button>
-  <button onclick="demoCheckbox2()" class="el-button">启用Checkbox</button>
-</div>
+<div id="demo-transfer2"></div>
 
 <script>
-  $('[name=Demo2]').checkbox({disabled: true});
-  function demoCheckbox1() {
-    $('[name=Demo2]').checkbox('disabled');
-  }
-  function demoCheckbox2() {
-    $('[name=Demo2]').checkbox('show');
-  }
-</script>
-```
-:::
-
-### indeterminate 状态
-`indeterminate`属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果。
-::: demo 使用`$(el).checkbox('set', xxx)`来设置`checkbox`状态，避免重复触发`change`事件。
-
-``` html
-<div>
-  <input name="Demo12All" type="checkbox" label="全选"/><br><br>
-  <input name="Demo12" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo12" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo12" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo12" type="checkbox" value="4" label="其他"/>
-</div>
-
-<script>
-  $('[name=Demo12]').checkbox({
-    onchange: function(){
-      var _all = $('[name=Demo12]').length;
-      var _checked = $('[name=Demo12]:checked').length;
-      if (_all === _checked) {
-        $('[name=Demo12All]').checkbox('set', true);
-      } else if (_checked === 0) {
-        $('[name=Demo12All]').checkbox('set', false);
-      } else {
-        $('[name=Demo12All]').checkbox('set', 'indeterminate');
-      }
-    }
+  $('#demo-transfer2').transfer({
+    filterable: true,
+    filterPlaceholder: '请输入城市拼音',
+    filterMethod: function(query, item){
+      return item.pinyin.indexOf(query) > -1;
+    },
+    data: [
+      {value: '上海', pinyin: 'shanghai'},
+      {value: '北京', pinyin: 'beijing'},
+      {value: '广州', pinyin: 'guangzhou'},
+      {value: '深圳', pinyin: 'shenzhen'},
+      {value: '南京', pinyin: 'nanjing'},
+      {value: '西安', pinyin: 'xian'},
+      {value: '成都', pinyin: 'chengdu'}
+    ]
   });
-  $('[name=Demo12All]').checkbox({
-    onchange: function () {
-      $('[name=Demo12]').checkbox('set', $('[name=Demo12All]').is(':checked'));
-    }
-  });
-
-</script>
-```
-:::
-
-### 可选项目数量的限制
-使用`min`和`max`属性能够限制可以被勾选的项目的数量。
-::: demo 通过`$(el).checkbox({min: 1, max: 3})`在初始化时设置`checkbox`最小/大选择数。
-
-``` html
-<div>
-  <input name="Demo11" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo11" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo11" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo11" type="checkbox" value="4" label="其他"/>
-</div>
-
-<script>
-  $('[name=Demo11]').checkbox({min: 1, max: 3});
-</script>
-```
-:::
-
-### 按钮样式
-按钮样式的单选组合。
-::: demo 通过`$(el).checkbox({button: true})`在初始化时快速设置`checkbox`按钮样式。通过一个`class="el-checkbox-group"`的父元素包裹起来。
-
-``` html
-<div>
-  <input name="Demo3" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo3" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo3" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo3" type="checkbox" value="4" label="其他"/>
-</div><br><br>
-<div>
-  <input name="Demo4" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo4" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo4" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo4" type="checkbox" value="4" label="其他"/>
-</div><br><br>
-<div>
-  <input name="Demo5" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo5" type="checkbox" value="2" label="葡萄" disabled/>
-  <input name="Demo5" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo5" type="checkbox" value="4" label="其他"/>
-</div><br><br>
-<div>
-  <input name="Demo6" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo6" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo6" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo6" type="checkbox" value="4" label="其他"/>
-</div>
-
-<script>
-  $('[name=Demo3]').checkbox({button: true, checked: ['1']});
-  $('[name=Demo4]').checkbox({button: true, size: 'medium', checked: true});
-  $('[name=Demo5]').checkbox({button: true, size: 'small', checked: ['1']});
-  $('[name=Demo6]').checkbox({button: true, size: 'mini', disabled: true, checked: ['1']});
-</script>
-```
-:::
-
-### 带有边框
-按钮样式的单选组合。
-::: demo 通过`$(el).checkbox({button: true})`在初始化时快速设置`checkbox`按钮样式。通过一个父元素将所有 Checkbox 包裹起来。
-
-``` html
-<div>
-  <input name="Demo7" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo7" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo7" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo7" type="checkbox" value="4" label="其他"/>
-</div><br>
-<div>
-  <input name="Demo8" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo8" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo8" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo8" type="checkbox" value="4" label="其他"/>
-</div><br><br>
-<div>
-  <input name="Demo9" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo9" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo9" type="checkbox" value="3" label="香蕉" disabled/>
-  <input name="Demo9" type="checkbox" value="4" label="其他"/>
-</div><br><br>
-<div>
-  <input name="Demo10" type="checkbox" value="1" label="苹果"/>
-  <input name="Demo10" type="checkbox" value="2" label="葡萄"/>
-  <input name="Demo10" type="checkbox" value="3" label="香蕉"/>
-  <input name="Demo10" type="checkbox" value="4" label="其他"/>
-</div>
-
-<script>
-  $('[name=Demo7]').checkbox({border: true, checked: ['1']});
-  $('[name=Demo8]').checkbox({border: true, size: 'medium', checked: ['1']});
-  $('[name=Demo9]').checkbox({border: true, size: 'small', checked: ['1']});
-  $('[name=Demo10]').checkbox({border: true, size: 'mini', disabled: true, checked: ['1']});
 </script>
 ```
 :::

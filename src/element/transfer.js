@@ -11,9 +11,15 @@ export default {
         var options = this.options,
           that = this;
         var title1 = options.titles[0] || '',
-          title2 = options.titles[1] || '';
+          title2 = options.titles[1] || '',
+          button1 = options.buttonTexts[0] || '',
+          button2 = options.buttonTexts[1] || '';
         title1 = typeof title1 === 'function' ? title1() : title1;
         title2 = typeof title2 === 'function' ? title2() : title2;
+        button1 = typeof button1 === 'function' ? button1() : button1;
+        button2 = typeof button2 === 'function' ? button2() : button2;
+        this.filterPlaceholder = options.filterPlaceholder || '';
+        this.filterPlaceholder = (typeof this.filterPlaceholder === 'function') ? this.filterPlaceholder() : this.filterPlaceholder;
         // left
         this.$left = $('<div class="el-transfer-panel"></div>');
         this.$leftHeader = $('<p class="el-transfer-panel__header">' +
@@ -36,17 +42,44 @@ export default {
         this.$leftBodyCheckboxGroup = $('<div role="group" aria-label="checkbox-group" class="el-checkbox-group el-transfer-panel__list"></div>');
         this.$leftBodyNoFilter = $('<p class="el-transfer-panel__empty" style="display: none;">无匹配数据</p>');
         this.$leftBodyNoData = $('<p class="el-transfer-panel__empty" style="display: none;">无数据</p>');
+        if (options.filterable) {
+          this.$leftFilter = $('<div class="el-transfer-panel__filter el-input el-input--small el-input--prefix">' +
+            '<input type="text" autocomplete="off" placeholder="' + this.filterPlaceholder + '" class="el-input__inner">' +
+            '<span class="el-input__prefix"><i class="el-input__icon el-icon-search"></i></span></div>');
+          this.$leftFilterInput = this.$leftFilter.find('input');
+          this.$leftFilterInput.on('input', function (e) {
+            that.filterLeft(e);
+            that.$leftFilter.trigger('mouseenter');
+          });
+          this.$leftFilterIcon = this.$leftFilter.find('.el-input__icon');
+          this.$leftFilterIcon.on('click', function(){
+            if(that.$leftFilterIcon.hasClass('el-icon-circle-close')){
+              that.$leftFilterInput.val('').trigger('input');
+            }
+          });
+          this.$leftFilter.on('mouseenter', function(){
+            if(that.$leftFilterInput.val().length > 0){
+              that.$leftFilterIcon.removeClass('el-icon-search').addClass('el-icon-circle-close');
+            }else{
+              that.$leftFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
+            }
+          });
+          this.$leftFilter.on('mouseleave', function(){
+            that.$leftFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
+          });
+          this.$leftBody.append(this.$leftFilter);
+        }
         this.$leftBody.append(this.$leftBodyCheckboxGroup, this.$leftBodyNoFilter, this.$leftBodyNoData);
         this.$left.append(this.$leftHeader, this.$leftBody);
         // buttons
         this.$buttons = $('<div class="el-transfer__buttons"></div>');
-        this.$buttonsLeft = $('<button disabled="disabled" type="button" class="el-button el-button--primary is-disabled el-transfer__button">' +
-          '<span><i class="el-icon-arrow-left"></i></span></button>');
+        this.$buttonsLeft = $('<button type="button" class="el-button el-button--primary is-disabled el-transfer__button ' +
+          (button2 ? 'is-with-texts' : '') + '" disabled="disabled"><span><i class="el-icon-arrow-left"></i>' + button1 + '</span></button>');
         this.$buttonsLeft.on('click', function () {
           that.toLeft();
         });
-        this.$buttonsRight = $('<button type="button" class="el-button el-button--primary is-disabled el-transfer__button" disabled="disabled">' +
-          '<span><i class="el-icon-arrow-right"></i></span></button>');
+        this.$buttonsRight = $('<button type="button" class="el-button el-button--primary is-disabled el-transfer__button ' +
+          (button2 ? 'is-with-texts' : '') + '" disabled="disabled"><span><i class="el-icon-arrow-right"></i>' + button2 + '</span></button>');
         this.$buttonsRight.on('click', function () {
           that.toRight();
         });
@@ -63,8 +96,8 @@ export default {
           '      </label>' +
           '    </p>');
         this.$rightHeaderLabel = this.$rightHeader.find('.el-checkbox');
-        this.$rightHeaderLabel.on('change', function () {
-          that.rightCheckAll();
+        this.$rightHeaderLabel.on('input', function (e) {
+          that.rightCheckAll(e);
         });
         this.$rightHeaderInput = this.$rightHeader.find('.el-checkbox__input');
         this.$rightHeaderCheckbox = this.$rightHeader.find('input[type=checkbox]');
@@ -73,6 +106,33 @@ export default {
         this.$rightBodyCheckboxGroup = $('<div role="group" aria-label="checkbox-group" class="el-checkbox-group el-transfer-panel__list"></div>');
         this.$rightBodyNoFilter = $('<p class="el-transfer-panel__empty" style="display: none;">无匹配数据</p>');
         this.$rightBodyNoData = $('<p class="el-transfer-panel__empty" style="display: none;">无数据</p>');
+        if (options.filterable) {
+          this.$rightFilter = $('<div class="el-transfer-panel__filter el-input el-input--small el-input--prefix">' +
+            '<input type="text" autocomplete="off" placeholder="' + this.filterPlaceholder + '" class="el-input__inner">' +
+            '<span class="el-input__prefix"><i class="el-input__icon el-icon-search"></i></span></div>');
+          this.$rightFilterInput = this.$rightFilter.find('input');
+          this.$rightFilterInput.on('input', function (e) {
+            that.filterRight(e);
+            that.$rightFilter.trigger('mouseenter');
+          });
+          this.$rightFilterIcon = this.$rightFilter.find('.el-input__icon');
+          this.$rightFilterIcon.on('click', function(){
+            if(that.$rightFilterIcon.hasClass('el-icon-circle-close')){
+              that.$rightFilterInput.val('').trigger('input');
+            }
+          });
+          this.$rightFilter.on('mouseenter', function(){
+            if(that.$rightFilterInput.val().length > 0){
+              that.$rightFilterIcon.removeClass('el-icon-search').addClass('el-icon-circle-close');
+            }else{
+              that.$rightFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
+            }
+          });
+          this.$rightFilter.on('mouseleave', function(){
+            that.$rightFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
+          });
+          this.$rightBody.append(this.$rightFilter);
+        }
         this.$rightBody.append(this.$rightBodyCheckboxGroup, this.$rightBodyNoFilter, this.$rightBodyNoData);
         this.$right.append(this.$rightHeader, this.$rightBody);
 
@@ -118,37 +178,57 @@ export default {
         //
         this.$el.addClass('el-transfer').append(this.$left, this.$buttons, this.$right);
       },
-      updateLeftHeaderText: function(){
+      filterLeft: function (e) {
+        var that = this, options = this.options, query = e.target.value;
+        $.each(that.left, function (index, item) {
+          if (options.filterMethod(query, item)) {
+            item.$el.show();
+          } else {
+            item.$el.hide();
+          }
+        });
+      },
+      filterRight: function (e) {
+        var that = this, options = this.options, query = e.target.value;
+        $.each(that.right, function (index, item) {
+          if (options.filterMethod(query, item)) {
+            item.$el.show();
+          } else {
+            item.$el.hide();
+          }
+        });
+      },
+      updateLeftHeaderText: function () {
         var _checked = this.left.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         this.$leftHeaderText.html(this.options.format.noChecked.replace(/\${ *checked *}/g, _checked.length.toString())
           .replace(/\${ *total *}/g, this.left.length.toString()));
       },
-      updateRightHeaderText: function(){
+      updateRightHeaderText: function () {
         var _checked = this.right.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         this.$rightHeaderText.html(this.options.format.hasChecked.replace(/\${ *checked *}/g, _checked.length.toString())
           .replace(/\${ *total *}/g, this.right.length.toString()));
       },
-      updateButtonsLeft: function(){
+      updateButtonsLeft: function () {
         var _checked = this.right.some(function (item) {
           return item.$checkbox.is(':checked');
         });
-        if(_checked){
+        if (_checked) {
           this.$buttonsLeft.attr('disabled', false).removeClass('is-disabled');
-        }else{
+        } else {
           this.$buttonsLeft.attr('disabled', true).addClass('is-disabled');
         }
       },
-      updateButtonsRight: function(){
+      updateButtonsRight: function () {
         var _checked = this.left.some(function (item) {
           return item.$checkbox.is(':checked');
         });
-        if(_checked){
+        if (_checked) {
           this.$buttonsRight.attr('disabled', false).removeClass('is-disabled');
-        }else{
+        } else {
           this.$buttonsRight.attr('disabled', true).addClass('is-disabled');
         }
       },
@@ -299,7 +379,9 @@ export default {
       'data': [],
       'filterable': false,
       'filterPlaceholder': '',
-      'filterMethod': '',
+      'filterMethod': function (query, item) {
+        return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
+      },
       'targetOrder': 'original',
       'titles': ['列表1', '列表2'],
       'buttonTexts': [],
