@@ -52,25 +52,30 @@ export default {
             that.$leftFilter.trigger('mouseenter');
           });
           this.$leftFilterIcon = this.$leftFilter.find('.el-input__icon');
-          this.$leftFilterIcon.on('click', function(){
-            if(that.$leftFilterIcon.hasClass('el-icon-circle-close')){
+          this.$leftFilterIcon.on('click', function () {
+            if (that.$leftFilterIcon.hasClass('el-icon-circle-close')) {
               that.$leftFilterInput.val('').trigger('input');
             }
           });
-          this.$leftFilter.on('mouseenter', function(){
-            if(that.$leftFilterInput.val().length > 0){
+          this.$leftFilter.on('mouseenter', function () {
+            if (that.$leftFilterInput.val().length > 0) {
               that.$leftFilterIcon.removeClass('el-icon-search').addClass('el-icon-circle-close');
-            }else{
+            } else {
               that.$leftFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
             }
           });
-          this.$leftFilter.on('mouseleave', function(){
+          this.$leftFilter.on('mouseleave', function () {
             that.$leftFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
           });
           this.$leftBody.append(this.$leftFilter);
         }
         this.$leftBody.append(this.$leftBodyCheckboxGroup, this.$leftBodyNoFilter, this.$leftBodyNoData);
         this.$left.append(this.$leftHeader, this.$leftBody);
+        if (options.leftFooter) {
+          this.$leftBody.addClass('is-with-footer');
+          this.$leftFooter = $('<p class="el-transfer-panel__footer">' + options.leftFooter + '</p>');
+          this.$left.append(this.$leftFooter);
+        }
         // buttons
         this.$buttons = $('<div class="el-transfer__buttons"></div>');
         this.$buttonsLeft = $('<button type="button" class="el-button el-button--primary is-disabled el-transfer__button ' +
@@ -116,29 +121,31 @@ export default {
             that.$rightFilter.trigger('mouseenter');
           });
           this.$rightFilterIcon = this.$rightFilter.find('.el-input__icon');
-          this.$rightFilterIcon.on('click', function(){
-            if(that.$rightFilterIcon.hasClass('el-icon-circle-close')){
+          this.$rightFilterIcon.on('click', function () {
+            if (that.$rightFilterIcon.hasClass('el-icon-circle-close')) {
               that.$rightFilterInput.val('').trigger('input');
             }
           });
-          this.$rightFilter.on('mouseenter', function(){
-            if(that.$rightFilterInput.val().length > 0){
+          this.$rightFilter.on('mouseenter', function () {
+            if (that.$rightFilterInput.val().length > 0) {
               that.$rightFilterIcon.removeClass('el-icon-search').addClass('el-icon-circle-close');
-            }else{
+            } else {
               that.$rightFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
             }
           });
-          this.$rightFilter.on('mouseleave', function(){
+          this.$rightFilter.on('mouseleave', function () {
             that.$rightFilterIcon.removeClass('el-icon-circle-close').addClass('el-icon-search');
           });
           this.$rightBody.append(this.$rightFilter);
         }
         this.$rightBody.append(this.$rightBodyCheckboxGroup, this.$rightBodyNoFilter, this.$rightBodyNoData);
         this.$right.append(this.$rightHeader, this.$rightBody);
-
+        if (options.rightFooter) {
+          this.$rightBody.addClass('is-with-footer');
+          this.$rightFooter = $('<p class="el-transfer-panel__footer">' + options.rightFooter + '</p>');
+          this.$right.append(this.$rightFooter);
+        }
         // data
-        this.left = [];
-        this.right = [];
         var _default = {
           'value': '',
           'label': '',
@@ -150,6 +157,7 @@ export default {
           }
           item = $.extend({}, _default, item);
           item.label = item.label || item.value;
+          item.index = index;
           item.$el = $('<label role="checkbox" class="el-checkbox el-transfer-panel__item">' +
             '          <span aria-checked="mixed" class="el-checkbox__input ' + (item.disabled ? 'is-disabled' : '') + '">' +
             '            <span class="el-checkbox__inner"></span>' +
@@ -167,36 +175,79 @@ export default {
               that.changeCheck(item, item.$checkbox.is(':checked'));
               if (item.position === 'left') {
                 that.leftCheck();
+                if(options.leftCheckChange){
+                  var _checks = that.left.filter(function (item) {
+                    return item.$checkbox.is(':checked');
+                  });
+                  options.leftCheckChange(item, item.$checkbox.is(':checked'), _checks);
+                }
               } else {
                 that.rightCheck();
               }
             });
           }
-          that.left.push(item);
-          that.$leftBodyCheckboxGroup.append(item.$el);
+          if (options.defaultChecked.indexOf(item.value) !== -1) {
+            that.changeCheck(item, true);
+          }
+          options.data[index] = item;
         });
-        //
+        // init
         this.$el.addClass('el-transfer').append(this.$left, this.$buttons, this.$right);
+        this.left = [];
+        this.right = [];
+        this.set(options.value);
       },
       filterLeft: function (e) {
         var that = this, options = this.options, query = e.target.value;
+        var _hasResult = false;
         $.each(that.left, function (index, item) {
           if (options.filterMethod(query, item)) {
+            _hasResult = true;
             item.$el.show();
           } else {
             item.$el.hide();
           }
         });
+        if (_hasResult) {
+          this.left.length > 0 && this.$leftBodyCheckboxGroup.show();
+          this.$leftBodyNoFilter.hide();
+        } else {
+          this.left.length > 0 && this.$leftBodyCheckboxGroup.hide();
+          if (query) {
+            this.$leftBodyNoData.hide();
+            this.$leftBodyNoFilter.show();
+          } else {
+            this.$leftBodyNoData.show();
+            this.$leftBodyNoFilter.hide();
+          }
+        }
+        this.leftCheck();
       },
       filterRight: function (e) {
         var that = this, options = this.options, query = e.target.value;
+        var _hasResult = false;
         $.each(that.right, function (index, item) {
           if (options.filterMethod(query, item)) {
+            _hasResult = true;
             item.$el.show();
           } else {
             item.$el.hide();
           }
         });
+        if (_hasResult) {
+          this.right.length > 0 && this.$rightBodyCheckboxGroup.show();
+          this.$rightBodyNoFilter.hide();
+        } else {
+          this.right.length > 0 && this.$rightBodyCheckboxGroup.hide();
+          if (query) {
+            this.$rightBodyNoData.hide();
+            this.$rightBodyNoFilter.show();
+          } else {
+            this.$rightBodyNoData.show();
+            this.$rightBodyNoFilter.hide();
+          }
+        }
+        this.rightCheck();
       },
       updateLeftHeaderText: function () {
         var _checked = this.left.filter(function (item) {
@@ -204,6 +255,13 @@ export default {
         });
         this.$leftHeaderText.html(this.options.format.noChecked.replace(/\${ *checked *}/g, _checked.length.toString())
           .replace(/\${ *total *}/g, this.left.length.toString()));
+        if (this.left.length === 0) {
+          this.$leftBodyCheckboxGroup.hide();
+          this.$leftBodyNoData.show();
+        } else {
+          this.$leftBodyCheckboxGroup.show();
+          this.$leftBodyNoData.hide();
+        }
       },
       updateRightHeaderText: function () {
         var _checked = this.right.filter(function (item) {
@@ -211,6 +269,13 @@ export default {
         });
         this.$rightHeaderText.html(this.options.format.hasChecked.replace(/\${ *checked *}/g, _checked.length.toString())
           .replace(/\${ *total *}/g, this.right.length.toString()));
+        if (this.right.length === 0) {
+          this.$rightBodyCheckboxGroup.hide();
+          this.$rightBodyNoData.show();
+        } else {
+          this.$rightBodyCheckboxGroup.show();
+          this.$rightBodyNoData.hide();
+        }
       },
       updateButtonsLeft: function () {
         var _checked = this.right.some(function (item) {
@@ -244,28 +309,27 @@ export default {
       },
       leftCheckAll: function () {
         var _checked = this.$leftHeaderCheckbox.is(':checked');
-        if (_checked) {
-          this.$leftHeaderLabel.addClass('is-checked').attr('aria-checked', true);
-          this.$leftHeaderInput.addClass('is-checked');
-        } else {
-          this.$leftHeaderLabel.removeClass('is-checked').attr('aria-checked', false);
-          this.$leftHeaderInput.removeClass('is-checked');
-        }
         for (var index in this.left) {
-          !this.left[index].disabled && this.changeCheck(this.left[index], _checked);
+          !this.left[index].disabled &&
+          this.left[index].$el.css('display') !== 'none' &&
+          this.changeCheck(this.left[index], _checked);
         }
         this.updateLeftHeaderText();
         this.updateButtonsRight();
+        this.leftCheck();
       },
       leftCheck: function () {
-        var _checked = this.left.filter(function (item) {
+        var _all = this.left.filter(function (item) {
+          return item.$el.css('display') !== 'none';
+        });
+        var _checked = _all.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         if (_checked.length === 0) {
           this.$leftHeaderLabel.removeClass('is-checked');
           this.$leftHeaderInput.removeClass('is-checked is-indeterminate');
           this.$leftHeaderCheckbox.prop('checked', false);
-        } else if (_checked.length === this.left.length) {
+        } else if (_checked.length === _all.length) {
           this.$leftHeaderLabel.addClass('is-checked');
           this.$leftHeaderInput.removeClass('is-indeterminate').addClass('is-checked');
           this.$leftHeaderCheckbox.prop('checked', true);
@@ -284,39 +348,55 @@ export default {
           if (item.$checkbox.is(':checked')) {
             item.position = 'right';
             that.changeCheck(item, false);
-            that.right.push(item);
-            that.$rightBodyCheckboxGroup.append(item.$el);
+            if (options.targetOrder === 'unshift') {
+              that.right.unshift(item);
+            } else {
+              that.right.push(item);
+            }
             that.left.splice(index, 1);
+            options.value.push(item.value);
             index--;
           }
         }
+        this.showRight();
         this.leftCheck();
         this.rightCheck();
+        options.filterable && this.$rightFilterInput.trigger('input');
+      },
+      showRight: function () {
+        var that = this, options = that.options;
+        if (options.targetOrder === 'original') {
+          that.right = that.right.sort(function (a, b) {
+            return a.index - b.index;
+          });
+        }
+        $.each(that.right, function (index, item) {
+          that.$rightBodyCheckboxGroup.append(item.$el);
+        });
       },
       rightCheckAll: function () {
         var _checked = this.$rightHeaderCheckbox.is(':checked');
-        if (_checked) {
-          this.$rightHeaderLabel.addClass('is-checked').attr('aria-checked', true);
-          this.$rightHeaderInput.addClass('is-checked');
-        } else {
-          this.$rightHeaderLabel.removeClass('is-checked').attr('aria-checked', false);
-          this.$rightHeaderInput.removeClass('is-checked');
-        }
         for (var index in this.right) {
-          !this.right[index].disabled && this.changeCheck(this.right[index], _checked);
+          !this.right[index].disabled &&
+          this.right[index].$el.css('display') !== 'none' &&
+          this.changeCheck(this.right[index], _checked);
         }
         this.updateRightHeaderText();
         this.updateButtonsLeft();
+        this.rightCheck();
       },
       rightCheck: function () {
-        var _checked = this.right.filter(function (item) {
+        var _all = this.right.filter(function (item) {
+          return item.$el.css('display') !== 'none';
+        });
+        var _checked = _all.filter(function (item) {
           return item.$checkbox.is(':checked');
         });
         if (_checked.length === 0) {
           this.$rightHeaderLabel.removeClass('is-checked');
           this.$rightHeaderInput.removeClass('is-checked is-indeterminate');
           this.$rightHeaderCheckbox.prop('checked', false);
-        } else if (_checked.length === this.right.length) {
+        } else if (_checked.length === _all.length) {
           this.$rightHeaderLabel.addClass('is-checked');
           this.$rightHeaderInput.removeClass('is-indeterminate').addClass('is-checked');
           this.$rightHeaderCheckbox.prop('checked', true);
@@ -335,14 +415,59 @@ export default {
           if (item.$checkbox.is(':checked')) {
             item.position = 'left';
             that.changeCheck(item, false);
-            that.left.push(item);
-            that.$leftBodyCheckboxGroup.append(item.$el);
+            if (options.targetOrder === 'unshift') {
+              that.left.unshift(item);
+            } else {
+              that.left.push(item);
+            }
             that.right.splice(index, 1);
+            options.value.splice(options.value.indexOf(item.value), 1);
             index--;
           }
         }
+        this.showLeft();
         this.rightCheck();
         this.leftCheck();
+        options.filterable && this.$leftFilterInput.trigger('input');
+      },
+      showLeft: function () {
+        var that = this, options = that.options;
+        if (options.targetOrder === 'original') {
+          that.left = that.left.sort(function (a, b) {
+            return a.index - b.index;
+          });
+        }
+        $.each(that.left, function (index, item) {
+          that.$leftBodyCheckboxGroup.append(item.$el);
+        });
+      },
+      set: function (value) {
+        if (!Array.isArray(value)) return;
+        var that = this, options = that.options;
+        this.left = [];
+        this.right = [];
+        $.each(options.data, function (index, item) {
+          if (value.indexOf(item.value) === -1) {
+            that.left.push(item);
+          } else {
+            that.right.push(item);
+          }
+        });
+        this.showLeft();
+        this.showRight();
+        this.rightCheck();
+        this.leftCheck();
+      },
+      get: function () {
+        return this.options.value;
+      },
+      clearQuery: function (position) {
+        if (!options.filterable) return;
+        if (position === 'left') {
+          this.$leftFilterInput.val('').trigger('input');
+        } else if (position === 'right') {
+          this.$rightFilterInput.val('').trigger('input');
+        }
       }
     };
     $.fn[componentName] = function () {
@@ -387,9 +512,7 @@ export default {
       'buttonTexts': [],
       'renderContent': '',
       'format': {noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}'},
-      'props': '',
-      'leftDefaultChecked': [],
-      'rightDefaultChecked': [],
+      'defaultChecked': [],
       'leftFooter': '',
       'rightFooter': '',
       'change': '',
