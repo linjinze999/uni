@@ -113,23 +113,54 @@
 :::
 
 ### 参数
-你可以通过修改`$.fn.checkbox.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).checkbox({xx: xx})`。
-| 参数      | 说明                       | 类型      | 可选值 | 默认值  |
-|---------- |--------------------------- |---------- |------  |-------- |
-| disabled     | 是否禁用checkbox（若 Checkbox 有`disabled`属性则以其为准） | boolean | - | `false` |
-| button     | 是否启用按钮模式 | boolean | - | `false` |
-| border     | 非按钮模式是否显示边框 | boolean | - | `false` |
-| size | 按钮/边框模式的大小设置 | string | medium / small / mini | `''` |
-| checked | 默认选中值 | boolean / array | - | `false` |
-| min | 同名多选框最少选中数，0表示无限制（若没设置`checked`，默认选择前几个） | number | - | `0` |
-| max | 同名多选框最多选中数，0表示无限制（若设置了`checked`，只选中前几个） | number | - | `0` |
-| indeterminate | 设置 indeterminate 状态，只负责样式控制 | boolean | - | `false` |
-| onchange | 当绑定值变化时触发的事件 | function | - | - |
+你可以通过修改`$.fn.transfer.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).transfer({xx: xx})`。
+参数默认为 Json ，若为数组，则会被当做`data`赋值。
+| 参数    | 说明             | 类型    | 可选值     | 默认值 |
+|-------- |----------------- |------ |-----------  |---- |
+| value | 初始值 | array | - | - |
+| data | Transfer 的数据源，见下方【data参数】 | array[string / { value, label, disabled }] | - | `[]` |
+| filterable | 是否可搜索 | boolean | - | false |
+| filterPlaceholder | 搜索框占位符 | string/function | - | `'请输入搜索内容'` |
+| filterMethod | 自定义搜索方法 | function(dataItem) | - | - |
+| targetOrder | 列表元素的排序策略：若为 `original`，则保持与数据源相同的顺序；若为 `push`，则新加入的元素排在最后；若为 `unshift`，则新加入的元素排在最前 | string | original / push / unshift | `'original'` |
+| titles | 自定义列表标题 | array[string/function] | - | `['列表 1', '列表 2']` |
+| buttonTexts | 自定义按钮文案 | array[string/function] | - | `['', '']` |
+| noData | 自定义“无数据”文案 | string/function | - | `'无数据'` |
+| noFilter | 自定义“无匹配数据”文案 | string/function | - | `'无匹配数据'` |
+| renderContent | 自定义数据项渲染函数 | function(dataItem) | - | - |
+| format | 列表顶部勾选状态文案 | object{noChecked, hasChecked} | - | `{ noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}' }` |
+| props | 数据源的字段别名 | object{value, label, disabled} | - | - |
+| defaultChecked | 初始状态下已勾选项的 value 数组 | array | - | `[]` |
+| leftFooter | 左侧列表底部的内容 | string | - | - |
+| rightFooter | 右侧列表底部的内容 | string | - | - |
+| change | 右侧列表元素变化时触发 | function(value（新值）, type（触发方式：'left' / 'right' / 'set'）) | - | - |
+| leftCheckChange | 左侧列表元素被用户选中 / 取消选中时触发 | function(dataItem（改变的item）, checked（当前选中状态）, checks（左侧所有已选中值）) | - | - |
+| rightCheckChange | 右侧列表元素被用户选中 / 取消选中时触发 | function(dataItem（改变的item）, checked（当前选中状态）, checks（右侧所有已选中值）) | - | - |
+| i18n | 国际化文本 key 值，参数见下方【i18n国际化】 | object | - | - |
+
+### data参数
+参数默认为 Json ，若为字符串，则会被当做`value`赋值。
+| 参数     | 说明    | 类型      | 可选值       | 默认值   |
+|--------- |-------- |--------- |-----------  |-------- |
+| value | 值 | string | - | - |
+| label | 显示文本 | string | - | - |
+| disabled | 禁止使用 | boolean | - | `false` |
 
 ### 方法
-你可以通过调用`$(el).checkbox('xxx')`来快速设置按钮状态。
-| 方法      | 说明          | 举例  |
-|---------- |-------------- |-------- |
-| disabled | 禁用checkbox | `$(el).checkbox('disabled')` |
-| show | 取消禁用状态 | `$(el).checkbox('show')` |
-| set | 设置checkbox选中状态（不会触发 change 事件） | `$(el).checkbox('set', true / false / 'checked' / 'unchecked' / 'indeterminate')` |
+你可以通过调用`$(el).transfer('xxx', option)`来调用 Transfer 方法。
+| 方法        | 说明          |  参数 |  举例  |
+|------------ |------------- |------ | ------|
+| clearQuery | 清空某个面板的搜索关键词 | 'left' / 'right'，指定需要清空的面板 | `$(el).transfer('clearQuery', 'left')` |
+| set | 设置 Transfer 值 | 选中值 value 数组 | `$(el).transfer('set', [1, 2])` |
+| get | 获取 Transfer 值 | - | `$(el).transfer('get')` |
+
+### i18n国际化
+| 参数      | 说明    | 默认值   |
+|--------- |-------- |-------- |
+| filterPlaceholder | 搜索框提示符 | `'uTransferFilterPlaceholder'` |
+| title1 | 左侧标题 | `'uTransferTitle1'` |
+| title2 | 右侧标题 | `'uTransferTitle2'` |
+| button1 | 到左边按钮文本 | `'uTransferButton1'` |
+| button2 | 到右边按钮文本 | `'uTransferButton2'` |
+| noData | 无数据 | `'uTransferNoData'` |
+| noFilter | 无匹配数据 | `'uTransferNoFilter'` |

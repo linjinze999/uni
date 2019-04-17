@@ -514,7 +514,7 @@ export default {
       var option = arguments[0],
         args = arguments[1],
         value,
-        allowedMethods = ['show', 'disabled', 'set', 'get', 'update'];
+        allowedMethods = ['clearQuery', 'set', 'get'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-transfer');
@@ -544,8 +544,8 @@ export default {
       'data': [],
       'filterable': false,
       'filterPlaceholder': $[i18nName] ? function () {
-        return $[i18nName].prop(this.i18n.filterPlaceholder, '');
-      } : '',
+        return $[i18nName].prop(this.i18n.filterPlaceholder, '请输入搜索内容');
+      } : '请输入搜索内容',
       'filterMethod': function (query, item, props) {
         return item[props.label || 'label'].toLowerCase().indexOf(query.toLowerCase()) > -1;
       },
