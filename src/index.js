@@ -16,6 +16,7 @@ import Popover from './element/popover';
 import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
+import Slider from './element/slider';
 import Steps from './element/steps';
 import Switch from './element/switch';
 import Tabs from './element/tabs';
@@ -49,6 +50,7 @@ const fn = [
   Progress,
   Radio,
   Rate,
+  Slider,
   Steps,
   Switch,
   Tabs,

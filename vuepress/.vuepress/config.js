@@ -92,6 +92,7 @@ module.exports = {
                     'components/checkbox',
                     'components/input',
                     'components/switch',
+                    'components/slider',
                     'components/rate',
                     'components/colorPicker',
                     'components/transfer',
