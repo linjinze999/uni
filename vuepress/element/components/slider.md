@@ -3,17 +3,17 @@
 
 ### 基础用法
 在拖动滑块时，显示当前值
-::: demo 利用`$(el).colorPicker()`快速初始化颜色选择器。
+::: demo 利用`$(el).slider()`快速初始化滑块。
 
 ``` html
-<p>有默认值</p>
-<div id="demo-color-picker1"></div>
-<p>无默认值</p>
-<div id="demo-color-picker2"></div>
+<p>默认</p>
+<div id="demo-slider1"></div>
+<p>自定义初始值</p>
+<div id="demo-slider2"></div>
 
 <script>
-  $('#demo-color-picker1').colorPicker({ value: '#409EFF' });
-  $('#demo-color-picker2').colorPicker();
+  $('#demo-slider1').slider();
+  $('#demo-slider2').slider({ value: '50' });
 </script>
 ```
 :::
