@@ -1,4 +1,5 @@
 import draggable from '../utils/draggable';
+import debounce from '../utils/debounce';
 
 export default {
   init: function ($, componentName) {
@@ -32,27 +33,16 @@ export default {
           'aria-disabled': options.disabled,
           'aria-valuetext': options.value,
           'aria-label': options.label || ('slider between ' + options.min + ' and ' + options.max)
-        }).addClass('el-slider');
-        // input
-        this.$input = $('<div class="el-slider__input el-input-number el-input-number--small" debounce="300">' +
-          '<span role="button" class="el-input-number__decrease is-disabled">' +
-          '<i class="el-icon-minus"></i>' +
-          '</span>' +
-          '<span role="button" class="el-input-number__increase">' +
-          '<i class="el-icon-plus"></i>' +
-          '</span>' +
-          '<div class="el-input el-input--small">' +
-          '<input type="text" autocomplete="off" max="100" min="0" class="el-input__inner" role="spinbutton" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" aria-disabled="undefined">' +
-          '</div></div>');
+        }).addClass('el-slider ' + (options.vertical ? 'is-vertical' : ''));
         // runway
         this.$runway = $('<div class="el-slider__runway ' + (options.disabled ? 'disabled' : '') + '"></div>');
         this.$runway.on('click', function () {
           if (options.disabled || that.dragging) return;
         });
         options.vertical && this.$runway.css('height', options.height);
-        this.$bar = $('<div class="el-slider__bar" style="width: 0%; left: 0%;"></div>');
+        this.$bar = $('<div class="el-slider__bar"></div>');
         // button1
-        this.$wrapperFirst = $('<div tabindex="0" class="el-slider__button-wrapper" style="left: 0%;outline:none;"></div>');
+        this.$wrapperFirst = $('<div tabindex="0" class="el-slider__button-wrapper" style="outline:none;"></div>');
         this.$buttonFirst = $('<div class="el-tooltip el-slider__button" aria-describedby="el-tooltip-2975" tabindex="0"></div>');
         if (options.showTooltip) {
           this.$buttonFirstTooltip = $('<div role="tooltip" aria-hidden="true" class="el-tooltip__popper is-dark ' + options.tooltipClass + '" ' +
@@ -105,7 +95,7 @@ export default {
         this.$wrapperFirst.append(this.$buttonFirst);
         // button2
         if (options.range) {
-          this.$wrapperSecond = $('<div tabindex="0" class="el-slider__button-wrapper" style="left: 10%;outline:none;"></div>');
+          this.$wrapperSecond = $('<div tabindex="0" class="el-slider__button-wrapper" style="outline:none;"></div>');
           this.$buttonSecond = $('<div class="el-tooltip el-slider__button" aria-describedby="el-tooltip-2975" tabindex="0"></div>');
           if (options.showTooltip) {
             this.$buttonSecondTooltip = $('<div role="tooltip" aria-hidden="true" class="el-tooltip__popper is-dark ' + options.tooltipClass + '" ' +
@@ -159,9 +149,62 @@ export default {
         for (let i = 1; i < stopCount; i++) {
           this.stops.push(i * stepWidth);
         }
-        this.$runway.append(this.$bar, this.$wrapperFirst, this.$wrapperSecond || '');
-        this.$el.append(this.$runway);
+        // marks
+        var markList = this.markList();
+        if (markList.length) {
+          that.$markStops = $('<div></div>');
+          that.$marks = $('<div class="el-slider__marks"></div>');
+          markList.forEach(function (point) {
+            if (typeof point.mark === 'string') {
+              point.mark = {label: point.mark};
+            }
+            that.$markStops.append('<div class="el-slider__stop el-slider__marks-stop" style="' + that._pos + ': ' + point.position + '%;"></div>');
+            var _text = $('<div class="el-slider__marks-text" style="' + that._pos + ': ' + point.position + '%;">' + point.mark.label + '</div>');
+            _text.css(point.mark.style || {});
+            that.$marks.append(_text);
+          });
+        }
+        this.$runway.append(this.$bar, this.$wrapperFirst, this.$wrapperSecond || '', that.$markStops || '', that.$marks || '' );
+        // input
+        if (options.showInput && !options.range) {
+          this.$el.addClass('el-slider--with-input');
+          this.$runway.addClass('show-input');
+          this.$inputParent = $('<div class="el-slider__input el-input-number ' +
+            (options.inputSize ? ('el-input-number--' + options.inputSize) : '') + '"></div>');
+          if (options.showInputControls) {
+            this.$inputDecrease = $('<span role="button" class="el-input-number__decrease"><i class="el-icon-minus"></i></span>');
+            this.$inputDecrease.on('click', function () {
+              !that.inputDecreaseDisabled && that.set(options.value - options.step);
+            });
+            this.$inputIncrease = $('<span role="button" class="el-input-number__increase"><i class="el-icon-plus"></i></span>');
+            this.$inputIncrease.on('click', function () {
+              !that.inputIncreaseDisabled && that.set(options.value + options.step);
+            });
+            this.$inputParent.append(this.$inputDecrease, this.$inputIncrease);
+          }
+          this.$input = $('<input type="text" autocomplete="off" class="el-input__inner" role="spinbutton" ' +
+            'max="' + options.max + '" min="' + options.min + '" step="' + options.step + '" ' +
+            'aria-valuemax="' + options.max + '" aria-valuemin="' + options.min + '" aria-valuenow="' + options.value + '">');
+          this.$inputParent.append($('<div class="el-input ' + (options.inputSize ? ('el-input--' + options.inputSize) : '') + '"></div>').append(this.$input));
+          this.$input.on('change', debounce(function (e) {
+            that.set(e.target.value.replace(/[^\-?\d.]/g, ''));
+          }, options.debounce));
+        }
+        this.$el.append(this.$inputParent || '', this.$runway);
         this.set(options.value);
+        options.disabled && this.disable();
+      },
+      markList: function () {
+        var options = this.options;
+        var marksKeys = Object.keys(options.marks);
+        return marksKeys.map(parseFloat)
+          .sort((a, b) => a - b)
+          .filter(point => point <= options.max && point >= options.min)
+          .map(point => ({
+            point: point,
+            position: (point - options.min) * 100 / (options.max - options.min),
+            mark: options.marks[point]
+          }));
       },
       setPosition (value, button) {
         if (value === null || isNaN(value)) return;
@@ -185,14 +228,14 @@ export default {
         if (options.range) {
           result = this.stops.filter(function (step) {
             return step < 100 * (that.minValue() - options.min) / (options.max - options.min) ||
-              step > 100 * (that.maxValue() - options.min) / (this.options - this.options);
+              step > 100 * (that.maxValue() - options.min) / (options.max - options.min);
           });
         } else {
           result = this.stops.filter(function (step) {
             return step > 100 * (options.value - options.min) / (options.max - options.min);
           });
         }
-        this.$runway.find('.el-slider__stop').remove();
+        this.$runway.find('> .el-slider__stop').remove();
         result.forEach(function (stop) {
           that.$runway.append('<div class="el-slider__stop" style="' + that._pos + ': ' + stop + '%;"></div>');
         });
@@ -217,10 +260,10 @@ export default {
         options.showStops && this.showStops();
       },
       minValue: function () {
-        return Math.min(options.value[0], options.value[1]);
+        return Math.min(this.options.value[0], this.options.value[1]);
       },
       maxValue: function () {
-        return Math.max(options.value[0], options.value[1]);
+        return Math.max(this.options.value[0], this.options.value[1]);
       },
       limitValue: function (value) {
         if (value < this.options.min) {
@@ -232,20 +275,59 @@ export default {
         var newPosition = (value - options.min) / (options.max - options.min) * 100;
         var lengthPerStep = 100 / ((options.max - options.min) / options.step);
         var steps = Math.round(newPosition / lengthPerStep);
-        var percent = steps * lengthPerStep * (options.max - options.min) * 0.01 + options.min;
-        percent = parseFloat(percent.toFixed(this.precision));
+        var percent = steps * lengthPerStep;
         value = percent * 0.01 * (options.max - options.min) + options.min;
+        value = parseFloat(value.toFixed(this.precision));
         return value;
+      },
+      updateInput: function () {
+        if (!this.$inputParent) return;
+        var options = this.options;
+        this.$input.val(options.value).attr('aria-valuenow', options.value);
+        if (options.showInputControls) {
+          if (options.value <= options.min || options.disabled) {
+            this.$inputDecrease.addClass('is-disabled');
+            this.inputDecreaseDisabled = true;
+          } else {
+            this.$inputDecrease.removeClass('is-disabled');
+            this.inputDecreaseDisabled = false;
+          }
+          if (options.value >= options.max || options.disabled) {
+            this.$inputIncrease.addClass('is-disabled').attr('disabled', true);
+            this.inputIncreaseDisabled = true;
+          } else {
+            this.$inputIncrease.removeClass('is-disabled').attr('disabled', false);
+            this.inputIncreaseDisabled = false;
+          }
+        }
       },
       disable: function () {
         this.$el.attr('aria-disabled', true);
         this.$runway.addClass('disabled');
         this.options.disabled = true;
+        if (this.$inputParent) {
+          this.$inputParent.addClass('is-disabled');
+          this.$inputParent.find('.el-input').addClass('is-disabled');
+          this.$input.attr({
+            'disabled': true,
+            'aria-disabled': true
+          });
+          this.updateInput();
+        }
       },
       enable: function () {
         this.$el.attr('aria-disabled', false);
         this.$runway.removeClass('disabled');
         this.options.disabled = false;
+        if (this.$inputParent) {
+          this.$inputParent.removeClass('is-disabled');
+          this.$inputParent.find('.el-input').removeClass('is-disabled');
+          this.$input.attr({
+            'disabled': false,
+            'aria-disabled': false
+          });
+          this.updateInput();
+        }
       },
       set: function (value) {
         var options = this.options;
@@ -263,6 +345,7 @@ export default {
           this.setPosition((100 * (value - options.min) / (options.max - options.min)), 'first');
         }
         this.updateBar();
+        this.updateInput();
         !this.dragging && this.oldValue.toString() !== value.toString() && options.change && options.change(value);
         this.oldValue = this.dragging ? this.oldValue : options.value;
       },
@@ -312,6 +395,7 @@ export default {
       'label': '',
       'debounce': 300,
       'tooltipClass': false,
+      'marks': {},
       'change': ''
     };
   },
