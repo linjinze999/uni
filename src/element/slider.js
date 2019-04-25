@@ -160,22 +160,12 @@ export default {
           this.stops.push(i * stepWidth);
         }
         this.$runway.append(this.$bar, this.$wrapperFirst, this.$wrapperSecond || '');
-        options.showStops && this.showStops();
         this.$el.append(this.$runway);
         this.set(options.value);
       },
-      setPosition (newPosition, button) {
-        if (newPosition === null || isNaN(newPosition)) return;
+      setPosition (value, button) {
+        if (value === null || isNaN(value)) return;
         var options = this.options;
-        if (newPosition < 0) {
-          newPosition = 0;
-        } else if (newPosition > 100) {
-          newPosition = 100;
-        }
-        var lengthPerStep = 100 / ((options.max - options.min) / options.step);
-        var steps = Math.round(newPosition / lengthPerStep);
-        var value = steps * lengthPerStep * (options.max - options.min) * 0.01 + options.min;
-        value = parseFloat(value.toFixed(this.precision));
         if (button === 'second') {
           this.$wrapperSecond.css(this._pos, value + '%');
           options.showTooltip && this.$buttonSecondTooltipContent.html(this.formatTooltip(value));
@@ -193,25 +183,19 @@ export default {
         var that = this, options = this.options;
         var result = [];
         if (options.range) {
-          result = this.stops.filter(function (index, step) {
+          result = this.stops.filter(function (step) {
             return step < 100 * (that.minValue() - options.min) / (options.max - options.min) ||
               step > 100 * (that.maxValue() - options.min) / (this.options - this.options);
           });
         } else {
-          result = this.stops.filter(function (index, step) {
-            step > 100 * (options.value - options.min) / (options.max - options.min);
+          result = this.stops.filter(function (step) {
+            return step > 100 * (options.value - options.min) / (options.max - options.min);
           });
         }
         this.$runway.find('.el-slider__stop').remove();
-        result.forEach(function (index, stop) {
+        result.forEach(function (stop) {
           that.$runway.append('<div class="el-slider__stop" style="' + that._pos + ': ' + stop + '%;"></div>');
         });
-      },
-      minValue: function () {
-        return Math.min(options.value[0], options.value[1]);
-      },
-      maxValue: function () {
-        return Math.max(options.value[0], options.value[1]);
       },
       updateBar: function () {
         var options = this.options;
@@ -230,6 +214,28 @@ export default {
             'left': barStart + '%'
           });
         }
+        options.showStops && this.showStops();
+      },
+      minValue: function () {
+        return Math.min(options.value[0], options.value[1]);
+      },
+      maxValue: function () {
+        return Math.max(options.value[0], options.value[1]);
+      },
+      limitValue: function (value) {
+        if (value < this.options.min) {
+          value = this.options.min;
+        } else if (value > this.options.max) {
+          value = this.options.max;
+        }
+        var options = this.options;
+        var newPosition = (value - options.min) / (options.max - options.min) * 100;
+        var lengthPerStep = 100 / ((options.max - options.min) / options.step);
+        var steps = Math.round(newPosition / lengthPerStep);
+        var percent = steps * lengthPerStep * (options.max - options.min) * 0.01 + options.min;
+        percent = parseFloat(percent.toFixed(this.precision));
+        value = percent * 0.01 * (options.max - options.min) + options.min;
+        return value;
       },
       disable: function () {
         this.$el.attr('aria-disabled', true);
@@ -240,14 +246,6 @@ export default {
         this.$el.attr('aria-disabled', false);
         this.$runway.removeClass('disabled');
         this.options.disabled = false;
-      },
-      limitValue: function (value) {
-        if (value < this.options.min) {
-          value = this.options.min;
-        } else if (value > this.options.max) {
-          value = this.options.max;
-        }
-        return value;
       },
       set: function (value) {
         var options = this.options;

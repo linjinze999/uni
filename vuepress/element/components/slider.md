@@ -8,16 +8,46 @@
 ``` html
 <p>默认</p>
 <div id="demo-slider1"></div>
+<hr>
 <p>自定义初始值</p>
 <div id="demo-slider2"></div>
+<hr>
+<p>隐藏 Tooltip</p>
+<div id="demo-slider3"></div>
+<hr>
+<p>格式化 Tooltip</p>
+<div id="demo-slider4"></div>
+<hr>
+<p>禁用</p>
+<div id="demo-slider5"></div>
 
 <script>
   $('#demo-slider1').slider();
-  $('#demo-slider2').slider({ value: '50' });
+  $('#demo-slider2').slider({ value: 50 });
+  $('#demo-slider3').slider({ value: 36, showTooltip: false });
+  $('#demo-slider4').slider({ value: 48, formatTooltip: function (value) { return value + '%' } });
+  $('#demo-slider5').slider({ value: 42, disabled: true });
 </script>
 ```
 :::
 
+### 离散值
+选项可以是离散的
+::: demo 利用`$(el).slider()`快速初始化滑块。
+
+``` html
+<p>默认</p>
+<div id="demo-slider6"></div>
+<hr>
+<p>自定义初始值</p>
+<div id="demo-slider7"></div>
+
+<script>
+  $('#demo-slider6').slider({ step: 10 });
+  $('#demo-slider7').slider({ step: 10, showStops: true });
+</script>
+```
+:::
 
 ### 参数
 你可以通过修改`$.fn.colorPicker.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).colorPicker({xx: xx})`。
