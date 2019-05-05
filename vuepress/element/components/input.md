@@ -2,148 +2,87 @@
 通过鼠标或键盘输入字符。
 
 ### 基础用法
-::: demo 为`<input>`添加`el-input__inner`样式，并以一个`class="el-input"`的父元素包裹它，可通过`el-input--medium`、`el-input--small`、`el-input--mini`设置大小。
+::: demo 可为`<input>`添加`el-input__inner`样式，也可使用`input`初始化。
 
 ``` html
-<div id="demo-input-base">
-  <div class="el-input">
-    <input type="text" class="el-input__inner" autocomplete="off" placeholder="正常大小">
-  </div>
-  <div class="el-input el-input--medium">
-    <input type="text" class="el-input__inner" autocomplete="off" placeholder="中等大小">
-  </div>
-  <div class="el-input el-input--small">
-    <input type="text" class="el-input__inner" autocomplete="off" placeholder="小型大小">
-  </div>
-  <div class="el-input el-input--mini">
-    <input type="text" class="el-input__inner" autocomplete="off" placeholder="迷你大小">
-  </div>
+<div style="width: 180px;">
+  <p>自行设置样式</p>
+  <input type="text" class="el-input__inner" placeholder="请输入内容">
+  <p>使用input初始化</p>
+  <input type="text" id="demo-input1" placeholder="请输入内容">
 </div>
 
-<style>
-#demo-input-base .el-input { width: 150px; }
-</style>
+<script>
+  $('#demo-input1').input();
+</script>
 ```
 :::
 
 ### 禁用状态
-::: demo 除了为Input设置`disabled`属性，还要为父元素添加`is-disabled`样式。
+::: demo 通过 `disabled` 属性指定是否禁用 input 组件
 
 ``` html
-<div class="el-input is-disabled">
-  <input type="text" disabled="disabled" class="el-input__inner" autocomplete="off" placeholder="请输入内容">
-</div>
-```
-:::
-
-### 带图标
-带有图标标记输入类型。
-::: demo
-
-``` html
-<div class="demo-inpu-icon">
-  <div class="el-input el-input--suffix">
-    <input type="text" autocomplete="off" placeholder="后缀图标" class="el-input__inner">
-    <span class="el-input__suffix">
-      <span class="el-input__suffix-inner"><i class="el-input__icon el-icon-date"></i></span>
-    </span>
-  </div>
-  <div class="el-input el-input--prefix">
-    <input type="text" autocomplete="off" placeholder="前缀图标" class="el-input__inner">
-    <span class="el-input__prefix"><i class="el-input__icon el-icon-search"></i></span>
-  </div>
-</div><br>
-<div class="demo-inpu-icon">
-  <div class="el-input el-input--suffix">
-    <input type="text" autocomplete="off" placeholder="悬浮显示" class="el-input__inner">
-    <span class="el-input__suffix demo-input-hover">
-      <span class="el-input__suffix-inner"><i class="el-input__icon el-icon-circle-close"></i></span>
-    </span>
-  </div>
-  <div class="el-input el-input--suffix">
-    <input type="text" autocomplete="off" placeholder="点击清空" class="el-input__inner" id="demo-input1">
-    <span class="el-input__suffix demo-input-pointer" onclick="demoInput1()">
-      <span class="el-input__suffix-inner"><i class="el-input__icon el-icon-circle-close"></i></span>
-    </span>
-  </div>
+<div style="width: 180px;">
+  <input type="text" id="demo-input2" disabled placeholder="请输入内容">
 </div>
 
 <script>
-function demoInput1 () {
-  $('#demo-input1').val('');
-}
+  $('#demo-input2').input();
 </script>
-
-<style>
-.demo-inpu-icon .el-input { width: 180px; }
-.el-input .demo-input-pointer{ cursor: pointer; }
-.el-input .demo-input-hover{ display: none; }
-.el-input:hover .demo-input-hover{ display: inline-block; }
-</style>
 ```
 :::
 
-### 复合型输入框
-可前置或后置元素，一般为标签或按钮
-::: demo 为`<input>`添加`el-input__inner`样式，并以一个`class="el-input"`的父元素包裹它。
+### 可清空
+::: demo 使用`clearable`属性即可得到一个可清空的输入框
 
 ``` html
-<div class="el-input el-input-group el-input-group--prepend">
-  <div class="el-input-group__prepend">Http://</div>
-  <input type="text" autocomplete="off" placeholder="请输入内容" class="el-input__inner">
-</div><br><br>
-<div class="el-input el-input-group el-input-group--append">
-  <input type="text" autocomplete="off" placeholder="请输入内容" class="el-input__inner">
-  <div class="el-input-group__append">.com</div>
-</div><br><br>
-<div class="input-with-select el-input el-input-group el-input-group--append el-input-group--prepend">
-  <div class="el-input-group__prepend">
-    <div class="el-select">
-      <div class="el-input el-input--suffix">
-        <input type="text" readonly="readonly" autocomplete="off" placeholder="请选择" class="el-input__inner">
-        <span class="el-input__suffix">
-          <span class="el-input__suffix-inner">
-            <i class="el-select__caret el-input__icon el-icon-arrow-up"></i>
-          </span>
-        </span>
-      </div>
-      <div class="el-select-dropdown el-popper" style="display: none; min-width: 130px;">
-        <div class="el-scrollbar" style="">
-          <div class="el-select-dropdown__wrap el-scrollbar__wrap" style="margin-bottom: -17px; margin-right: -17px;">
-            <ul class="el-scrollbar__view el-select-dropdown__list">
-              <li class="el-select-dropdown__item"><span>餐厅名</span></li>
-              <li class="el-select-dropdown__item"><span>订单号</span></li>
-              <li class="el-select-dropdown__item"><span>用户电话</span></li>
-            </ul>
-          </div>
-          <div class="el-scrollbar__bar is-horizontal">
-            <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
-          </div>
-          <div class="el-scrollbar__bar is-vertical">
-            <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <input type="text" autocomplete="off" placeholder="请输入内容" class="el-input__inner">
-  <div class="el-input-group__append">
-    <button type="button" class="el-button el-button--default">
-      <i class="el-icon-search"></i><!---->
-    </button>
-  </div>
+<div style="width: 180px;">
+  <input type="text" id="demo-input3" placeholder="请输入内容">
 </div>
+
+<script>
+  $('#demo-input3').input({clearable: true});
+</script>
 ```
 :::
 
-### 文本域
-用于输入多行文本信息
-::: demo 为`<input>`添加`el-input__inner`样式，并以一个`class="el-input"`的父元素包裹它。
+### 密码框
+
+::: demo 使用`showPassword`属性即可得到一个可切换显示隐藏的密码框
 
 ``` html
-<div class="el-textarea">
-  <textarea autocomplete="off" rows="2" placeholder="请输入内容" class="el-textarea__inner" style="min-height: 33px;"></textarea>
+<div style="width: 180px;">
+  <input type="text" id="demo-input4" placeholder="请输入密码">
 </div>
+
+<script>
+  $('#demo-input4').input({showPassword: true});
+</script>
+```
+:::
+
+### 带 icon 的输入框
+带有图标标记输入类型
+::: demo 可以通过 `prefixIcon` 和 `suffixIcon` 属性在 input 组件首部和尾部增加显示图标，也可以通过 `prefix` 和 `suffix` 来放置图标。
+
+``` html
+<div>
+  <span>设置图标</span>
+  <div style="width: 180px; display: inline-block"><input type="text" id="demo-input5" placeholder="请选择日期"></div>
+  <div style="width: 180px; display: inline-block"><input type="text" id="demo-input6" placeholder="请输入内容"></div>
+  <br><br>
+  <span>设置内容</span>
+  <div style="width: 180px; display: inline-block"><input type="text" id="demo-input7" placeholder="请选择日期"></div>
+  <div style="width: 180px; display: inline-block"><input type="text" id="demo-input8" placeholder="请输入内容"></div>
+  <br>
+</div>
+
+<script>
+  $('#demo-input5').input({suffixIcon: 'el-icon-date'});
+  $('#demo-input6').input({prefixIcon: 'el-icon-search'});
+  $('#demo-input7').input({suffix: '<i class="el-input__icon el-icon-date"></i>'});
+  $('#demo-input8').input({prefix: '<i class="el-input__icon el-icon-search"></i>'});
+</script>
 ```
 :::
 

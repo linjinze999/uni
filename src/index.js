@@ -9,6 +9,7 @@ import Collapse from './element/collapse';
 import ColorPicker from './element/colorPicker';
 import Dialog from './element/dialog';
 import Dropdown from './element/dropdown';
+import Input from './element/input';
 import Loading from './element/loading';
 import Message from './element/message';
 import Notification from './element/notification';
@@ -45,6 +46,7 @@ const fn = [
   Collapse,
   ColorPicker,
   Dropdown,
+  Input,
   Loading,
   Popover,
   Progress,

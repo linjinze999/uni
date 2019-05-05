@@ -11,7 +11,7 @@ export default {
         const that = this, options = this.options;
         this.$el.attr('tabindex', options.tabindex);
         // $input
-        const inputClass = [];
+        var inputClass = [];
         inputClass.push(options.type === 'textarea' ? 'el-textarea' : 'el-input');
         options.size && inputClass.push('el-input--' + options.size);
         (options.prepend || options.append) && inputClass.push('el-input-group');
@@ -22,6 +22,12 @@ export default {
         this.$input = $('<div class="' + inputClass.join(' ') + '"></div>');
         this.$el.wrap(this.$input);
         this.$input = $(this.$el.parent()[0]);
+        this.$input.on('mouseenter', function () {
+          that.hovering = true;
+        });
+        this.$input.on('mouseleave', function () {
+          that.hovering = false;
+        });
         if (options.type === 'textarea') {
           /* textarea */
           this.$el.addClass('el-textarea__inner');
@@ -35,23 +41,56 @@ export default {
             '</span>');
           // 后置内容
           this.$suffix = $('<span class="el-input__suffix"></span>');
-          options.suffix && this.$suffix.append(options.suffix);
-          options.suffixIcon && this.$suffix.append('<i class="el-input__icon ' + options.suffixIcon + '"></i>');
-          options.clearable && this.$suffix.append('<i class="el-input__icon el-icon-view el-input__clear"></i>');
-          this.isWordLimitVisible() && this.$suffix.append('<span class="el-input__count"><span class="el-input__count-inner">1/1</span></span>');
+          this.$suffixInner = $('<span class="el-input__suffix-inner"></span>');
+          this.$suffix.append(this.$suffixInner);
+          options.suffix && this.$suffixInner.append(options.suffix);
+          options.suffixIcon && this.$suffixInner.append('<i class="el-input__icon ' + options.suffixIcon + '"></i>');
+          if (options.clearable) {
+            this.$clear = $('<i class="el-input__icon el-icon-circle-close el-input__clear" style="display: none;"></i>');
+            this.$clear.on('click', function () {
+              that.$el.val('').trigger('input').trigger('change');
+            });
+            this.$input.on('mouseenter', function () {
+              that.$el.val().length > 0 && that.$clear.show();
+            });
+            this.$input.on('mouseleave', function () {
+              !that.$el.is(':focus') && that.$clear.hide();
+            });
+            this.$el.on('focus input change', function () {
+              that.$el.val().length > 0 ? that.$clear.show() : that.$clear.hide();
+            });
+            this.$el.on('blur', function () {
+              !that.hovering && !that.$el.is(':focus') && that.$clear.hide();
+            });
+            this.$suffixInner.append(this.$clear);
+          }
+          if (options.showPassword) {
+            this.$password = $('<i class="el-input__icon el-icon-view el-input__clear" style="display: none;"></i>');
+            this.$password.on('click', function () {
+              that.$el.attr('type', that.$el.attr('type') === 'password' ? 'text' : 'password');
+              that.$el.focus();
+            });
+            this.$el.on('focus', function () {
+              that.$password.show();
+            });
+            this.$el.on('blur', function () {
+              !that.hovering && that.$password.hide();
+            });
+            this.$suffixInner.append(this.$password);
+          }
+          this.isWordLimitVisible() && this.$suffixInner.append('<span class="el-input__count"><span class="el-input__count-inner">1/1</span></span>');
           this.$input.append(this.$suffix);
           // 后置元素
           options.append && this.$input.append('<div class="el-input-group__append">' + options.append + '</div>');
         }
-        this.$el.trigger('change');
+        if (options.hasOwnProperty('disabled')) {
+          options.disabled ? this.disable() : this.enable();
+        }
       },
       isWordLimitVisible: function () {
         return this.options.showWordLimit &&
           this.$el.attr('maxlength') &&
-          (this.options.type === 'text' || this.options.type === 'textarea') &&
-          !this.options.disabled &&
-          !this.$el.attr('readonly') &&
-          !this.options.showPassword;
+          (this.options.type === 'text' || this.options.type === 'textarea');
       },
       onchange: function (options, that) {
         // todo
@@ -59,10 +98,12 @@ export default {
       disable: function () {
         this.options.disabled = true;
         this.$input.addClass('is-disabled');
+        this.$el.attr('disabled', true);
       },
       enable: function () {
         this.options.disabled = false;
         this.$input.removeClass('is-disabled');
+        this.$el.attr('disabled', false);
       }
     };
     $.fn[componentName] = function () {
@@ -72,10 +113,19 @@ export default {
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-radio'),
-          options = $.extend({}, $.fn[componentName].defaults,
-            $this.data(), typeof option === 'object' && option);
+          attributes = {};
         if (!data) {
+          $.each(this.attributes, function () {
+            if (this.specified) {
+              attributes[this.name] = this.value;
+            }
+          });
+          var options = $.extend({}, $.fn[componentName].defaults, attributes,
+            $this.data(), typeof option === 'object' && option);
           options.type = $this.is('textarea') ? 'textarea' : options.type;
+          $.each(attributes, function (key, value) {
+            $this.attr(key, value);
+          });
           data = new Input($this, options);
           $this.data('u-radio', data);
           data.init();
@@ -95,7 +145,6 @@ export default {
       'showWordLimit': false,
       'clearable': false,
       'showPassword': false,
-      'disabled': false,
       'size': '',
       'prefixIcon': '',
       'suffixIcon': '',
