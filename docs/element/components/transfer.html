@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Transfer 穿梭框 | uni组件库</title>
+    <meta name="description" content="基于JQuery的组件库">
+    <link rel="icon" href="/uni/logo.png">
+  <link rel="manifest" href="/uni/manifest.json">
+  <meta name="theme-color" content="#3eaf7c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/uni/icons/apple-touch-icon-152x152.png">
+  <link rel="mask-icon" href="/uni/icons/safari-pinned-tab.svg" color="#3eaf7c">
+  <meta name="msapplication-TileImage" content="/icons/msapplication-icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#000000">
+  <script src="/uni/assets/js/article.js"></script>
+  <script src="https://hm.baidu.com/hm.js?eeab23144137d3b40f28f0b49126c2ed"></script>
+  <link rel="stylesheet" href="/uni/assets/css/common.css">
+    
+    <link rel="preload" href="/uni/assets/css/0.styles.94b42e96.css" as="style"><link rel="preload" href="/uni/assets/js/app.1486012f.js" as="script"><link rel="preload" href="/uni/assets/js/2.f45406ca.js" as="script"><link rel="preload" href="/uni/assets/js/40.6b47d703.js" as="script"><link rel="preload" href="/uni/assets/js/3.a07a2f53.js" as="script"><link rel="prefetch" href="/uni/assets/js/10.ba84996e.js"><link rel="prefetch" href="/uni/assets/js/11.da2b306c.js"><link rel="prefetch" href="/uni/assets/js/12.ce97b639.js"><link rel="prefetch" href="/uni/assets/js/13.d5f699ad.js"><link rel="prefetch" href="/uni/assets/js/14.4bfb1de6.js"><link rel="prefetch" href="/uni/assets/js/15.186046a8.js"><link rel="prefetch" href="/uni/assets/js/16.74714d20.js"><link rel="prefetch" href="/uni/assets/js/17.a986c9c8.js"><link rel="prefetch" href="/uni/assets/js/18.16b14bff.js"><link rel="prefetch" href="/uni/assets/js/19.a4bd6817.js"><link rel="prefetch" href="/uni/assets/js/20.e37285c7.js"><link rel="prefetch" href="/uni/assets/js/21.af62d9bc.js"><link rel="prefetch" href="/uni/assets/js/22.a423aa25.js"><link rel="prefetch" href="/uni/assets/js/23.581528e5.js"><link rel="prefetch" href="/uni/assets/js/24.a066a60e.js"><link rel="prefetch" href="/uni/assets/js/25.55251900.js"><link rel="prefetch" href="/uni/assets/js/26.cbf2e6ca.js"><link rel="prefetch" href="/uni/assets/js/27.13dad853.js"><link rel="prefetch" href="/uni/assets/js/28.7e66c09e.js"><link rel="prefetch" href="/uni/assets/js/29.1461993a.js"><link rel="prefetch" href="/uni/assets/js/30.5986cf61.js"><link rel="prefetch" href="/uni/assets/js/31.dc5769e0.js"><link rel="prefetch" href="/uni/assets/js/32.558d8a83.js"><link rel="prefetch" href="/uni/assets/js/33.98117941.js"><link rel="prefetch" href="/uni/assets/js/34.2e759db6.js"><link rel="prefetch" href="/uni/assets/js/35.1b266524.js"><link rel="prefetch" href="/uni/assets/js/36.10f576fc.js"><link rel="prefetch" href="/uni/assets/js/37.1da89a8a.js"><link rel="prefetch" href="/uni/assets/js/38.fde1e9c4.js"><link rel="prefetch" href="/uni/assets/js/39.f527f9f3.js"><link rel="prefetch" href="/uni/assets/js/4.26078b6c.js"><link rel="prefetch" href="/uni/assets/js/41.71059e9f.js"><link rel="prefetch" href="/uni/assets/js/42.b6707683.js"><link rel="prefetch" href="/uni/assets/js/43.658c8498.js"><link rel="prefetch" href="/uni/assets/js/5.2b0eb97d.js"><link rel="prefetch" href="/uni/assets/js/6.5d46924e.js"><link rel="prefetch" href="/uni/assets/js/7.1add6de7.js"><link rel="prefetch" href="/uni/assets/js/8.1160aaec.js"><link rel="prefetch" href="/uni/assets/js/9.bf7264bc.js">
+    <link rel="stylesheet" href="/uni/assets/css/0.styles.94b42e96.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/uni/" class="home-link router-link-active"><!----> <span class="site-name">uni组件库</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/uni/element/" class="nav-link router-link-active">Element</a></div> <a href="https://github.com/linjinze999/uni" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><a href="/uni/element/" class="sidebar-link">Element</a></li><li><a href="/uni/element/start.html" class="sidebar-link">安装</a></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>组件</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Basic</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/layout.html" class="sidebar-link">Layout 布局</a></li><li><a href="/uni/element/components/container.html" class="sidebar-link">Container 布局容器</a></li><li><a href="/uni/element/components/color.html" class="sidebar-link">Color 色彩</a></li><li><a href="/uni/element/components/typography.html" class="sidebar-link">Typography 字体</a></li><li><a href="/uni/element/components/border.html" class="sidebar-link">Border 边框</a></li><li><a href="/uni/element/components/icon.html" class="sidebar-link">Icon 图标</a></li><li><a href="/uni/element/components/button.html" class="sidebar-link">Button 按钮</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading open"><span>Form</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/radio.html" class="sidebar-link">Radio 单选框</a></li><li><a href="/uni/element/components/checkbox.html" class="sidebar-link">Checkbox 多选框</a></li><li><a href="/uni/element/components/input.html" class="sidebar-link">Input 输入框</a></li><li><a href="/uni/element/components/switch.html" class="sidebar-link">Switch 开关</a></li><li><a href="/uni/element/components/slider.html" class="sidebar-link">Slider 滑块</a></li><li><a href="/uni/element/components/rate.html" class="sidebar-link">Rate 评分</a></li><li><a href="/uni/element/components/colorPicker.html" class="sidebar-link">ColorPicker 颜色选择器</a></li><li><a href="/uni/element/components/transfer.html" class="active sidebar-link">Transfer 穿梭框</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Data</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tag.html" class="sidebar-link">Tag 标签</a></li><li><a href="/uni/element/components/progress.html" class="sidebar-link">Progress 进度条</a></li><li><a href="/uni/element/components/badge.html" class="sidebar-link">Badge 标记</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Notice</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/alert.html" class="sidebar-link">Alert 警告</a></li><li><a href="/uni/element/components/loading.html" class="sidebar-link">Loading 加载</a></li><li><a href="/uni/element/components/message.html" class="sidebar-link">Message 消息提示</a></li><li><a href="/uni/element/components/notification.html" class="sidebar-link">Notification 通知</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Navigation</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/tabs.html" class="sidebar-link">Tabs 标签页</a></li><li><a href="/uni/element/components/breadcrumb.html" class="sidebar-link">Breadcrumb 面包屑</a></li><li><a href="/uni/element/components/dropdown.html" class="sidebar-link">Dropdown 下拉菜单</a></li><li><a href="/uni/element/components/steps.html" class="sidebar-link">Steps 步骤条</a></li></ul></section></li><li><section class="sidebar-group is-sub-group depth-1"><p class="sidebar-heading"><span>Others</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/uni/element/components/ui18n.html" class="sidebar-link">Ui18n 国际化</a></li><li><a href="/uni/element/components/dialog.html" class="sidebar-link">Dialog 对话框</a></li><li><a href="/uni/element/components/tooltip.html" class="sidebar-link">Tooltip 文字提示</a></li><li><a href="/uni/element/components/popover.html" class="sidebar-link">Popover 弹出框</a></li><li><a href="/uni/element/components/card.html" class="sidebar-link">Card 卡片</a></li><li><a href="/uni/element/components/carousel.html" class="sidebar-link">Carousel 走马灯</a></li><li><a href="/uni/element/components/collapse.html" class="sidebar-link">Collapse 折叠面板</a></li><li><a href="/uni/element/components/timeline.html" class="sidebar-link">Timeline 时间线</a></li></ul></section></li></ul></section></li></ul> </aside> <main class="page"> <div class="content default"><h2 id="transfer-穿梭框"><a href="#transfer-穿梭框" aria-hidden="true" class="header-anchor">#</a> Transfer 穿梭框</h2> <h3 id="基础用法"><a href="#基础用法" aria-hidden="true" class="header-anchor">#</a> 基础用法</h3> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-transfer1" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-transfer1').transfer(['选项1', '选项2','选项3', '选项4', '选项5']);
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="可搜索"><a href="#可搜索" aria-hidden="true" class="header-anchor">#</a> 可搜索</h3> <p>在数据很多的情况下，可以对数据进行搜索和过滤。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-transfer2" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-transfer2').transfer({
+    value: ['上海', '北京'],
+    filterable: true,
+    filterPlaceholder: '请输入城市拼音',
+    filterMethod: function(query, item){
+      return item.pinyin.indexOf(query) &gt; -1;
+    },
+    data: [
+      {value: '上海', pinyin: 'shanghai'},
+      {value: '北京', pinyin: 'beijing'},
+      {value: '广州', pinyin: 'guangzhou'},
+      {value: '深圳', pinyin: 'shenzhen'},
+      {value: '南京', pinyin: 'nanjing'},
+      {value: '西安', pinyin: 'xian'},
+      {value: '成都', pinyin: 'chengdu'}
+    ]
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="可自定义"><a href="#可自定义" aria-hidden="true" class="header-anchor">#</a> 可自定义</h3> <p>可以对列表标题文案、按钮文案、数据项的渲染函数、列表顶部的勾选状态文案、列表底部的内容区等进行自定义。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-transfer3" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-transfer3').transfer({
+    value: ['shanghai', 'beijing'],
+    defaultChecked: ['shanghai', 'shenzhen'],
+    filterable: true,
+    titles: ['Source', 'Target'],
+    buttonTexts: ['到左边', '到右边'],
+    renderContent: function(item){
+      return '&lt;span&gt;' + item.label + '-' + item.value + '&lt;/span&gt;';
+    },
+    format: {noChecked: '已选择${checked}/${total}', hasChecked: '已选择${checked}/${total}'},
+    data: [
+      {label: '上海', value: 'shanghai'},
+      {label: '北京', value: 'beijing'},
+      {label: '广州', value: 'guangzhou', disabled: true},
+      {label: '深圳', value: 'shenzhen'},
+      {label: '南京', value: 'nanjing'},
+      {label: '西安', value: 'xian'},
+      {label: '成都', value: 'chengdu'}
+    ],
+    change: function(value, type){
+      console.log('change=&gt;', value, type);
+    },
+    leftCheckChange: function(item, checked, checks){
+      console.log('leftCheckChange=&gt;', item, checked, checks);
+    },
+    rightCheckChange: function(item, checked, checks){
+      console.log('rightCheckChange=&gt;', item, checked, checks);
+    },
+    leftFooter: '&lt;button type=&quot;button&quot; class=&quot;el-button el-button--small&quot; style=&quot;margin-left: 5px&quot;&gt;操作&lt;/button&gt;',
+    rightFooter: '&lt;button type=&quot;button&quot; class=&quot;el-button el-button--small&quot; style=&quot;margin-left: 5px&quot;&gt;操作&lt;/button&gt;'
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="数据项属性别名"><a href="#数据项属性别名" aria-hidden="true" class="header-anchor">#</a> 数据项属性别名</h3> <p>默认情况下，Transfer 仅能识别数据项中的 <code>value</code>、<code>label</code> 和 <code>disabled</code> 字段。如果你的数据的字段名不同，可以使用 <code>props</code> 属性为它们设置别名。</p> <div class="demo" data-v-515e4fee><div class="source" data-v-515e4fee><div data-v-515e4fee><div id="demo-transfer4" data-v-515e4fee></div> <script data-v-515e4fee>
+  $('#demo-transfer4').transfer({
+    value: ['3'],
+    data: [
+      {desc: '选项1', id: '1'},
+      {desc: '选项2', id: '2'},
+      {desc: '选项3', id: '3', disabled: true},
+      {desc: '选项4', id: '4'},
+      {desc: '选项5', id: '5'},
+      {desc: '选项6', id: '6'},
+      {desc: '选项7', id: '7'}
+    ],
+    props: {
+      value: 'id',
+      label: 'desc'
+    }
+  });
+</script></div></div> <div class="code-cover" data-v-515e4fee><!----></div> <div data-v-515e4fee><div class="show-code" data-v-515e4fee><span class="control" data-v-515e4fee>▼<span class="text" data-v-515e4fee>显示代码</span></span></div></div></div> <h3 id="参数"><a href="#参数" aria-hidden="true" class="header-anchor">#</a> 参数</h3> <p>你可以通过修改<code>$.fn.transfer.defaults</code>来修改全局默认配置，也可以在初始化时传入指定配置<code>$(el).transfer({xx: xx})</code>。
+参数默认为 Json ，若为数组，则会被当做<code>data</code>赋值。</p> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>可选值</th> <th>默认值</th></tr></thead> <tbody><tr><td>value</td> <td>初始值</td> <td>array</td> <td>-</td> <td>-</td></tr> <tr><td>data</td> <td>Transfer 的数据源，见下方【data参数】</td> <td>array[string / { value, label, disabled }]</td> <td>-</td> <td><code>[]</code></td></tr> <tr><td>filterable</td> <td>是否可搜索</td> <td>boolean</td> <td>-</td> <td>false</td></tr> <tr><td>filterPlaceholder</td> <td>搜索框占位符</td> <td>string/function</td> <td>-</td> <td><code>'请输入搜索内容'</code></td></tr> <tr><td>filterMethod</td> <td>自定义搜索方法</td> <td>function(dataItem)</td> <td>-</td> <td>-</td></tr> <tr><td>targetOrder</td> <td>列表元素的排序策略：若为 <code>original</code>，则保持与数据源相同的顺序；若为 <code>push</code>，则新加入的元素排在最后；若为 <code>unshift</code>，则新加入的元素排在最前</td> <td>string</td> <td>original / push / unshift</td> <td><code>'original'</code></td></tr> <tr><td>titles</td> <td>自定义列表标题</td> <td>array[string/function]</td> <td>-</td> <td><code>['列表 1', '列表 2']</code></td></tr> <tr><td>buttonTexts</td> <td>自定义按钮文案</td> <td>array[string/function]</td> <td>-</td> <td><code>['', '']</code></td></tr> <tr><td>noData</td> <td>自定义“无数据”文案</td> <td>string/function</td> <td>-</td> <td><code>'无数据'</code></td></tr> <tr><td>noFilter</td> <td>自定义“无匹配数据”文案</td> <td>string/function</td> <td>-</td> <td><code>'无匹配数据'</code></td></tr> <tr><td>renderContent</td> <td>自定义数据项渲染函数</td> <td>function(dataItem)</td> <td>-</td> <td>-</td></tr> <tr><td>format</td> <td>列表顶部勾选状态文案</td> <td>object{noChecked, hasChecked}</td> <td>-</td> <td><code>{ noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}' }</code></td></tr> <tr><td>props</td> <td>数据源的字段别名</td> <td>object{value, label, disabled}</td> <td>-</td> <td>-</td></tr> <tr><td>defaultChecked</td> <td>初始状态下已勾选项的 value 数组</td> <td>array</td> <td>-</td> <td><code>[]</code></td></tr> <tr><td>leftFooter</td> <td>左侧列表底部的内容</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>rightFooter</td> <td>右侧列表底部的内容</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>change</td> <td>右侧列表元素变化时触发</td> <td>function(value（新值）, type（触发方式：'left' / 'right' / 'set'）)</td> <td>-</td> <td>-</td></tr> <tr><td>leftCheckChange</td> <td>左侧列表元素被用户选中 / 取消选中时触发</td> <td>function(dataItem（改变的item）, checked（当前选中状态）, checks（左侧所有已选中值）)</td> <td>-</td> <td>-</td></tr> <tr><td>rightCheckChange</td> <td>右侧列表元素被用户选中 / 取消选中时触发</td> <td>function(dataItem（改变的item）, checked（当前选中状态）, checks（右侧所有已选中值）)</td> <td>-</td> <td>-</td></tr> <tr><td>i18n</td> <td>国际化文本 key 值，参数见下方【i18n国际化】</td> <td>object</td> <td>-</td> <td>-</td></tr></tbody></table> <h3 id="data参数"><a href="#data参数" aria-hidden="true" class="header-anchor">#</a> data参数</h3> <p>参数默认为 Json ，若为字符串，则会被当做<code>value</code>赋值。</p> <table><thead><tr><th>参数</th> <th>说明</th> <th>类型</th> <th>可选值</th> <th>默认值</th></tr></thead> <tbody><tr><td>value</td> <td>值</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>label</td> <td>显示文本</td> <td>string</td> <td>-</td> <td>-</td></tr> <tr><td>disabled</td> <td>禁止使用</td> <td>boolean</td> <td>-</td> <td><code>false</code></td></tr></tbody></table> <h3 id="方法"><a href="#方法" aria-hidden="true" class="header-anchor">#</a> 方法</h3> <p>你可以通过调用<code>$(el).transfer('xxx', option)</code>来调用 Transfer 方法。</p> <table><thead><tr><th>方法</th> <th>说明</th> <th>参数</th> <th>举例</th></tr></thead> <tbody><tr><td>clearQuery</td> <td>清空某个面板的搜索关键词</td> <td>'left' / 'right'，指定需要清空的面板</td> <td><code>$(el).transfer('clearQuery', 'left')</code></td></tr> <tr><td>set</td> <td>设置 Transfer 值</td> <td>选中值 value 数组</td> <td><code>$(el).transfer('set', [1, 2])</code></td></tr> <tr><td>get</td> <td>获取 Transfer 值</td> <td>-</td> <td><code>$(el).transfer('get')</code></td></tr></tbody></table> <h3 id="i18n国际化"><a href="#i18n国际化" aria-hidden="true" class="header-anchor">#</a> i18n国际化</h3> <table><thead><tr><th>参数</th> <th>说明</th> <th>默认值</th></tr></thead> <tbody><tr><td>filterPlaceholder</td> <td>搜索框提示符</td> <td><code>'uTransferFilterPlaceholder'</code></td></tr> <tr><td>title1</td> <td>左侧标题</td> <td><code>'uTransferTitle1'</code></td></tr> <tr><td>title2</td> <td>右侧标题</td> <td><code>'uTransferTitle2'</code></td></tr> <tr><td>button1</td> <td>到左边按钮文本</td> <td><code>'uTransferButton1'</code></td></tr> <tr><td>button2</td> <td>到右边按钮文本</td> <td><code>'uTransferButton2'</code></td></tr> <tr><td>noData</td> <td>无数据</td> <td><code>'uTransferNoData'</code></td></tr> <tr><td>noFilter</td> <td>无匹配数据</td> <td><code>'uTransferNoFilter'</code></td></tr></tbody></table></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/linjinze999/uni/edit/master/vuepress/element/components/transfer.md" target="_blank" rel="noopener noreferrer">帮我改进此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">上次更新: </span> <span class="time">2019-4-17 18:01:29</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/uni/element/components/colorPicker.html" class="prev">
+          ColorPicker 颜色选择器
+        </a></span> <span class="next"><a href="/uni/element/components/tag.html">
+          Tag 标签
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/uni/assets/js/app.1486012f.js" defer></script><script src="/uni/assets/js/2.f45406ca.js" defer></script><script src="/uni/assets/js/40.6b47d703.js" defer></script><script src="/uni/assets/js/3.a07a2f53.js" defer></script>
+  </body>
+</html>
