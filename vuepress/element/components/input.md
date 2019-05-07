@@ -47,7 +47,6 @@
 :::
 
 ### 密码框
-
 ::: demo 使用`showPassword`属性即可得到一个可切换显示隐藏的密码框
 
 ``` html
@@ -82,6 +81,69 @@
   $('#demo-input6').input({prefixIcon: 'el-icon-search'});
   $('#demo-input7').input({suffix: '<i class="el-input__icon el-icon-date"></i>'});
   $('#demo-input8').input({prefix: '<i class="el-input__icon el-icon-search"></i>'});
+</script>
+```
+:::
+
+### 文本域
+用于输入多行文本信息。
+::: demo
+
+``` html
+<textarea id="demo-input9" rows="2" placeholder="请输入内容"></textarea>
+
+<script>
+  $('#demo-input9').input();
+</script>
+```
+:::
+
+### 可自适应文本高度的文本域
+通过设置 `autosize` 属性可以使得文本域的高度能够根据文本内容自动进行调整，并且 `autosize` 还可以设定为一个对象，指定最小行数和最大行数。
+::: demo
+
+``` html
+<textarea id="demo-input10" placeholder="请输入内容"></textarea>
+<br><br>
+<textarea id="demo-input11" placeholder="请输入内容"></textarea>
+
+<script>
+  $('#demo-input10').input({autosize: true});
+  $('#demo-input11').input({autosize: { minRows: 2, maxRows: 4}});
+</script>
+```
+:::
+
+### 尺寸
+::: demo 可通过 `size` 属性指定输入框的尺寸，除了默认的大小外，还提供了 large、small 和 mini 三种尺寸。
+
+``` html
+<div style="width: 150px; display: inline-block"><input type="text" id="demo-input12" placeholder="请输入内容"></div>
+<div style="width: 150px; display: inline-block"><input type="text" id="demo-input13" placeholder="请输入内容"></div>
+<div style="width: 150px; display: inline-block"><input type="text" id="demo-input14" placeholder="请输入内容"></div>
+<div style="width: 150px; display: inline-block"><input type="text" id="demo-input15" placeholder="请输入内容"></div>
+
+<script>
+  $('#demo-input12').input({suffixIcon: 'el-icon-date'});
+  $('#demo-input13').input({suffixIcon: 'el-icon-date', size: 'medium'});
+  $('#demo-input14').input({suffixIcon: 'el-icon-date', size: 'small'});
+  $('#demo-input15').input({suffixIcon: 'el-icon-date', size: 'mini'});
+</script>
+```
+:::
+
+### 输入长度限制
+::: demo `maxlength` 和 `minlength` 是原生属性，用来限制输入框的字符长度，其中字符长度是用 Javascript 的字符串长度统计的。对于类型为 `text` 或 `textarea` 的输入框，在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `showWordLimit` 属性来展示字数统计。
+
+``` html
+<input id="demo-input16" placeholder="请输入内容" maxlength="10">
+<br><br>
+<textarea id="demo-input17" placeholder="请输入内容" maxlength="30"></textarea>
+
+
+<script>
+  $('#demo-input16').input({showWordLimit: true});
+  $('#demo-input17').input({showWordLimit: true});
 </script>
 ```
 :::

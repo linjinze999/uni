@@ -1,3 +1,5 @@
+import calcTextareaHeight from '../utils/calcTextareaHeight';
+
 export default {
   init: function ($, componentName) {
     function Input ($el, options) {
@@ -31,7 +33,19 @@ export default {
         if (options.type === 'textarea') {
           /* textarea */
           this.$el.addClass('el-textarea__inner');
+          if(options.autosize){
+            var _autosize = options.autosize;
+            options.autosize = {
+              minRows: _autosize.minRows || 1,
+              maxRows: _autosize.maxRows || null
+            };
+            this.$el.on('propertychange input focus', function () {
+              that.areaResize();
+            });
+            this.areaResize();
+          }
         } else {
+          /* input */
           this.$el.addClass('el-input__inner');
           // 前置元素
           options.prepend && this.$input.prepend('<div class="el-input-group__prepend">' + options.prepend + '</div>');
@@ -91,6 +105,11 @@ export default {
         return this.options.showWordLimit &&
           this.$el.attr('maxlength') &&
           (this.options.type === 'text' || this.options.type === 'textarea');
+      },
+      areaResize: function () {
+        var options = this.options;
+        var _style = calcTextareaHeight(this.$el[0], options.autosize.minRows, options.autosize.maxRows);
+        this.$el.css(_style);
       },
       onchange: function (options, that) {
         // todo
