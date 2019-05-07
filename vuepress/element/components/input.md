@@ -156,7 +156,6 @@
 | showWordLimit | 是否显示输入字数统计，只在 `type = "text"` 或 `type = "textarea"` 时有效 | boolean    |  -  | `false` |
 | clearable     | 是否可清空，只在 `type!="textarea"` 时有效        | boolean         | - | `false` |
 | showPassword | 是否显示切换密码图标，只在 `type!="textarea"` 时有效| boolean         | - | `false` |
-| disabled      | 禁用            | boolean         | - | `false`   |
 | size          | 输入框尺寸，只在 `type!="textarea"` 时有效      | string          | medium / small / mini  | - |
 | prefixIcon   | 输入框头部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
 | suffixIcon   | 输入框尾部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
