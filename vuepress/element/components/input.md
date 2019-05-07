@@ -161,7 +161,6 @@
 | prefixIcon   | 输入框头部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
 | suffixIcon   | 输入框尾部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
 | autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，`{ minRows: 2, maxRows: 6 }`  |  boolean / object | - |  false   |
-| tabindex | 输入框的tabindex | string | - | - |
 
 ### 方法
 你可以通过调用`$(el).input('xxx')`来快速设置按钮状态。

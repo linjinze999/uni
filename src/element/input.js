@@ -11,7 +11,6 @@ export default {
       constructor: Input,
       init: function () {
         const that = this, options = this.options;
-        this.$el.attr('tabindex', options.tabindex);
         // $input
         var inputClass = [];
         inputClass.push(options.type === 'textarea' ? 'el-textarea' : 'el-input');
@@ -142,7 +141,7 @@ export default {
         allowedMethods = ['enable', 'disable'];
       this.each(function () {
         var $this = $(this),
-          data = $this.data('u-radio'),
+          data = $this.data('u-input'),
           attributes = {};
         if (!data) {
           $.each(this.attributes, function () {
@@ -157,7 +156,7 @@ export default {
             $this.attr(key, value);
           });
           data = new Input($this, options);
-          $this.data('u-radio', data);
+          $this.data('u-input', data);
           data.init();
         }
         if (typeof option === 'string') {
