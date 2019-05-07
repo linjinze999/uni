@@ -33,7 +33,14 @@ export default {
         if (options.type === 'textarea') {
           /* textarea */
           this.$el.addClass('el-textarea__inner');
-          if(options.autosize){
+          if (this.isWordLimitVisible()) {
+            this.$count = $('<span class="el-input__count">' + this.$el.val().length + '/' + this.$el.attr('maxlength') + '</span>');
+            this.$input.append(this.$count);
+            this.$el.on('input change', function () {
+              that.$count.text(that.$el.val().length + '/' + that.$el.attr('maxlength'));
+            });
+          }
+          if (options.autosize) {
             var _autosize = options.autosize;
             options.autosize = {
               minRows: _autosize.minRows || 1,
@@ -62,6 +69,7 @@ export default {
           if (options.clearable) {
             this.$clear = $('<i class="el-input__icon el-icon-circle-close el-input__clear" style="display: none;"></i>');
             this.$clear.on('click', function () {
+              options.clear && options.clear();
               that.$el.val('').trigger('input').trigger('change');
             });
             this.$input.on('mouseenter', function () {
@@ -92,7 +100,13 @@ export default {
             });
             this.$suffixInner.append(this.$password);
           }
-          this.isWordLimitVisible() && this.$suffixInner.append('<span class="el-input__count"><span class="el-input__count-inner">1/1</span></span>');
+          if (this.isWordLimitVisible()) {
+            this.$count = $('<span class="el-input__count-inner">' + this.$el.val().length + '/' + this.$el.attr('maxlength') + '</span>');
+            this.$suffixInner.append($('<span class="el-input__count"></span>').append(this.$count));
+            this.$el.on('input change', function () {
+              that.$count.text(that.$el.val().length + '/' + that.$el.attr('maxlength'));
+            });
+          }
           this.$input.append(this.$suffix);
           // 后置元素
           options.append && this.$input.append('<div class="el-input-group__append">' + options.append + '</div>');
@@ -111,9 +125,6 @@ export default {
         var _style = calcTextareaHeight(this.$el[0], options.autosize.minRows, options.autosize.maxRows);
         this.$el.css(_style);
       },
-      onchange: function (options, that) {
-        // todo
-      },
       disable: function () {
         this.options.disabled = true;
         this.$input.addClass('is-disabled');
@@ -128,7 +139,7 @@ export default {
     $.fn[componentName] = function () {
       var option = arguments[0],
         value,
-        allowedMethods = ['enable', 'disable', 'focus', 'blur', 'select'];
+        allowedMethods = ['enable', 'disable'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-radio'),
@@ -160,26 +171,18 @@ export default {
     };
     $.fn[componentName].defaults = {
       'type': 'text',
-      'value': '',
       'showWordLimit': false,
       'clearable': false,
       'showPassword': false,
       'size': '',
       'prefixIcon': '',
       'suffixIcon': '',
-      'rows': '',
       'autosize': false,
-      'resize': '',
-      'label': '',
       'tabindex': '',
-      'validateEvent': true,
       'prefix': '',
       'suffix': '',
       'prepend': '',
       'append': '',
-      'blur': '',
-      'focus': '',
-      'change': '',
       'clear': ''
     };
   },

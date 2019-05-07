@@ -148,10 +148,24 @@
 ```
 :::
 
+### 参数
+你可以通过修改`$.fn.input.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).input({xx: xx})`。
+| 参数      | 说明                       | 类型      | 可选值 | 默认值  |
+|---------- |--------------------------- |---------- |------  |-------- |
+| type         | 类型   | string  | text，textarea 和其他 [原生 input 的 type 值](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | `'text'` / `'textarea'` |
+| showWordLimit | 是否显示输入字数统计，只在 `type = "text"` 或 `type = "textarea"` 时有效 | boolean    |  -  | `false` |
+| clearable     | 是否可清空，只在 `type!="textarea"` 时有效        | boolean         | - | `false` |
+| showPassword | 是否显示切换密码图标，只在 `type!="textarea"` 时有效| boolean         | - | `false` |
+| disabled      | 禁用            | boolean         | - | `false`   |
+| size          | 输入框尺寸，只在 `type!="textarea"` 时有效      | string          | medium / small / mini  | - |
+| prefixIcon   | 输入框头部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
+| suffixIcon   | 输入框尾部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
+| autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，`{ minRows: 2, maxRows: 6 }`  |  boolean / object | - |  false   |
+| tabindex | 输入框的tabindex | string | - | - |
+
 ### 方法
-你可以通过调用`$(#id).button('xxx')`来快速设置按钮状态。
+你可以通过调用`$(el).input('xxx')`来快速设置按钮状态。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
-| disabled | 禁用按钮 | `$(#id).button('disabled')` |
-| loading | 按钮显示加载中 | `$(#id).button('loading')` |
-| show | 取消禁用和加载状态 | `$(#id).button('show')` |
+| disable | 禁用 | `$(el).input('disable')` |
+| enable | 取消禁用 | `$(el).input('enable')` |
