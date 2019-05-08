@@ -162,7 +162,7 @@
 | autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，`{ minRows: 2, maxRows: 6 }`  |  boolean / object | - |  false   |
 
 ### 方法
-你可以通过调用`$(el).input('xxx')`来快速设置按钮状态。
+你可以通过调用`$(el).input('xxx')`来调用组件方法。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
 | disable | 禁用 | `$(el).input('disable')` |
