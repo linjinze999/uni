@@ -1,5 +1,6 @@
 import draggable from '../utils/draggable';
 import debounce from '../utils/debounce';
+import repeatClick from '../utils/repeatClick';
 
 export default {
   init: function ($, componentName) {
@@ -173,11 +174,11 @@ export default {
             (options.inputSize ? ('el-input-number--' + options.inputSize) : '') + '"></div>');
           if (options.showInputControls) {
             this.$inputDecrease = $('<span role="button" class="el-input-number__decrease"><i class="el-icon-minus"></i></span>');
-            this.$inputDecrease.on('click', function () {
+            repeatClick.bind(this.$inputDecrease[0], function () {
               !that.inputDecreaseDisabled && that.set(options.value - options.step);
             });
             this.$inputIncrease = $('<span role="button" class="el-input-number__increase"><i class="el-icon-plus"></i></span>');
-            this.$inputIncrease.on('click', function () {
+            repeatClick.bind(this.$inputIncrease[0], function () {
               !that.inputIncreaseDisabled && that.set(options.value + options.step);
             });
             this.$inputParent.append(this.$inputDecrease, this.$inputIncrease);

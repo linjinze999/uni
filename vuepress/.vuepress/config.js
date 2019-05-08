@@ -91,6 +91,7 @@ module.exports = {
                     'components/radio',
                     'components/checkbox',
                     'components/input',
+                    'components/inputNumber',
                     'components/switch',
                     'components/slider',
                     'components/rate',

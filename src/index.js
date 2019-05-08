@@ -10,6 +10,7 @@ import ColorPicker from './element/colorPicker';
 import Dialog from './element/dialog';
 import Dropdown from './element/dropdown';
 import Input from './element/input';
+import InputNumber from './element/inputNumber';
 import Loading from './element/loading';
 import Message from './element/message';
 import Notification from './element/notification';
@@ -47,6 +48,7 @@ const fn = [
   ColorPicker,
   Dropdown,
   Input,
+  InputNumber,
   Loading,
   Popover,
   Progress,
