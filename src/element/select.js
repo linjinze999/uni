@@ -22,7 +22,6 @@ export default {
         this.showDrop = false;
         this.$parent.on('click', function (e) {
           that.showDrop ? that.hide() : that.show();
-          e.stopPropagation();
         });
         clickoutside.bind(function (e) {
           return !that.$parent.is(e.target) && that.$parent.has(e.target).length === 0;
@@ -41,13 +40,20 @@ export default {
             this.$tagsParent.append(this.$filter);
           }
           this.$parent.append(this.$tagsParent);
+          this.collapseTagSize = ['small', 'mini'].indexOf(options.size) > -1 ? 'mini' : 'small';
         } else {
           this.$el.attr('multiple', false);
         }
         // 占位输入框
         this.$inputParent = $('<div class="el-input el-input--suffix"></div>');
         this.$input = $('<input type="text" readonly="readonly" autocomplete="' + options.autocomplete +
-          '" placeholder="' + options.placeholder + '" class="el-input__inner" style="height: 40px;">');
+          '" class="el-input__inner" style="height: 40px;">');
+        this.$input.on('focus', function () {
+          that.$input.addClass('is-focus');
+        });
+        this.$input.on('blur', function () {
+          that.$input.removeClass('is-focus');
+        });
         this.$inputIcon = $('<i class="el-select__caret el-input__icon el-icon-arrow-up"></i>');
         this.$inputSuffix = $('<span class="el-input__suffix"></span>').append($('<span class="el-input__suffix-inner"></span>').append(this.$inputIcon));
         this.$inputParent.append(this.$input, this.$inputSuffix);
@@ -81,7 +87,10 @@ export default {
         this.$dropdownList = $('<ul class="el-select-dropdown__list"></ul>');
         this.$dropdown.find('.el-select-dropdown__wrap').append(this.$dropdownList);
         this.$parent.append(this.$inputParent, this.$dropdown);
+        this.initialInputHeight = this.$input.height();
         this.setData(options.data);
+        options.value = options.value || this.$el.val() || (options.multiple ? [] : '');
+        this.set(options.value, true);
         options.disabled && this.disable();
       },
       setData: function (data) {
@@ -118,7 +127,16 @@ export default {
                   if (!options.multiple) {
                     that.set(_subOption.value);
                     that.hide();
+                  } else if (options.value.includes(_subOption.value)) {
+                    var _newValue = [].concat(options.value);
+                    _newValue.splice(options.value.indexOf(_subOption.value), 1);
+                    that.set(_newValue);
+                  } else {
+                    var _newValue = [].concat(options.value);
+                    _newValue.push(_subOption.value);
+                    that.set(_newValue);
                   }
+                  that.$input.focus();
                 });
               }
               $subUl.append($subLi);
@@ -138,7 +156,16 @@ export default {
                 if (!options.multiple) {
                   that.set(_option.value);
                   that.hide();
+                } else if (options.value.includes(_option.value)) {
+                  var _newValue = [].concat(options.value);
+                  _newValue.splice(options.value.indexOf(_option.value), 1);
+                  that.set(_newValue);
+                } else {
+                  var _newValue = [].concat(options.value);
+                  _newValue.push(_option.value);
+                  that.set(_newValue);
                 }
+                that.$input.focus();
               });
             }
             that.$dropdownList.append($li);
@@ -147,9 +174,18 @@ export default {
           }
         });
       },
+      resetInputHeight: function () {
+        const that = this, options = this.options;
+        if (!options.multiple || (options.collapseTags && !options.filterable)) return;
+        const sizeInMap = this.initialInputHeight || 40;
+        this.$input.css('height', options.value.length === 0
+          ? sizeInMap + 'px'
+          : Math.max(this.$tagsParent.height() + (this.$tagsParent.height() > sizeInMap ? 6 : 0), sizeInMap) + 'px');
+      },
       show: function () {
         if (!this.options.disabled && !this.showDrop) {
           this.$inputIcon.addClass('is-reverse');
+          this.$input.focus();
           this.$dropdown.show();
           this.showDrop = true;
           typeof this.options.visibleChange === 'function' && this.options.visibleChange(true);
@@ -163,22 +199,80 @@ export default {
           typeof this.options.visibleChange === 'function' && this.options.visibleChange(false);
         }
       },
-      set: function (value) {
-        if (!this.options.multiple) {
-          if (value !== this.options.value) {
+      set: function (value, init) {
+        const that = this, options = this.options;
+        if (!options.multiple) {
+          // 单选
+          if (value !== options.value || init) {
             this.$dropdownList.find('.selected').removeClass('selected');
             value && this.$dropdownList.find('[data-value=' + value + ']').addClass('selected');
-            this.options.value = value;
+            options.value = value;
             this.$input.val(this.dataMap[value] || '');
-            typeof this.options.change === 'function' && this.options.change(this.options.value);
+            this.setPlaceholder();
+            typeof options.change === 'function' && options.change(options.value);
           }
           if (value !== this.$el.val()) {
+            this.$el.val(value).trigger('change');
+          }
+        } else {
+          // 多选
+          if (value.toString() !== options.value.toString() || init) {
+            this.$dropdownList.find('.selected').removeClass('selected');
+            value.forEach(_v => {
+              _v && this.$dropdownList.find('[data-value=' + _v + ']').addClass('selected');
+            });
+            options.value = value;
+            this.$tags.empty();
+            if (options.collapseTags) {
+              if (options.value.length > 0) {
+                var _v = options.value[0];
+                var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
+                $closeIcon.on('click', function (e) {
+                  var _newValue = [].concat(options.value);
+                  _newValue.splice(_newValue.indexOf(_v), 1);
+                  that.set(_newValue);
+                  that.$input.focus();
+                  e.stopPropagation();
+                });
+                this.$tags.append($('<span class="el-tag el-tag--info el-tag--' + this.collapseTagSize +
+                  '"><span class="el-select__tags-text">' + this.dataMap[_v] + '</span></span>').append($closeIcon));
+              }
+              if (options.value.length > 1) {
+                this.$tags.append('<span class="el-tag el-tag--info el-tag--' + this.collapseTagSize +
+                  '"><span class="el-select__tags-text">+' + (options.value.length - 1) + '</span></span>');
+              }
+            } else {
+              value.forEach(_v => {
+                var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
+                $closeIcon.on('click', function (e) {
+                  var _newValue = [].concat(options.value);
+                  _newValue.splice(_newValue.indexOf(_v), 1);
+                  that.set(_newValue);
+                  that.$input.focus();
+                  e.stopPropagation();
+                });
+                this.$tags.append($('<span class="el-tag el-tag--info el-tag--' + this.collapseTagSize +
+                  '"><span class="el-select__tags-text">' + this.dataMap[_v] + '</span></span>').append($closeIcon));
+              });
+            }
+            this.setPlaceholder();
+            this.resetInputHeight();
+            typeof options.change === 'function' && options.change(options.value);
+          }
+          if (value.toString() !== this.$el.val().toString()) {
             this.$el.val(value).trigger('change');
           }
         }
       },
       get: function () {
         return this.options.value;
+      },
+      setPlaceholder: function () {
+        if ((this.options.value || '').length > 0) {
+          this.$input.attr('placeholder', '');
+        } else {
+          this.$input.attr('placeholder', this.options.placeholder);
+        }
       },
       disable: function () {
         this.options.disabled = true;
