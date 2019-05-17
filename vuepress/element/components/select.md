@@ -70,6 +70,7 @@
 
 <script>
   $('#demo-select3').select({
+    value: '选项2',
     disabled: true,
     data: [
       {
@@ -179,6 +180,115 @@
         }
       ]
     });
+</script>
+```
+:::
+
+### 自定义模板
+可以自定义备选项
+::: demo 自定义`optionTemplate`函数，其接受参数`{value: xx, label: xx, disabled: xx}`，返回一个html。
+
+``` html
+<select id="demo-select7"></select>
+
+<script>
+  $('#demo-select7').select({
+    data: [{
+      value: 'Beijing',
+      label: '北京'
+    }, {
+      value: 'Shanghai',
+      label: '上海'
+    }, {
+      value: 'Nanjing',
+      label: '南京'
+    }, {
+      value: 'Chengdu',
+      label: '成都'
+    }, {
+      value: 'Shenzhen',
+      label: '深圳'
+    }, {
+      value: 'Guangzhou',
+      label: '广州'
+    }],
+    optionTemplate: function(option) {
+      return '<span>' + option.label + '</span>' +
+        '<span style="float: right; color: #8492a6; font-size: 13px">' + option.value + '</span>';
+    }
+  });
+</script>
+```
+:::
+
+### 分组
+备选项进行分组展示
+::: demo `data`中，item 内置`options`并声明`label`，将被认定为一个分组。
+
+``` html
+<select id="demo-select8"></select>
+
+<script>
+  $('#demo-select8').select({
+    data: [{
+      label: '热门城市',
+      options: [{
+        value: 'Shanghai',
+        label: '上海'
+      }, {
+        value: 'Beijing',
+        label: '北京'
+      }]
+    }, {
+      label: '城市名',
+      options: [{
+        value: 'Nanjing',
+        label: '南京'
+      }, {
+        value: 'Chengdu',
+        label: '成都'
+      }, {
+        value: 'Shenzhen',
+        label: '深圳'
+      }, {
+        value: 'Guangzhou',
+        label: '广州'
+      }]
+    }]
+  });
+</script>
+```
+:::
+
+### 可搜索
+可以利用搜索功能快速查找选项
+::: demo 设置`filterable`参数即可启用搜索功能。默认情况下，Select 会找出所有`label`属性包含输入值的选项。如果希望使用其他的搜索逻辑，可以通过传入一个`filterMethod`来实现。`filterMethod`为一个`Function`，它会在输入值发生变化时调用，参数为当前输入值。
+
+``` html
+<select id="demo-select9"></select>
+
+<script>
+  $('#demo-select9').select({
+    filterable: true,
+    data: [
+      {
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }
+    ]
+  });
 </script>
 ```
 :::

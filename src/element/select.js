@@ -1,4 +1,5 @@
 import clickoutside from '../utils/clickoutside';
+import debounce from '../utils/debounce';
 
 export default {
   init: function ($, componentName) {
@@ -46,14 +47,32 @@ export default {
         }
         // 占位输入框
         this.$inputParent = $('<div class="el-input el-input--suffix"></div>');
-        this.$input = $('<input type="text" readonly="readonly" autocomplete="' + options.autocomplete +
-          '" class="el-input__inner" style="height: 40px;">');
+        this.$input = $('<input type="text" autocomplete="' + options.autocomplete + '" class="el-input__inner">');
         this.$input.on('focus', function () {
           that.$input.addClass('is-focus');
         });
         this.$input.on('blur', function () {
           that.$input.removeClass('is-focus');
         });
+        if (!options.multiple && options.filterable) {
+          this.$input.on('focus', function () {
+            setTimeout(function () {
+              if (that.showDrop) {
+                that.$input.val('');
+                options.value ? that.$input.attr('placeholder', that.dataMap[options.value]) : that.setPlaceholder();
+              }
+            }, 0);
+          });
+          this.$input.on('blur', function () {
+            that.$input.val(that.dataMap[options.value]);
+            that.setPlaceholder();
+          });
+          this.$input.on('input', debounce(function () {
+            that.filterOptions();
+          }, 100));
+        } else {
+          this.$input.attr('readonly', true);
+        }
         this.$inputIcon = $('<i class="el-select__caret el-input__icon el-icon-arrow-up"></i>');
         this.$inputSuffix = $('<span class="el-input__suffix"></span>').append($('<span class="el-input__suffix-inner"></span>').append(this.$inputIcon));
         this.$inputParent.append(this.$input, this.$inputSuffix);
@@ -77,19 +96,24 @@ export default {
           });
         }
         // 下拉框
-        this.$dropdown = $('<div class="el-select-dropdown el-popper is-multiple" ' +
+        this.$dropdown = $('<div class="el-select-dropdown el-popper ' + (options.multiple ? 'is-multiple' : '') + '" ' +
           'style="min-width: ' + options.width + '; transform: translateX(-50%); z-index: 2000; position: absolute; top: 100%; left: 50%; display: none;"' +
-          ' x-placement="bottom-start"><div class="el-select-dropdown__wrap"></div>' +
-          '<div class="popper__arrow" style="transform: translateX(-50%); left: 50%;"></div></div>');
+          ' x-placement="bottom-start">' +
+          '<div class="el-select-dropdown__wrap"></div>' +
+          '<p class="el-select-dropdown__empty"></p>' +
+          '<div class="popper__arrow" style="transform: translateX(-50%); left: 50%;"></div>' +
+          '</div>');
+        this.$empty = this.$dropdown.find('.el-select-dropdown__empty');
+        this.$dropdownWrap = this.$dropdown.find('.el-select-dropdown__wrap');
         this.$dropdown.on('click', function (e) {
           e.stopPropagation();
         });
         this.$dropdownList = $('<ul class="el-select-dropdown__list"></ul>');
-        this.$dropdown.find('.el-select-dropdown__wrap').append(this.$dropdownList);
+        this.$dropdownWrap.append(this.$dropdownList);
         this.$parent.append(this.$inputParent, this.$dropdown);
         this.initialInputHeight = this.$input.height();
-        this.setData(options.data);
         options.value = options.value || this.$el.val() || (options.multiple ? [] : '');
+        this.setData(options.data);
         this.set(options.value, true);
         options.disabled && this.disable();
       },
@@ -99,6 +123,9 @@ export default {
         that.dataMap = {};
         this.$dropdownList.empty();
         this.$el.empty();
+        if (!options.multiple && !options.value) {
+          this.$el.append('<option disabled selected value></option>');
+        }
         options.data.forEach(function (_option, index) {
           if (typeof _option === 'string') {
             _option = {value: _option};
@@ -107,38 +134,21 @@ export default {
           _option.disabled = !!_option.disabled;
           options.data[index] = _option;
           if (Array.isArray(_option.options)) {
+            // optgroup
             var $group = $('<ul class="el-select-group__wrap"></ul>');
             $group.append('<li class="el-select-group__title">' + _option.label + '</li>');
             var optgroup = $('<optgroup label="' + _option.label + '"></optgroup>');
             var $li = $('<li></li>');
             var $subUl = $('<ul class="el-select-group"></ul>');
             _option.options.forEach(function (_subOption, subIndex) {
+              // option
               if (typeof _subOption === 'string') {
                 _subOption = {value: _subOption};
               }
               _subOption.label = _subOption.label || _subOption.value;
               _subOption.disabled = !!_subOption.disabled;
               options.data[index].options[subIndex] = _subOption;
-              var $subLi = $('<li class="el-select-dropdown__item" data-value="' + _subOption.value + '">' + _subOption.label + '</li>');
-              if (_subOption.disabled) {
-                $subLi.addClass('is-disabled');
-              } else {
-                $subLi.on('click', function () {
-                  if (!options.multiple) {
-                    that.set(_subOption.value);
-                    that.hide();
-                  } else if (options.value.includes(_subOption.value)) {
-                    var _newValue = [].concat(options.value);
-                    _newValue.splice(options.value.indexOf(_subOption.value), 1);
-                    that.set(_newValue);
-                  } else {
-                    var _newValue = [].concat(options.value);
-                    _newValue.push(_subOption.value);
-                    that.set(_newValue);
-                  }
-                  that.$input.focus();
-                });
-              }
+              var $subLi = that.createOption(_subOption);
               $subUl.append($subLi);
               optgroup.append('<option value ="' + _subOption.value + '">' + _subOption.label + '</option>');
               that.dataMap[_subOption.value] = _subOption.label;
@@ -148,34 +158,99 @@ export default {
             that.$dropdownList.append($group);
             that.$el.append(optgroup);
           } else {
-            var $li = $('<li class="el-select-dropdown__item" data-value="' + _option.value + '">' + _option.label + '</li>');
-            if (_option.disabled) {
-              $li.addClass('is-disabled');
-            } else {
-              $li.on('click', function () {
-                if (!options.multiple) {
-                  that.set(_option.value);
-                  that.hide();
-                } else if (options.value.includes(_option.value)) {
-                  var _newValue = [].concat(options.value);
-                  _newValue.splice(options.value.indexOf(_option.value), 1);
-                  that.set(_newValue);
-                } else {
-                  var _newValue = [].concat(options.value);
-                  _newValue.push(_option.value);
-                  that.set(_newValue);
-                }
-                that.$input.focus();
-              });
-            }
+            // option
+            var $li = that.createOption(_option);
             that.$dropdownList.append($li);
             that.$el.append('<option value ="' + _option.value + '">' + _option.label + '</option>');
             that.dataMap[_option.value] = _option.label;
           }
         });
+        this.noData = options.data.length === 0;
+        this.setNoData();
+      },
+      filterOptions: function () {
+        var options = this.options;
+        var value = this.$input.val();
+        var noMatch = true;
+        this.$dropdownList.find('> .el-select-dropdown__item').each(function () {
+          var $this = $(this);
+          var option = $this.data('option');
+          if (options.filterMethod(value, option)) {
+            $this.show();
+            noMatch = false;
+          } else {
+            $this.hide();
+          }
+        });
+        this.$dropdownList.find('.el-select-group__wrap').each(function () {
+          var $that = $(this);
+          var items = $that.find('.el-select-dropdown__item');
+          var show = false;
+          items.each(function () {
+            var $this = $(this);
+            var option = $this.data('option');
+            if (options.filterMethod(value, option)) {
+              $this.show();
+              show = true;
+              noMatch = false;
+            } else {
+              $this.hide();
+            }
+          });
+          show ? $that.show() : $that.hide();
+        });
+        this.setNoMatch(noMatch);
+      },
+      setNoData: function () {
+        if (this.noData) {
+          this.$dropdownWrap.hide();
+          this.$empty.html(this.options.noDataText).show();
+        } else {
+          this.$empty.hide();
+          this.$dropdownWrap.show();
+        }
+      },
+      setNoMatch: function (noMatch) {
+        if (noMatch) {
+          this.$dropdownWrap.hide();
+          this.$empty.html(this.options.noMatchText).show();
+        } else if (this.noData) {
+          this.setNoData();
+        } else {
+          this.$empty.hide();
+          this.$dropdownWrap.show();
+        }
+      },
+      createOption: function (_option) {
+        var that = this, options = this.options;
+        var $li = $('<li class="el-select-dropdown__item" data-value="' + _option.value + '" data-label="' + _option.label + '"></li>');
+        $li.data('option', _option);
+        var template = typeof options.optionTemplate === 'function' ? options.optionTemplate(_option) : '';
+        var $content = template ? template : _option.label;
+        $li.append($content);
+        if (_option.disabled) {
+          $li.addClass('is-disabled');
+        } else {
+          $li.on('click', function () {
+            if (!options.multiple) {
+              that.set(_option.value);
+              that.hide();
+            } else if (options.value.includes(_option.value)) {
+              var _newValue = [].concat(options.value);
+              _newValue.splice(options.value.indexOf(_option.value), 1);
+              that.set(_newValue);
+            } else {
+              var _newValue = [].concat(options.value);
+              _newValue.push(_option.value);
+              that.set(_newValue);
+            }
+            that.$input.focus();
+          });
+        }
+        return $li;
       },
       resetInputHeight: function () {
-        const that = this, options = this.options;
+        const options = this.options;
         if (!options.multiple || (options.collapseTags && !options.filterable)) return;
         const sizeInMap = this.initialInputHeight || 40;
         this.$input.css('height', options.value.length === 0
@@ -268,7 +343,7 @@ export default {
         return this.options.value;
       },
       setPlaceholder: function () {
-        if ((this.options.value || '').length > 0) {
+        if (this.options.multiple && (this.options.value || '').length > 0) {
           this.$input.attr('placeholder', '');
         } else {
           this.$input.attr('placeholder', this.options.placeholder);
@@ -337,7 +412,7 @@ export default {
       'width': '240px',
       'multiple': '',
       'disabled': '',
-      'valueKey': 'value',
+      'optionTemplate': '',
       'size': '',
       'clearable': false,
       'collapseTags': false,
@@ -346,7 +421,8 @@ export default {
       'placeholder': '请选择',
       'filterable': false,
       'allowCreate': false,
-      'filterMethod': function () {
+      'filterMethod': function (value, option) {
+        return option.label.toLowerCase().indexOf(value.toLowerCase()) > -1;
       },
       'remote': false,
       'remoteMethod': function () {
