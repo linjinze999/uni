@@ -293,6 +293,32 @@
 ```
 :::
 
+### 创建条目
+可以创建并选中选项中不存在的条目
+::: demo 使用`allowCreate`属性即可通过在输入框中输入文字来创建新的条目。注意此时`filterable`必须为真。本例还使用了`default-first-option`属性，在该属性打开的情况下，按下回车就可以选中当前选项列表中的第一个选项，无需使用鼠标或键盘方向键进行定位。
+
+``` html
+<select id="demo-select10"></select>
+
+<script>
+  $('#demo-select10').select({
+    allowCreate: true,
+    filterable: true,
+    data: [{
+      value: 'HTML',
+      label: 'HTML'
+    }, {
+      value: 'CSS',
+      label: 'CSS'
+    }, {
+      value: 'JavaScript',
+      label: 'JavaScript'
+    }]
+  });
+</script>
+```
+:::
+
 ### 参数
 你可以通过修改`$.fn.input.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).input({xx: xx})`。
 | 参数      | 说明                       | 类型      | 可选值 | 默认值  |

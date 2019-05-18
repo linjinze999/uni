@@ -39,6 +39,11 @@ export default {
             this.$filter = $('<input type="text" autocomplete="' + options.autocomplete +
               '" class="el-select__input" style="flex-grow: 1; width: 0.0961538%; max-width: 198px;">');
             this.$tagsParent.append(this.$filter);
+            this.$filter.on('keypress', function (event) {
+              if (event.keyCode === 13 && options.allowCreate && that.$filter.val()) {
+                that.createOption(that.$filter.val());
+              }
+            });
           }
           this.$parent.append(this.$tagsParent);
           this.collapseTagSize = ['small', 'mini'].indexOf(options.size) > -1 ? 'mini' : 'small';
@@ -58,7 +63,7 @@ export default {
           this.$input.on('focus', function () {
             setTimeout(function () {
               if (that.showDrop) {
-                that.$input.val('');
+                that.$input.val('').trigger('input');
                 options.value ? that.$input.attr('placeholder', that.dataMap[options.value]) : that.setPlaceholder();
               }
             }, 0);
@@ -70,6 +75,12 @@ export default {
           this.$input.on('input', debounce(function () {
             that.filterOptions();
           }, 100));
+          this.$input.on('keypress', function (event) {
+            if (event.keyCode === 13 && options.allowCreate && that.$input.val()) {
+              that.createOption(that.$input.val());
+              that.hide();
+            }
+          });
         } else {
           this.$input.attr('readonly', true);
         }
@@ -99,7 +110,7 @@ export default {
         this.$dropdown = $('<div class="el-select-dropdown el-popper ' + (options.multiple ? 'is-multiple' : '') + '" ' +
           'style="min-width: ' + options.width + '; transform: translateX(-50%); z-index: 2000; position: absolute; top: 100%; left: 50%; display: none;"' +
           ' x-placement="bottom-start">' +
-          '<div class="el-select-dropdown__wrap"></div>' +
+          '<div class="el-select-dropdown__wrap" style="overflow:auto;"></div>' +
           '<p class="el-select-dropdown__empty"></p>' +
           '<div class="popper__arrow" style="transform: translateX(-50%); left: 50%;"></div>' +
           '</div>');
@@ -148,7 +159,7 @@ export default {
               _subOption.label = _subOption.label || _subOption.value;
               _subOption.disabled = !!_subOption.disabled;
               options.data[index].options[subIndex] = _subOption;
-              var $subLi = that.createOption(_subOption);
+              var $subLi = that.optionHtml(_subOption);
               $subUl.append($subLi);
               optgroup.append('<option value ="' + _subOption.value + '">' + _subOption.label + '</option>');
               that.dataMap[_subOption.value] = _subOption.label;
@@ -159,7 +170,7 @@ export default {
             that.$el.append(optgroup);
           } else {
             // option
-            var $li = that.createOption(_option);
+            var $li = that.optionHtml(_option);
             that.$dropdownList.append($li);
             that.$el.append('<option value ="' + _option.value + '">' + _option.label + '</option>');
             that.dataMap[_option.value] = _option.label;
@@ -221,7 +232,7 @@ export default {
           this.$dropdownWrap.show();
         }
       },
-      createOption: function (_option) {
+      optionHtml: function (_option) {
         var that = this, options = this.options;
         var $li = $('<li class="el-select-dropdown__item" data-value="' + _option.value + '" data-label="' + _option.label + '"></li>');
         $li.data('option', _option);
@@ -248,6 +259,22 @@ export default {
           });
         }
         return $li;
+      },
+      createOption: function (value) {
+        var _option = {value: value, label: value, disabled: false};
+        var that = this, options = this.options;
+        if (options.multiple) {
+          // todo
+        } else {
+          var $li = that.optionHtml(_option);
+          $li.attr('data-u-create', 'uni');
+          that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
+          that.$dropdownList.prepend($li);
+          that.$el.find('option').remove('[data-u-create=uni]');
+          that.$el.prepend('<option value ="' + _option.value + '" data-u-create="uni">' + _option.label + '</option>');
+          that.dataMap[_option.value] = _option.label;
+          that.set(value);
+        }
       },
       resetInputHeight: function () {
         const options = this.options;
@@ -279,7 +306,11 @@ export default {
         if (!options.multiple) {
           // 单选
           if (value !== options.value || init) {
-            this.$dropdownList.find('.selected').removeClass('selected');
+            var _old = this.$dropdownList.find('.selected').removeClass('selected');
+            if (_old.attr('data-u-create') === 'uni') {
+              that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
+              that.$el.find('option').remove('[data-u-create=uni]');
+            }
             value && this.$dropdownList.find('[data-value=' + value + ']').addClass('selected');
             options.value = value;
             this.$input.val(this.dataMap[value] || '');
