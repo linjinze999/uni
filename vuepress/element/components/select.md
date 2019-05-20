@@ -302,6 +302,7 @@
 
 <script>
   $('#demo-select10').select({
+    multiple: true,
     allowCreate: true,
     filterable: true,
     data: [{

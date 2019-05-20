@@ -21,27 +21,42 @@ export default {
         });
         // 展开/收起
         this.showDrop = false;
-        this.$parent.on('click', function (e) {
-          that.showDrop ? that.hide() : that.show();
+        this.$parent.on('click', function () {
+          if (options.multiple && options.filterable) {
+            that.$filter.focus();
+            that.$inputParent.addClass('is-focus');
+            !that.showDrop && that.show();
+          } else {
+            that.showDrop ? that.hide() : that.show();
+          }
         });
         clickoutside.bind(function (e) {
           return !that.$parent.is(e.target) && that.$parent.has(e.target).length === 0;
         }, function () {
+          that.$inputParent.removeClass('is-focus');
           that.hide();
         });
         // 多选值
         if (options.multiple) {
           this.$el.attr('multiple', true);
-          this.$tagsParent = $('<div class="el-select__tags" style="width: 100%; max-width: 208px;"></div>');
+          this.$tagsParent = $('<div class="el-select__tags" style="width: 100%;"></div>');
           this.$tags = $('<span></span>');
           this.$tagsParent.append(this.$tags);
           if (options.filterable) {
             this.$filter = $('<input type="text" autocomplete="' + options.autocomplete +
-              '" class="el-select__input" style="flex-grow: 1; width: 0.0961538%; max-width: 198px;">');
+              '" class="el-select__input" style="flex-grow: 1; width: 1%">');
             this.$tagsParent.append(this.$filter);
+            this.$filter.on('input', function () {
+              if (options.allowCreate && that.$filter.val()) {
+                that.createOption(that.$filter.val());
+              }
+              that.filterOptions();
+            });
             this.$filter.on('keypress', function (event) {
               if (event.keyCode === 13 && options.allowCreate && that.$filter.val()) {
-                that.createOption(that.$filter.val());
+                var newValue = [].concat(options.value);
+                newValue.push(that.$filter.val());
+                that.set(newValue);
               }
             });
           }
@@ -54,10 +69,10 @@ export default {
         this.$inputParent = $('<div class="el-input el-input--suffix"></div>');
         this.$input = $('<input type="text" autocomplete="' + options.autocomplete + '" class="el-input__inner">');
         this.$input.on('focus', function () {
-          that.$input.addClass('is-focus');
+          that.$inputParent.addClass('is-focus');
         });
         this.$input.on('blur', function () {
-          that.$input.removeClass('is-focus');
+          that.$inputParent.removeClass('is-focus');
         });
         if (!options.multiple && options.filterable) {
           this.$input.on('focus', function () {
@@ -73,11 +88,14 @@ export default {
             that.setPlaceholder();
           });
           this.$input.on('input', debounce(function () {
+            if (options.allowCreate && that.$input.val()) {
+              that.createOption(that.$input.val());
+            }
             that.filterOptions();
           }, 100));
           this.$input.on('keypress', function (event) {
             if (event.keyCode === 13 && options.allowCreate && that.$input.val()) {
-              that.createOption(that.$input.val());
+              that.set(that.$input.val());
               that.hide();
             }
           });
@@ -122,7 +140,10 @@ export default {
         this.$dropdownList = $('<ul class="el-select-dropdown__list"></ul>');
         this.$dropdownWrap.append(this.$dropdownList);
         this.$parent.append(this.$inputParent, this.$dropdown);
-        this.initialInputHeight = this.$input.height();
+        this.initialInputHeight = this.$inputParent.height();
+        this.inputWidth = this.$inputParent.width();
+        this.$tagsParent && this.$tagsParent.css('max-width', (this.inputWidth - 32) + 'px');
+        this.$filter && this.$filter.css('max-width', (this.inputWidth - 42) + 'px');
         options.value = options.value || this.$el.val() || (options.multiple ? [] : '');
         this.setData(options.data);
         this.set(options.value, true);
@@ -181,7 +202,7 @@ export default {
       },
       filterOptions: function () {
         var options = this.options;
-        var value = this.$input.val();
+        var value = options.multiple ? this.$filter.val() : this.$input.val();
         var noMatch = true;
         this.$dropdownList.find('> .el-select-dropdown__item').each(function () {
           var $this = $(this);
@@ -255,7 +276,7 @@ export default {
               _newValue.push(_option.value);
               that.set(_newValue);
             }
-            that.$input.focus();
+            that.$inputParent.addClass('is-focus');
           });
         }
         return $li;
@@ -263,17 +284,21 @@ export default {
       createOption: function (value) {
         var _option = {value: value, label: value, disabled: false};
         var that = this, options = this.options;
-        if (options.multiple) {
-          // todo
-        } else {
+        that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
+        that.$el.find('option[data-u-create=uni]').each(function () {
+          var _$this = $(this);
+          var _v = _$this.attr('value');
+          if (options.multiple ? !options.value.includes(_v) : _v !== options.value) {
+            _$this.remove();
+            delete that.dataMap[_v];
+          }
+        });
+        if (value && !that.$dropdownList.find('.el-select-dropdown__item[data-value=' + value + ']').length) {
           var $li = that.optionHtml(_option);
           $li.attr('data-u-create', 'uni');
-          that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
           that.$dropdownList.prepend($li);
-          that.$el.find('option').remove('[data-u-create=uni]');
           that.$el.prepend('<option value ="' + _option.value + '" data-u-create="uni">' + _option.label + '</option>');
           that.dataMap[_option.value] = _option.label;
-          that.set(value);
         }
       },
       resetInputHeight: function () {
@@ -337,7 +362,7 @@ export default {
                   var _newValue = [].concat(options.value);
                   _newValue.splice(_newValue.indexOf(_v), 1);
                   that.set(_newValue);
-                  that.$input.focus();
+                  that.$inputParent.addClass('is-focus');
                   e.stopPropagation();
                 });
                 this.$tags.append($('<span class="el-tag el-tag--info el-tag--' + this.collapseTagSize +
@@ -351,16 +376,19 @@ export default {
               value.forEach(_v => {
                 var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
                 $closeIcon.on('click', function (e) {
+                  that.$el.find('option[data-u-create=uni][value=' + _v + ']').remove();
                   var _newValue = [].concat(options.value);
                   _newValue.splice(_newValue.indexOf(_v), 1);
                   that.set(_newValue);
-                  that.$input.focus();
+                  that.$inputParent.addClass('is-focus');
                   e.stopPropagation();
                 });
                 this.$tags.append($('<span class="el-tag el-tag--info el-tag--' + this.collapseTagSize +
                   '"><span class="el-select__tags-text">' + this.dataMap[_v] + '</span></span>').append($closeIcon));
               });
             }
+            this.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
+            this.$filter && this.$filter.val('').trigger('input');
             this.setPlaceholder();
             this.resetInputHeight();
             typeof options.change === 'function' && options.change(options.value);
