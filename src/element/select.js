@@ -2,7 +2,7 @@ import clickoutside from '../utils/clickoutside';
 import debounce from '../utils/debounce';
 
 export default {
-  init: function ($, componentName) {
+  init: function ($, componentName, i18nName) {
     function Select ($el, options) {
       this.$el = $el;
       this.options = options;
@@ -12,6 +12,9 @@ export default {
       constructor: Select,
       init: function () {
         const that = this, options = this.options;
+        this.placeholderI18nAttr = $[i18nName] ? $[i18nName].getAttr(options.i18n.placeholder) : '';
+        this.noDataI18nAttr = $[i18nName] ? $[i18nName].getAttr(options.i18n.noData) : '';
+        this.noMatchI18nAttr = $[i18nName] ? $[i18nName].getAttr(options.i18n.noMatch) : '';
         this.$parent = $('<div class="el-select" style="width: ' + options.width + '"></div>');
         options.size && this.$parent.addClass('el-select--' + options.size);
         this.$el.wrap(this.$parent);
@@ -70,8 +73,11 @@ export default {
                 that.navigateOptions('prev');
               } else if (event.keyCode === 40) {
                 that.navigateOptions('next');
-              } else if (event.keyCode === 46 || event.keyCode === 8) {
-                // todo
+              } else if (event.keyCode === 8 && !that.$filter.val()) {
+                var _selected = that.$tags.find('.el-tag.is-hit');
+                _selected.length
+                  ? _selected.find('.el-tag__close').click()
+                  : that.$tags.find('.el-tag__close').last().parent().addClass('is-hit');
               }
               event.stopPropagation();
             });
@@ -84,7 +90,7 @@ export default {
         // 占位输入框
         this.$inputParent = $('<div class="el-input el-input--suffix"></div>');
         options.size && this.$inputParent.addClass('el-input--' + options.size);
-        this.$input = $('<input type="text" autocomplete="' + options.autocomplete + '" class="el-input__inner">');
+        this.$input = $('<input type="text" autocomplete="' + options.autocomplete + '" class="el-input__inner" ' + this.placeholderI18nAttr + '>');
         this.$input.on('focus', function () {
           that.$inputParent.addClass('is-focus');
         });
@@ -334,14 +340,15 @@ export default {
           show ? $that.show() : $that.hide();
         });
         this.setNoMatch(noMatch);
-        if(options.defaultFirstOption && value){
+        if (options.defaultFirstOption && value) {
           this.setHover(this.$dropdownList.find('.el-select-dropdown__item:visible').first());
         }
       },
       setNoData: function () {
         if (this.noData) {
           this.$dropdownWrap.hide();
-          this.$empty.html(this.options.noDataText).show();
+          var _nodata = typeof this.options.noDataText === 'function' ? this.options.noDataText() : this.options.noDataText;
+          this.$empty.html($('<span ' + this.noDataI18nAttr + '></span>').append(_nodata)).show();
         } else {
           this.$empty.hide();
           this.$dropdownWrap.show();
@@ -350,7 +357,8 @@ export default {
       setNoMatch: function (noMatch) {
         if (noMatch) {
           this.$dropdownWrap.hide();
-          this.$empty.html(this.options.noMatchText).show();
+          var _noMatch = typeof this.options.noMatchText === 'function' ? this.options.noMatchText() : this.options.noMatchText;
+          this.$empty.html($('<span ' + this.noMatchI18nAttr + '></span>').append(_noMatch)).show();
         } else if (this.noData) {
           this.setNoData();
         } else {
@@ -402,83 +410,83 @@ export default {
           if (value !== this.$el.val()) {
             this.$el.val(value).trigger('change');
           }
-        } else {
-          // 多选
-          // 设置值
-          function setValue () {
-            if (value.toString() !== options.value.toString() || init) {
-              that.$dropdownList.find('.selected').removeClass('selected');
-              value.forEach(_v => {
-                _v && that.$dropdownList.find('[data-value=' + _v + ']').addClass('selected');
-              });
-              options.value = value;
-              that.$tags.empty();
-              if (options.collapseTags) {
-                if (options.value.length > 0) {
-                  var _v = options.value[0];
-                  var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
-                  $closeIcon.on('click', function (e) {
-                    typeof options.removeTag === 'function' && options.removeTag(_v);
-                    that.$el.find('option[data-u-create=uni][value=' + _v + ']').remove();
-                    var _newValue = [].concat(options.value);
-                    _newValue.splice(_newValue.indexOf(_v), 1);
-                    that.set(_newValue);
-                    that.$inputParent.addClass('is-focus');
-                    e.stopPropagation();
-                  });
-                  that.$tags.append($('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
-                    '"><span class="el-select__tags-text">' + that.dataMap[_v] + '</span></span>').append($closeIcon));
-                }
-                if (options.value.length > 1) {
-                  that.$tags.append('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
-                    '"><span class="el-select__tags-text">+' + (options.value.length - 1) + '</span></span>');
-                }
-              } else {
-                value.forEach(_v => {
-                  var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
-                  $closeIcon.on('click', function (e) {
-                    typeof options.removeTag === 'function' && options.removeTag(_v);
-                    that.$el.find('option[data-u-create=uni][value=' + _v + ']').remove();
-                    var _newValue = [].concat(options.value);
-                    _newValue.splice(_newValue.indexOf(_v), 1);
-                    that.set(_newValue);
-                    that.$inputParent.addClass('is-focus');
-                    e.stopPropagation();
-                  });
-                  that.$tags.append($('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
-                    '"><span class="el-select__tags-text">' + that.dataMap[_v] + '</span></span>').append($closeIcon));
+          return;
+        }
+        // 多选
+        // 设置值
+        function setValue () {
+          if (value.toString() !== options.value.toString() || init) {
+            that.$dropdownList.find('.selected').removeClass('selected');
+            value.forEach(_v => {
+              _v && that.$dropdownList.find('[data-value=' + _v + ']').addClass('selected');
+            });
+            options.value = value;
+            that.$tags.empty();
+            if (options.collapseTags) {
+              if (options.value.length > 0) {
+                var _v = options.value[0];
+                var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
+                $closeIcon.on('click', function (e) {
+                  typeof options.removeTag === 'function' && options.removeTag(_v);
+                  that.$el.find('option[data-u-create=uni][value=' + _v + ']').remove();
+                  var _newValue = [].concat(options.value);
+                  _newValue.splice(_newValue.indexOf(_v), 1);
+                  that.set(_newValue);
+                  that.$inputParent.addClass('is-focus');
+                  e.stopPropagation();
                 });
+                that.$tags.append($('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
+                  '"><span class="el-select__tags-text">' + that.dataMap[_v] + '</span></span>').append($closeIcon));
               }
-              that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
-              that.$filter && !options.reserveKeyword && that.$filter.val('').trigger('input');
-              that.setPlaceholder();
-              that.resetInputHeight();
-              typeof options.change === 'function' && options.change(options.value);
-            }
-            if (value.toString() !== that.$el.val().toString()) {
-              that.$el.val(value).trigger('change');
-            }
-          }
-
-          // 数量限制
-          if (options.multipleLimit > 0) {
-            if (value.length > options.multipleLimit) {
-              return;
-            } else if (value.length === options.multipleLimit) {
-              setValue();
-              that.$dropdownList.find('.el-select-dropdown__item').each(function () {
-                var _$this = $(this);
-                if (!value.includes(_$this.attr('data-value'))) {
-                  _$this.addClass('is-disabled').attr('data-u-disabled', 'limit');
-                }
-              });
+              if (options.value.length > 1) {
+                that.$tags.append('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
+                  '"><span class="el-select__tags-text">+' + (options.value.length - 1) + '</span></span>');
+              }
             } else {
-              setValue();
-              that.$dropdownList.find('.el-select-dropdown__item[data-u-disabled=limit]').removeClass('is-disabled');
+              value.forEach(_v => {
+                var $closeIcon = $('<i class="el-tag__close el-icon-close"></i>');
+                $closeIcon.on('click', function (e) {
+                  typeof options.removeTag === 'function' && options.removeTag(_v);
+                  that.$el.find('option[data-u-create=uni][value=' + _v + ']').remove();
+                  var _newValue = [].concat(options.value);
+                  _newValue.splice(_newValue.indexOf(_v), 1);
+                  that.set(_newValue);
+                  that.$inputParent.addClass('is-focus');
+                  e.stopPropagation();
+                });
+                that.$tags.append($('<span class="el-tag el-tag--info el-tag--' + that.collapseTagSize +
+                  '"><span class="el-select__tags-text">' + that.dataMap[_v] + '</span></span>').append($closeIcon));
+              });
             }
+            that.$dropdownList.find('.el-select-dropdown__item').remove('[data-u-create=uni]');
+            that.$filter && !options.reserveKeyword && that.$filter.val('').trigger('input');
+            that.setPlaceholder();
+            that.resetInputHeight();
+            typeof options.change === 'function' && options.change(options.value);
+          }
+          if (value.toString() !== that.$el.val().toString()) {
+            that.$el.val(value).trigger('change');
+          }
+        }
+
+        // 数量限制
+        if (options.multipleLimit > 0) {
+          if (value.length > options.multipleLimit) {
+            return;
+          } else if (value.length === options.multipleLimit) {
+            setValue();
+            that.$dropdownList.find('.el-select-dropdown__item').each(function () {
+              var _$this = $(this);
+              if (!value.includes(_$this.attr('data-value'))) {
+                _$this.addClass('is-disabled').attr('data-u-disabled', 'limit');
+              }
+            });
           } else {
             setValue();
+            that.$dropdownList.find('.el-select-dropdown__item[data-u-disabled=limit]').removeClass('is-disabled');
           }
+        } else {
+          setValue();
         }
       },
       get: function () {
@@ -488,7 +496,9 @@ export default {
         if (this.options.multiple && ((this.options.value || '').length > 0 || (this.$filter && this.$filter.val()))) {
           this.$input.attr('placeholder', '');
         } else {
-          this.$input.attr('placeholder', this.options.placeholder);
+          this.$input.attr('placeholder', typeof this.options.placeholder === 'function'
+            ? this.options.placeholder()
+            : this.options.placeholder);
         }
       },
       disable: function () {
@@ -516,7 +526,7 @@ export default {
       var option = arguments[0],
         args = arguments,
         value,
-        allowedMethods = ['enable', 'disable', 'show', 'hide'];
+        allowedMethods = ['enable', 'disable', 'show', 'hide', 'set', 'get'];
       this.each(function () {
         var $this = $(this),
           data = $this.data('u-select'),
@@ -560,25 +570,32 @@ export default {
       'collapseTags': false,
       'multipleLimit': 0,
       'autocomplete': 'off',
-      'placeholder': '请选择',
+      'placeholder': $[i18nName] ? function () {
+        return $[i18nName].prop(this.i18n.placeholder, '请选择');
+      } : '请选择',
       'filterable': false,
       'allowCreate': false,
       'filterMethod': function (value, option) {
         return option.label.toLowerCase().indexOf(value.toLowerCase()) > -1;
       },
-      'remote': false,
-      'remoteMethod': function () {
-      },
-      'loadingText': '加载中',
-      'noMatchText': '无匹配数据',
-      'noDataText': '无数据',
+      'noMatchText': $[i18nName] ? function () {
+        return $[i18nName].prop(this.i18n.noMatch, '无匹配数据');
+      } : '无匹配数据',
+      'noDataText': $[i18nName] ? function () {
+        return $[i18nName].prop(this.i18n.noData, '无数据');
+      } : '无数据',
       'popperClass': '',
       'reserveKeyword': false,
       'defaultFirstOption': false,
       'change': '',
       'visibleChange': '',
       'removeTag': '',
-      'clear': ''
+      'clear': '',
+      'i18n': {
+        placeholder: 'uSelectPlaceholder',
+        noMatch: 'uSelectNoMatch',
+        noData: 'uSelectNoData'
+      }
     };
   },
   componentName: 'select'

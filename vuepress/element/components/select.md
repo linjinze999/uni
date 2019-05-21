@@ -322,21 +322,58 @@
 :::
 
 ### 参数
-你可以通过修改`$.fn.input.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).input({xx: xx})`。
+你可以通过修改`$.fn.select.defaults`来修改全局默认配置，也可以在初始化时传入指定配置`$(el).select({xx: xx})`。
 | 参数      | 说明                       | 类型      | 可选值 | 默认值  |
 |---------- |--------------------------- |---------- |------  |-------- |
-| type         | 类型   | string  | text，textarea 和其他 [原生 input 的 type 值](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | `'text'` / `'textarea'` |
-| showWordLimit | 是否显示输入字数统计，只在 `type = "text"` 或 `type = "textarea"` 时有效 | boolean    |  -  | `false` |
-| clearable     | 是否可清空，只在 `type!="textarea"` 时有效        | boolean         | - | `false` |
-| showPassword | 是否显示切换密码图标，只在 `type!="textarea"` 时有效| boolean         | - | `false` |
-| size          | 输入框尺寸，只在 `type!="textarea"` 时有效      | string          | medium / small / mini  | - |
-| prefixIcon   | 输入框头部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
-| suffixIcon   | 输入框尾部图标，只在 `type!="textarea"` 时有效    | string          | - | - |
-| autosize      | 自适应内容高度，只对 `type="textarea"` 有效，可传入对象，如，`{ minRows: 2, maxRows: 6 }`  |  boolean / object | - |  false   |
+| value | 绑定值 | string / array | - | - |
+| data | 可选项，见下方【data参数】 | array[string / { value, label, disabled }] | - | `[]` |
+| width | 宽度 | string | - | `240px` |
+| multiple | 是否多选 | boolean | - | `false` |
+| disabled | 是否禁用 | boolean | - | `false` |
+| optionTemplate | 自定义模板 | function | - | - |
+| size | 输入框尺寸 | string | medium/small/mini | - |
+| clearable | 是否可以清空选项 | boolean | - | `false` |
+| collapseTags | 多选时是否将选中值按文字的形式展示 | boolean | - | `false` |
+| multipleLimit | 多选时用户最多可以选择的项目数，为 0 则不限制 | number | - | `0` |
+| autocomplete | select input 的 autocomplete 属性 | string | - | `'off'` |
+| placeholder | 占位符 | string | - | `'请选择'` |
+| filterable | 是否可搜索 | boolean | - | `false` |
+| allowCreate | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | - | `false` |
+| filterMethod | 自定义搜索方法 | function | - | - |
+| noMatchText | 搜索条件无匹配时显示的文字 | string | - | `'无匹配数据'` |
+| noDataText | 选项为空时显示的文字 | string | - | `'无数据'` |
+| popperClass | Select 下拉框的类名 | string | - | - |
+| reserveKeyword | 多选且可搜索时，是否在选中一个选项后保留当前的搜索关键词 | boolean | - | `false` |
+| defaultFirstOption | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 使用 | boolean | - | `false` |
+| change | 值变更时触发的函数，参数为新值 | function(value) | - | - |
+| visibleChange | 下拉框出现/隐藏时触发，参数出现为 true，隐藏为 false | function(true/false) | - | - |
+| removeTag | 多选模式下移除tag时触发，参数为移除的tag值 | function(value) | - | - |
+| clear | 可清空的单选模式下用户点击清空按钮时触发 | function | - | - |
+| i18n | 国际化文本 key 值，参数见下方【i18n国际化】 | object | - | - |
+
+### data参数
+参数默认为 Json ，若为字符串，则会被当做`value`赋值。
+| 参数     | 说明    | 类型      | 可选值       | 默认值   |
+|--------- |-------- |--------- |-----------  |-------- |
+| value | 值 | string | - | - |
+| label | 显示文本 | string | - | - |
+| disabled | 禁止使用 | boolean | - | `false` |
+| options | 分组子选项数组 | array | - | - |
 
 ### 方法
-你可以通过调用`$(el).input('xxx')`来调用组件方法。
+你可以通过调用`$(el).select('xxx')`来调用组件方法。
 | 方法      | 说明          | 举例  |
 |---------- |-------------- |-------- |
-| disable | 禁用 | `$(el).input('disable')` |
-| enable | 取消禁用 | `$(el).input('enable')` |
+| disable | 禁用 | `$(el).select('disable')` |
+| enable | 取消禁用 | `$(el).select('enable')` |
+| set | 设置值 | `$(el).select('set', 1 / [1, 2])` |
+| get | 获取值 | `$(el).select('get')` |
+| show | 显示下拉框 | `$(el).select('show')` |
+| hide | 隐藏下拉框 | `$(el).select('hide')` |
+
+### i18n国际化
+| 参数      | 说明    | 默认值   |
+|--------- |-------- |-------- |
+| placeholder | 占位符 | `'uSelectPlaceholder'` |
+| noData | 无数据 | `'uSelectNoData'` |
+| noMatch | 无匹配数据 | `'uSelectNoMatch'` |
