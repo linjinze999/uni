@@ -83,6 +83,7 @@ module.exports = {
                     'components/border',
                     'components/icon',
                     'components/button',
+                    'components/link',
                   ]
                 }, {
                   title: 'Form',
