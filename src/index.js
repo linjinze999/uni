@@ -19,6 +19,7 @@ import Progress from './element/progress';
 import Radio from './element/radio';
 import Rate from './element/rate';
 import Select from './element/select';
+import Cascader from './element/cascader';
 import Slider from './element/slider';
 import Steps from './element/steps';
 import Switch from './element/switch';
@@ -44,6 +45,7 @@ const fn = [
   Breakcrumb,
   Button,
   Carousel,
+  Cascader,
   Checkbox,
   Collapse,
   ColorPicker,

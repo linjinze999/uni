@@ -94,6 +94,7 @@ module.exports = {
                     'components/input',
                     'components/inputNumber',
                     'components/select',
+                    'components/cascader',
                     'components/switch',
                     'components/slider',
                     'components/rate',
