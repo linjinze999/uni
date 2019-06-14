@@ -1,8 +1,12 @@
 import clickoutside from '../utils/clickoutside';
 import debounce from '../utils/debounce';
 
+import CascaderPanel from './cascaderPanel';
+
 export default {
   init: function ($, componentName, i18nName) {
+    CascaderPanel.init($, CascaderPanel.componentName, i18nName);
+
     function Cascader ($el, options) {
       this.$el = $el;
       this.options = options;
