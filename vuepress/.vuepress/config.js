@@ -24,7 +24,7 @@ module.exports = {
     ['link', {rel: 'stylesheet', href: '/assets/css/common.css'}]
   ],
   plugins: [
-    ['@vuepress/container', {
+    ['container', {
       type: 'demo',
       render: function (tokens, idx) {
         if (tokens[idx].nesting === 1) {
@@ -38,13 +38,13 @@ module.exports = {
       }
     }],
     ['@vuepress/pwa', {
-      serviceWorker: true,
-      updatePopup: true
+      updatePopup: {
+        message: '发现新内容',
+        buttonText: '刷新'
+      }
     }],
     '@vuepress/back-to-top',
-    '@vuepress/active-header-links',
     '@vuepress/nprogress',
-    '@vuepress/pagination'
   ],
   themeConfig: {
     repo: 'linjinze999/uni',
