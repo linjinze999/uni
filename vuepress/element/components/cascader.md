@@ -9,7 +9,7 @@
 <div id="demo-cascaderPanel1"></div>
 
 <script>
-  $('#demo-cascaderPanel1').cascaderPanel([{
+  $('#demo-cascaderPanel1').cascaderPanel({checkStrictly:true,data:[{
                                                     value: 'zhinan',
                                                     label: '指南',
                                                     children: [{
@@ -203,7 +203,7 @@
                                                       value: 'jiaohu',
                                                       label: '组件交互文档'
                                                     }]
-                                                  }]);
+                                                  }]});
 </script>
 ```
 :::
