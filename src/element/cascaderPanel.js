@@ -194,7 +194,7 @@ export default {
           // 初始选中状态
           var _allChildren = [];
           that.allChildren(_option, parent, _allChildren);
-          var checked = _allChildren.filter(v => options.value.some(sv => options.emitPath ? sv.join(',') === v.join(',') : sv === v[v.length - 1]));
+          var checked = _allChildren.filter(v => options.value.some(sv => options.emitPath ? sv.join(',') === v.join(',') : sv === v));
           if (checked.length  >= _allChildren.length){
             $checkbox.addClass('is-checked').attr('aria-checked', true);
             $checkbox.find('.el-checkbox__input').addClass('is-checked');
@@ -205,26 +205,20 @@ export default {
           }
           // 点击选中
           $checkbox.find('.el-checkbox__original').on('click', function () {
+            console.log(that.$cascaderPanel.find('.el-checkbox__original[value^="'+pathValue.join(',')+'"]'));
             if ($checkbox.hasClass('is-checked')) {
-              $checkbox.removeClass('is-checked').attr('aria-checked', false);
-              $checkbox.find('.el-checkbox__input').removeClass('is-checked');
-              if(options.emitPath){
-                that.set(options.value.filter(v => v.join(',') !== pathValue.join(',') ));
-              } else {
-                that.set(options.value.filter(v => v !== _option[options.valueKey] ));
-              }
-              $li.removeClass('is-active');
+              that.$cascaderPanel.find('.el-checkbox__original[value^="'+pathValue.join(',')+'"]')
+                .parent().removeClass('is-checked is-indeterminate')
+                .parent().attr('aria-checked', false).removeClass('is-checked')
+                .parent().removeClass('is-active');
+              that.set(options.value.filter(v => !_allChildren.some(sv => options.emitPath ? sv.join(',') === v.join(',') : sv === v)));
             } else {
-              $checkbox.addClass('is-checked').attr('aria-checked', true);
-              $checkbox.find('.el-checkbox__input').addClass('is-checked');
-              var _newValue = [].concat(options.value);
-              if(options.emitPath){
-                _newValue.push(pathValue);
-              } else {
-                _newValue.push(_option[options.valueKey]);
-              }
-              $li.addClass('is-active');
-              that.set(_newValue);
+              that.$cascaderPanel.find('.el-checkbox__original[value^="'+pathValue.join(',')+'"]')
+                .parent().addClass('is-checked')
+                .parent().attr('aria-checked', true).addClass('is-checked')
+                .parent(':not(:has(.el-cascader-node__postfix))').addClass('is-active');
+              var newValue = options.value.filter(v => !_allChildren.some(sv => options.emitPath ? sv.join(',') === v.join(',') : sv === v));
+              that.set(newValue.concat(_allChildren));
             }
           });
         }
@@ -261,7 +255,7 @@ export default {
             that.allChildren(c_option, pathValue, result);
           })
         }else{
-          result.push(pathValue);
+          result.push(options.emitPath ? pathValue : _option[options.valueKey]);
         }
       },
       setHover: function ($li) {
