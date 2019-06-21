@@ -9,7 +9,7 @@
 <div id="demo-cascaderPanel1"></div>
 
 <script>
-  $('#demo-cascaderPanel1').cascaderPanel({checkStrictly:true,data:[{
+  $('#demo-cascaderPanel1').cascaderPanel({multiple:true,data:[{
                                                     value: 'zhinan',
                                                     label: '指南',
                                                     children: [{
