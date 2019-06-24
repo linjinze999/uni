@@ -54,26 +54,30 @@ export default {
       },
       optionHtmlNormal: function (_option, parent) {
         var that = this, options = this.options;
+        var pathValue = [].concat(parent, _option[options.valueKey]);
         var $li = $('<li role="menuitem" class="el-cascader-node"></li>');
         var $label = $('<span class="el-cascader-node__label"></span>');
         var $text = typeof options.optionTemplate === 'function' ? options.optionTemplate(_option) : _option[options.labelKey];
         $li.append($label.append($text));
-        if (!_option[options.leafKey] && _option.children) {
+        if (!_option[options.leafKey] && _option[options.childrenKey]) {
           $li.append('<i class="el-icon-arrow-right el-cascader-node__postfix"></i>');
           $li.on(options.expandTrigger === 'hover' ? 'hover' : 'click', function () {
+            if(that.expandPath === pathValue.join(',')) return;
+            that.expandPath = pathValue.join(',');
             $li.siblings('.el-cascader-node').removeClass('in-active-path');
             $li.addClass('in-active-path');
             $li.parents('.el-cascader-menu').eq(0).nextAll('.el-cascader-menu').remove();
             var $panel = that.panelHtml();
-            if (_option.children.length) {
-              _option.children.forEach(function (c_option) {
+            if (_option[options.childrenKey].length) {
+              _option[options.childrenKey].forEach(function (c_option) {
                 c_option[options.labelKey] = c_option[options.labelKey] || c_option[options.valueKey];
-                $panel.list.append(that.optionHtmlNormal(c_option, [].concat(parent, _option[options.valueKey])));
+                $panel.list.append(that.optionHtmlNormal(c_option, pathValue));
               });
             } else {
               $panel.list.addClass('is-empty').append(that.noDataHtml());
             }
             $li.parents('.el-cascader-panel').eq(0).append($panel.menu);
+            typeof options.expandChange === 'function' && options.expandChange(pathValue);
           });
         } else {
           if (options.emitPath ? options.value[options.value.length - 1] === _option[options.valueKey] : options.value === _option[options.valueKey]) {
@@ -122,18 +126,20 @@ export default {
         var $text = typeof options.optionTemplate === 'function' ? options.optionTemplate(_option) : _option[options.labelKey];
         $li.prepend($radio);
         $li.append($label.append($text));
-        if (!_option[options.leafKey] && _option.children) {
+        if (!_option[options.leafKey] && _option[options.childrenKey]) {
           if (options.value.join(',').indexOf(pathValue.join(',')) === 0) {
             $li.addClass('in-checked-path');
           }
           $li.append('<i class="el-icon-arrow-right el-cascader-node__postfix"></i>');
           $li.on(options.expandTrigger === 'hover' ? 'hover' : 'click', function () {
+            if(that.expandPath === pathValue.join(',')) return;
+            that.expandPath = pathValue.join(',');
             $li.siblings('.el-cascader-node').removeClass('in-active-path');
             $li.addClass('in-active-path');
             $li.parents('.el-cascader-menu').eq(0).nextAll('.el-cascader-menu').remove();
             var $panel = that.panelHtml();
-            if (_option.children.length) {
-              _option.children.forEach(function (c_option) {
+            if (_option[options.childrenKey].length) {
+              _option[options.childrenKey].forEach(function (c_option) {
                 c_option[options.labelKey] = c_option[options.labelKey] || c_option[options.valueKey];
                 $panel.list.append(that.optionHtmlSingle(c_option, pathValue));
               });
@@ -141,6 +147,7 @@ export default {
               $panel.list.addClass('is-empty').append(that.noDataHtml());
             }
             $li.parents('.el-cascader-panel').eq(0).append($panel.menu);
+            typeof options.expandChange === 'function' && options.expandChange(pathValue);
           });
         }
         return $li;
@@ -201,11 +208,12 @@ export default {
             if (checked.length  >= _allChildren.length){
               $checkbox.addClass('is-checked').attr('aria-checked', true);
               $checkbox.find('.el-checkbox__input').addClass('is-checked');
-              (_option[options.leafKey] || !_option.children) && $li.addClass('is-active');
+              (_option[options.leafKey] || !_option[options.childrenKey]) && $li.addClass('is-active');
             } else if (checked.length  > 0) {
               $checkbox.attr('aria-checked', 'mixed');
               $checkbox.find('.el-checkbox__input').addClass('is-indeterminate');
             }
+            parent.length && that.$cascaderPanel.find('.el-checkbox__original[value="'+parent.join(',')+'"]').parent().parent().trigger('u-change');
           });
           $checkbox.trigger('u-change');
           // 点击选中
@@ -232,15 +240,17 @@ export default {
         $li.prepend($checkbox);
         $li.append($label.append($text));
         // 子面板
-        if (!_option[options.leafKey] && _option.children) {
+        if (!_option[options.leafKey] && _option[options.childrenKey]) {
           $li.append('<i class="el-icon-arrow-right el-cascader-node__postfix"></i>');
           $li.on(options.expandTrigger === 'hover' ? 'hover' : 'click', function () {
+            if(that.expandPath === pathValue.join(',')) return;
+            that.expandPath = pathValue.join(',');
             $li.siblings('.el-cascader-node').removeClass('in-active-path');
             $li.addClass('in-active-path');
             $li.parents('.el-cascader-menu').eq(0).nextAll('.el-cascader-menu').remove();
             var $panel = that.panelHtml();
-            if (_option.children.length) {
-              _option.children.forEach(function (c_option) {
+            if (_option[options.childrenKey].length) {
+              _option[options.childrenKey].forEach(function (c_option) {
                 c_option[options.labelKey] = c_option[options.labelKey] || c_option[options.valueKey];
                 $panel.list.append(that.optionHtmlMultiple(c_option, pathValue));
               });
@@ -248,6 +258,7 @@ export default {
               $panel.list.addClass('is-empty').append(that.noDataHtml());
             }
             $li.parents('.el-cascader-panel').eq(0).append($panel.menu);
+            typeof options.expandChange === 'function' && options.expandChange(pathValue);
           });
         }
         return $li;
@@ -255,43 +266,25 @@ export default {
       allChildren: function (_option, parent, result) {
         var that = this, options = this.options;
         var pathValue = [].concat(parent, _option[options.valueKey]);
-        if (!_option[options.leafKey] && _option.children){
-          _option.children.forEach(function (c_option) {
+        if (!_option[options.leafKey] && _option[options.childrenKey]){
+          _option[options.childrenKey].forEach(function (c_option) {
             that.allChildren(c_option, pathValue, result);
           })
         }else{
           result.push(options.emitPath ? pathValue : _option[options.valueKey]);
         }
       },
-      setHover: function ($li) {
-        if (!$li || $li.length === 0 || $li.hasClass('is-disabled')) return;
-        this.$dropdownList.find('.el-select-dropdown__item').removeClass('hover');
-        $li.addClass('hover');
-      },
-      navigateOptions: function (direction) {
-        var $li = this.$dropdownList.find('.el-select-dropdown__item.hover');
-        var $selects = this.$dropdownList.find('.el-select-dropdown__item:visible').not('.is-disabled');
-        if ($li.length === 0) {
-          this.setHover($selects.first());
-          return;
-        }
-        var index = $selects.index($li);
-        if (direction === 'prev') {
-          if (index === -1 || index === 0) {
-            this.setHover($selects.last());
-          } else {
-            this.setHover($selects.eq(index - 1));
-          }
-        } else {
-          if (index === -1 || index === ($selects.length - 1)) {
-            this.setHover($selects.first());
-          } else {
-            this.setHover($selects.eq(index + 1));
-          }
-        }
-      },
       set: function (value) {
-        this.options.value = value;
+        if (options.multiple || options.emitPath) {
+          if(this.options.value.sort().join(',') !== value.sort().join(','))
+          this.options.value = value;
+          typeof this.options.change === 'function' && this.options.change(this.options.value);
+        } else {
+          if(this.options.value != value) {
+            this.options.value = value;
+            typeof this.options.change === 'function' && this.options.change(this.options.value);
+          }
+        }
       },
       get: function () {
         return this.options.value;
