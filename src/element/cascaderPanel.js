@@ -89,7 +89,7 @@ export default {
             that.$cascaderPanel.find('.is-active').removeClass('is-active');
             $li.addClass('is-active');
             $li.prepend('<i class="el-icon-check el-cascader-node__prefix"></i>');
-            that.set(options.emitPath ? [].concat(parent, _option[options.valueKey]) : _option[options.valueKey]);
+            that.set(options.emitPath ? pathValue : _option[options.valueKey]);
           });
         }
         return $li;
@@ -275,9 +275,11 @@ export default {
         }
       },
       set: function (value) {
-        if (options.multiple || options.emitPath) {
-          if(this.options.value.sort().join(',') !== value.sort().join(','))
-          this.options.value = value;
+        if (this.options.multiple || this.options.emitPath) {
+          var _valueOld = $.extend(true, [], this.options.value);
+          var _valueNew = $.extend(true, [], value);
+          if(_valueOld.sort().join(',') !== _valueNew.sort().join(','))
+          this.options.value = $.extend(true, [], value);
           typeof this.options.change === 'function' && this.options.change(this.options.value);
         } else {
           if(this.options.value != value) {
