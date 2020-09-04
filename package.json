@@ -33,7 +33,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "jquery": "^3.4.1",
     "markdown-it-container": "^2.0.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "sass": "^1.17.3",
     "sass-loader": "^7.1.0",
     "scss-loader": "0.0.1",
